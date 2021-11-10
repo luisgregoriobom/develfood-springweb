@@ -62,7 +62,7 @@ public class PlateController {
     public ResponseEntity<PlateDto> register(@RequestBody @Valid PlateForm plateForm,
                                              UriComponentsBuilder uriBuilder){
 
-        PlateDto plateToRegister = plateService.register(plateForm);
+        PlateDto plateToRegister = plateService.registrar(plateForm);
 
         URI uri = uriBuilder.
                 path("/api/plate/{id}").

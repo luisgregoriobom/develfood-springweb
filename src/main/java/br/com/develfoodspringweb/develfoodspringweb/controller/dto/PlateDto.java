@@ -5,8 +5,6 @@ import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
 import lombok.Data;
 import java.lang.Long;
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 public class PlateDto {

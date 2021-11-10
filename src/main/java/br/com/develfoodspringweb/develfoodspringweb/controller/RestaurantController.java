@@ -8,6 +8,9 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.form.RestaurantFo
 import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
 import br.com.develfoodspringweb.develfoodspringweb.service.RestaurantService;
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -87,7 +90,7 @@ public class RestaurantController {
      * @author: Thomas B.P.
      */
     @PostMapping("/filter")
-    public ResponseEntity<List<RestaurantDto>> filter(@RequestBody  FilterForm filterForm,
+    public ResponseEntity<List<RestaurantDto>> filter(@RequestBody (required = false) FilterForm filterForm,
                                                       Pageable pageable){
 
         List<RestaurantDto> listOfFilter = restaurantService.filter(filterForm, pageable);

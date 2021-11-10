@@ -1,6 +1,7 @@
 package br.com.develfoodspringweb.develfoodspringweb.models;
 
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RestaurantForm;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class Restaurant implements UserDetails {
     private String name;
     private String cnpj;
     private String login;
+    @JsonBackReference("passwordRestaurant")
     private String password;
     private String email;
     private String address;

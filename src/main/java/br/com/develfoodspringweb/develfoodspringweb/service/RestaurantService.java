@@ -84,7 +84,7 @@ public class RestaurantService {
                 ,pageByFilter);
 
         List<RestaurantDto> restaurantDtoList = new ArrayList<>();
-        restaurants.stream().map(restaurant -> restaurantDtoList.add(new RestaurantDto(restaurant))).collect(Collectors.toList());
+        restaurants.stream().map(restaurant -> restaurantDtoList.add(new RestaurantDto(restaurant.getName(), restaurant.getFoodType()))).collect(Collectors.toList());
         return restaurantDtoList;
     }
 

@@ -46,7 +46,15 @@ public class PlateService {
         return new PlateDto(plate);
     }
 
-
+    public PlateDto registrar(PlateForm plateForm){
+        Optional<Restaurant> restaurant = restaurantRepository.findById(plateForm.getRestaurantId());
+        if (!restaurant.isPresent()){
+            return null;
+        }
+        Plate plate = plateForm.convertToPlate(plateForm);
+        plateRepository.save(plate);
+        return new PlateDto(plate);
+    }
 // TENTATIVA DA FUNÇÃO DE CRIAR UM PRATO E JÁ ATRELAR A UM ID DE UM RESTAURANTE JÁ CADASTRADO - A SER IMPLEMENTADO
 //    public PlateDto register(PlateForm plateForm){
 //        Optional<Restaurant> restaurant = restaurantRepository.findById(plateForm.getRestaurantId());
