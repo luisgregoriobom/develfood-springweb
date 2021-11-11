@@ -28,10 +28,6 @@ public class PlateForm {
     private Category category;
     private Long restaurantId;
 
-    @Autowired
-    private RestaurantRepository restaurantRepository;
-
-
     /**
      * Function to convert the object Form Class received into a Model Object.
      * @param plateForm
