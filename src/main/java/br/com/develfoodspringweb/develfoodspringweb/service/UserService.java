@@ -1,21 +1,14 @@
 package br.com.develfoodspringweb.develfoodspringweb.service;
 
-import br.com.develfoodspringweb.develfoodspringweb.controller.dto.PlateDto;
-import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RestaurantDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.UserDto;
-import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateFormUpdate;
-import br.com.develfoodspringweb.develfoodspringweb.controller.form.RestaurantFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserFormUpdate;
-import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
-import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
 import java.util.Optional;
 
@@ -51,17 +44,22 @@ public class UserService {
         try {
             String encodedPassword = passwordEncoder.encode(userForm.getPassword());
             user.setPassword(encodedPassword);
-        } catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
-
         userRepository.save(user);
-        if (user.getId() == null){
+        if (user.getId() == null) {
             return null;
         }
         return new UserDto(user);
     }
 
+    /**
+     * Function to detail a User information
+     * @param id
+     * @return
+     * @author: Luis Gregorio
+     */
     public UserDto details(Long id) {
         Optional<User> user = userRepository.findById(id);
         if (!user.isPresent()) {
@@ -70,6 +68,13 @@ public class UserService {
         return new UserDto(user.get());
     }
 
+    /**
+     * Function to Update a User data with encrypt code.
+     * @param id
+     * @param form
+     * @return
+     * @author: Luis Gregorio
+     */
     public UserDto update(Long id, UserFormUpdate form) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         try{
@@ -78,7 +83,6 @@ public class UserService {
         } catch(Exception e) {
             return null;
         }
-
         Optional<User> opt = userRepository.findById(id);
         if (opt.isPresent()) {
             User user = form.update(id, userRepository);
@@ -87,6 +91,12 @@ public class UserService {
         return null;
     }
 
+    /**
+     * Function to remove a User
+     * @param id
+     * @return
+     * @author: Luis Gregorio
+     */
     public UserDto remove(Long id) {
         Optional<User> user = userRepository.findById(id);
         if(user.isPresent()) {

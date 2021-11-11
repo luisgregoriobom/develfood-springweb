@@ -26,7 +26,7 @@ public class PlateService {
     private final RestaurantRepository restaurantRepository;
 
     /**
-     *      * Function that make a query with the name of the plate as parameter and check in the database if the name is present
+     * Function that make a query with the name of the plate as parameter and check in the database if the name is present
      * @param namePlate
      * @return
      * @author: Thomas B.P.
@@ -46,20 +46,20 @@ public class PlateService {
      * @author: Thomas B.P.
      */
     public PlateDto register(PlateForm plateForm){
+        Optional<Restaurant> restaurant = restaurantRepository.findById(plateForm.getRestaurantId());
         Plate plate = plateForm.convertToPlate(plateForm);
+        plate.setRestaurant(restaurant.get());
         plateRepository.save(plate);
         return new PlateDto(plate);
     }
-//    public PlateDto register(PlateForm plateForm){
-//        Optional<Restaurant> restaurant = restaurantRepository.findById(plateForm.getRestaurantId());
-//        if (!restaurant.isPresent()){
-//            return null;
-//        }
-//        Plate plate = plateForm.convertToPlate(plateForm);
-//        plateRepository.save(plate);
-//        return new PlateDto(plate);
-//    }
 
+
+    /**
+     * Function to detail a new Plate
+     * @param id
+     * @return
+     * @author: Luis Gregorio
+     */
     public PlateDto details(Long id) {
     Optional<Plate> plate = plateRepository.findById(id);
         if (!plate.isPresent()) {
@@ -68,6 +68,13 @@ public class PlateService {
         return new PlateDto(plate.get());
     }
 
+    /**
+     * Function to update Plate data
+     * @param id
+     * @param form
+     * @return
+     * @author: Luis Gregorio
+     */
     public PlateDto update(Long id, PlateFormUpdate form) {
         Optional<Plate> opt = plateRepository.findById(id);
         if (opt.isPresent()) {
@@ -77,6 +84,12 @@ public class PlateService {
         return null;
     }
 
+    /**
+     * Function to delete a Plate
+     * @param id
+     * @return
+     * @author: Luis Gregorio
+     */
     public PlateDto remove(Long id) {
         Optional<Plate> plate = plateRepository.findById(id);
         if(plate.isPresent()) {

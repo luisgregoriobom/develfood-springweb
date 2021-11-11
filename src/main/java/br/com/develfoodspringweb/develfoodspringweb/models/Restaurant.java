@@ -37,7 +37,6 @@ public class Restaurant implements UserDetails {
     @OneToMany(mappedBy = "restaurant")
     private List<Profile> restaurantProfile = new ArrayList<>();
 
-
     public Restaurant(String name, String cnpj, String login, String password, String email, String address, String phone, String foodType, List plate) {
         this.name = name;
         this.cnpj = cnpj;
@@ -84,7 +83,6 @@ public class Restaurant implements UserDetails {
      *
      * @author: Luis Gregorio
      */
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.restaurantProfile;

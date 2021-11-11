@@ -113,7 +113,6 @@ public class RestaurantController {
 
         List<RestaurantDto> listOfFilter = restaurantService.filter(filterForm, pageable);
         return new ResponseEntity<>(listOfFilter, HttpStatus.OK);
-
     }
 
     /**
@@ -128,7 +127,7 @@ public class RestaurantController {
         RestaurantDto restaurantDetail = restaurantService.details(id);
         if(restaurantDetail == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Restaurant Not Found");
+                                            "Restaurant Not Found");
         }
         return ResponseEntity.ok(restaurantDetail);
     }
@@ -146,7 +145,7 @@ public class RestaurantController {
         RestaurantDto restaurantUpdate = restaurantService.update(id, form);
         if(restaurantUpdate == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                                "Restaurant Not Found");
+                                            "Restaurant Not Found");
         }
         return ResponseEntity.ok(restaurantUpdate);
     }

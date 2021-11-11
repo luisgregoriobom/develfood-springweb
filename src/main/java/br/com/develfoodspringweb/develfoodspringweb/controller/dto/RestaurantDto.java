@@ -23,7 +23,6 @@ public class RestaurantDto {
     private String phone;
     private List<Plate> plate;
 
-
     public RestaurantDto(Restaurant restaurant) {
         this.id = restaurant.getId();
         this.name = restaurant.getName();
@@ -53,5 +52,4 @@ public class RestaurantDto {
     public static List<RestaurantDto> converter(List<Restaurant> restaurants) {
         return restaurants.stream().map(RestaurantDto::new).collect(Collectors.toList());
     }
-
 }

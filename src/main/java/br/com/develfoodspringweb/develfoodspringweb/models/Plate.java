@@ -41,5 +41,6 @@ public class Plate {
         this.name = plateForm.getName();
         this.obs = plateForm.getObs();
         this.price = plateForm.getPrice();
+        this.category = plateForm.getCategory();
     }
 }

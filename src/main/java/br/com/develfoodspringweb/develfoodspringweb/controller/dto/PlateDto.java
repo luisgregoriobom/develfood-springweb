@@ -36,7 +36,6 @@ public class PlateDto {
      * @return
      * @author: Thomas B.P.
      */
-
     public static PlateDto convertToPlateDto(Plate plates){
         return new PlateDto(plates);
     }
