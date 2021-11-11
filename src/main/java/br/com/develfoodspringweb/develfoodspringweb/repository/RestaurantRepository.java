@@ -1,6 +1,7 @@
 package br.com.develfoodspringweb.develfoodspringweb.repository;
 
 import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
+import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -48,5 +49,19 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long>, J
      */
     Optional<Restaurant> findByEmail(String email);
 
+    /**
+     * Function to search for a restaurant by name in GET Method List.
+     * @param restaurantName
+     * @return
+     * @author: Luis Gregorio
+     */
+    List<Restaurant> findByRestaurantName(String restaurantName);
+
+    /**
+     * Function to search for a restaurant by id.
+     * @param id
+     * @return
+     * @author: Luis Gregorio
+     */
     Optional<Restaurant> findById(Long id);
 }

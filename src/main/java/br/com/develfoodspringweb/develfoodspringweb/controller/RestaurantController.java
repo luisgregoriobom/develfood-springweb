@@ -1,11 +1,14 @@
 package br.com.develfoodspringweb.develfoodspringweb.controller;
 
 
+import br.com.develfoodspringweb.develfoodspringweb.controller.dto.PlateDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RestaurantDto;
+import br.com.develfoodspringweb.develfoodspringweb.controller.dto.UserDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.FilterForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RestaurantForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RestaurantFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
+import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
 import br.com.develfoodspringweb.develfoodspringweb.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +34,24 @@ public class RestaurantController {
     private final RestaurantRepository restaurantRepository;
 
     private final RestaurantService restaurantService;
+
+    /**
+     * Method GET to list all restaurants
+     * @param restaurantName
+     * @return
+     * @author: Luis Gregorio
+     */
+    @GetMapping("/ListAll")
+    @Transactional
+    public List<RestaurantDto> list(String restaurantName) {
+        if (restaurantName == null) {
+            List<Restaurant> restaurants = restaurantRepository.findAll();
+            return RestaurantDto.converter(restaurants);
+        } else {
+            List<Restaurant> restaurants = restaurantRepository.findByRestaurantName(restaurantName);
+            return RestaurantDto.converter(restaurants);
+        }
+    }
 
     /**
      * Function with GET method to do make a query with the name of the restaurant as parameter.
@@ -92,7 +113,6 @@ public class RestaurantController {
 
         List<RestaurantDto> listOfFilter = restaurantService.filter(filterForm, pageable);
         return new ResponseEntity<>(listOfFilter, HttpStatus.OK);
-
     }
 
     /**
@@ -104,11 +124,12 @@ public class RestaurantController {
     @GetMapping("/{id}")
     @Transactional
     public ResponseEntity<RestaurantDto> details(@PathVariable Long id) {
-        Optional<Restaurant> restaurant = restaurantRepository.findById(id);
-        if(restaurant.isPresent()) {
-            return ResponseEntity.ok(new RestaurantDto(restaurant.get()));
+        RestaurantDto restaurantDetail = restaurantService.details(id);
+        if(restaurantDetail == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                            "Restaurant Not Found");
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(restaurantDetail);
     }
 
     /**
@@ -121,15 +142,12 @@ public class RestaurantController {
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<RestaurantDto> update(@PathVariable Long id, @RequestBody @Valid RestaurantFormUpdate form){
-        Optional<Restaurant> opt = restaurantRepository.findById(id);
-        if(opt.isPresent()) {
-            Restaurant restaurant = form.update(id, restaurantRepository);
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String encodedPassword = passwordEncoder.encode(restaurant.getPassword());
-            restaurant.setPassword(encodedPassword);
-            return ResponseEntity.ok(new RestaurantDto(restaurant));
+        RestaurantDto restaurantUpdate = restaurantService.update(id, form);
+        if(restaurantUpdate == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                            "Restaurant Not Found");
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(restaurantUpdate);
     }
 
     /**
@@ -141,11 +159,11 @@ public class RestaurantController {
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<?> remove(@PathVariable Long id){
-        Optional<Restaurant> opt = restaurantRepository.findById(id);
-        if(opt.isPresent()) {
-            restaurantRepository.deleteById(id);
-            return ResponseEntity.ok().build();
+        RestaurantDto restaurantRemove = restaurantService.remove(id);
+        if(restaurantRemove == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Restaurant Not Found");
         }
-        return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok().build();
+    }
 }

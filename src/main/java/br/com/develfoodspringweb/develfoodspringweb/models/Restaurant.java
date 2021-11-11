@@ -30,11 +30,12 @@ public class Restaurant implements UserDetails {
     private String phone;
     private String foodType;
 
+    @OneToMany
+    private List<Restaurant> restaurantName = new ArrayList<>();
     @OneToMany(mappedBy = "restaurant") @JsonIgnore
     private List<Plate> plate;
     @OneToMany(mappedBy = "restaurant")
     private List<Profile> restaurantProfile = new ArrayList<>();
-
 
     public Restaurant(String name, String cnpj, String login, String password, String email, String address, String phone, String foodType, List plate) {
         this.name = name;
@@ -82,7 +83,6 @@ public class Restaurant implements UserDetails {
      *
      * @author: Luis Gregorio
      */
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.restaurantProfile;
