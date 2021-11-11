@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity @Table(name = "plates")
 @Data @NoArgsConstructor
@@ -24,6 +26,8 @@ public class Plate {
     private Restaurant restaurant;
     @ManyToOne
     private UserRequest userRequest;
+    @OneToMany
+    private List<Plate> plateName = new ArrayList<>();
 
     public Plate(String name, String obs, BigDecimal price, Category category, Restaurant restaurant) {
         this.name = name;
@@ -37,5 +41,6 @@ public class Plate {
         this.name = plateForm.getName();
         this.obs = plateForm.getObs();
         this.price = plateForm.getPrice();
+        this.category = plateForm.getCategory();
     }
 }

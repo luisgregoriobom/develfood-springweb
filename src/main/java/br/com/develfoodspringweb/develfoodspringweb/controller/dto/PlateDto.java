@@ -2,9 +2,12 @@ package br.com.develfoodspringweb.develfoodspringweb.controller.dto;
 
 
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
+import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import lombok.Data;
 import java.lang.Long;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class PlateDto {
@@ -33,9 +36,17 @@ public class PlateDto {
      * @return
      * @author: Thomas B.P.
      */
-
     public static PlateDto convertToPlateDto(Plate plates){
         return new PlateDto(plates);
+    }
 
+    /**
+     * Function to convert the PlateDTO Object for a Plate List
+     * @param plates
+     * @return
+     * @author: Luis Gregorio
+     */
+    public static List<PlateDto> converToListDto(List<Plate> plates) {
+        return plates.stream().map(PlateDto::new).collect(Collectors.toList());
     }
 }

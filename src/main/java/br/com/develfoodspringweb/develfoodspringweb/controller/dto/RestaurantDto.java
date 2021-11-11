@@ -27,6 +27,12 @@ public class RestaurantDto {
     private String foodType;
     private List<Plate> plate;
 
+    /**
+     * Constructor to return only the necessary from the filter
+     * @param name
+     * @param foodType
+     * @author: Thomas B.P.
+     */
     public RestaurantDto(String name, String foodType){
         this.name = name;
         this.foodType = foodType;
@@ -55,4 +61,13 @@ public class RestaurantDto {
         return new RestaurantDto(restaurant);
     }
 
+    /**
+     * Function to convert the RestaurantDTO Object for a Restaurant List
+     * @param restaurants
+     * @return
+     * @author: Luis Gregorio
+     */
+    public static List<RestaurantDto> convertToListDto(List<Restaurant> restaurants) {
+        return restaurants.stream().map(RestaurantDto::new).collect(Collectors.toList());
+    }
 }
