@@ -29,7 +29,6 @@ public class InitialConfig {
 
         Restaurant restaurant = new Restaurant("testName03", "testCnpj03", "testPhone03", "testFootType03");
         restaurantRepository.save(restaurant);
-//        new ArrayList<>(Arrays.asList("testeFoodtype03", "testeFoodTypeList04"))
     }
 
 }

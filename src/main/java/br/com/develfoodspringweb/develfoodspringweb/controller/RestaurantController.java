@@ -1,14 +1,11 @@
 package br.com.develfoodspringweb.develfoodspringweb.controller;
 
 
-import br.com.develfoodspringweb.develfoodspringweb.controller.dto.PlateDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RestaurantDto;
-import br.com.develfoodspringweb.develfoodspringweb.controller.dto.UserDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.FilterForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RestaurantForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RestaurantFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
-import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
 import br.com.develfoodspringweb.develfoodspringweb.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,7 +20,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/restaurant")
@@ -46,10 +41,10 @@ public class RestaurantController {
     public List<RestaurantDto> list(String restaurantName) {
         if (restaurantName == null) {
             List<Restaurant> restaurants = restaurantRepository.findAll();
-            return RestaurantDto.converter(restaurants);
+            return RestaurantDto.convertToListDto(restaurants);
         } else {
             List<Restaurant> restaurants = restaurantRepository.findByRestaurantName(restaurantName);
-            return RestaurantDto.converter(restaurants);
+            return RestaurantDto.convertToListDto(restaurants);
         }
     }
 
@@ -108,7 +103,7 @@ public class RestaurantController {
      * @author: Thomas B.P.
      */
     @PostMapping("/filter")
-    public ResponseEntity<List<RestaurantDto>> filter(@RequestBody  FilterForm filterForm,
+    public ResponseEntity<List<RestaurantDto>> filter(@RequestBody (required = false) FilterForm filterForm,
                                                       Pageable pageable){
 
         List<RestaurantDto> listOfFilter = restaurantService.filter(filterForm, pageable);

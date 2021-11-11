@@ -39,10 +39,10 @@ public class PlateController {
     public List<PlateDto> list(String plateName) {
         if (plateName == null) {
             List<Plate> plates = plateRepository.findAll();
-            return PlateDto.converter(plates);
+            return PlateDto.converToListDto(plates);
         } else {
             List<Plate> plates = plateRepository.findByPlateName(plateName);
-            return PlateDto.converter(plates);
+            return PlateDto.converToListDto(plates);
         }
     }
 
