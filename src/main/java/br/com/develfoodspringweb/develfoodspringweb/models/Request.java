@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name = "requests")
 @Data
 @NoArgsConstructor
-public class UserRequest {
+public class Request {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +25,10 @@ public class UserRequest {
     private String obs;
     @ManyToOne
     private User user;
-    @OneToMany(mappedBy = "userRequest")
+    @OneToMany(mappedBy = "request")
     private List<Plate> plate;
 
-    public UserRequest(RequestForm requestForm){
+    public Request(RequestForm requestForm){
         this.id = requestForm.getId();
         this.status = requestForm.getStatus();
         this.dateRequest = requestForm.getDateRequest();

@@ -1,12 +1,11 @@
 package br.com.develfoodspringweb.develfoodspringweb.controller.dto;
 
 import br.com.develfoodspringweb.develfoodspringweb.models.User;
-import br.com.develfoodspringweb.develfoodspringweb.models.UserRequest;
+import br.com.develfoodspringweb.develfoodspringweb.models.Request;
 import lombok.Data;
 
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 public class UserDto {
@@ -18,7 +17,7 @@ public class UserDto {
     private String email;
     private String address;
     private String phone;
-    private List<UserRequest> userRequest;
+    private List<Request> request;
 
 
     public UserDto(User user) {
