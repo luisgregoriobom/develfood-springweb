@@ -4,6 +4,7 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.dto.PlateDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
+import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import br.com.develfoodspringweb.develfoodspringweb.repository.PlateRepository;
 import br.com.develfoodspringweb.develfoodspringweb.service.PlateService;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
@@ -18,6 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -71,6 +73,16 @@ public class PlateController {
 
         return ResponseEntity.created(uri).body(plateToRegister);
     }
+
+//    @GetMapping
+//    public List<PlateDto> listOfPlates (Long restaurantId){
+//
+//        List<Plate> plates = plateRepository.findById();
+//        instancio o objeto, chamo no repositorio fazendo o getId
+//        faço a arrow function do optional pra list dos ID pra retornar uma DTOLIST (igual do filtro)
+//        retorno umalista de pratos do restaurantId
+//
+//    }
 
     @GetMapping("/{id}")
     @Transactional
