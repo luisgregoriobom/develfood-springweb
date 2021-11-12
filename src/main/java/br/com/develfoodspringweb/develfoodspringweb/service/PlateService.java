@@ -48,7 +48,7 @@ public class PlateService {
     public PlateDto register(PlateForm plateForm){
         Optional<Restaurant> restaurant = restaurantRepository.findById(plateForm.getRestaurantId());
         Plate plate = plateForm.convertToPlate(plateForm);
-        plate.setRestaurant(restaurant.get());
+        plate.setRestaurant(restaurant.orElse(null));
         plateRepository.save(plate);
         return new PlateDto(plate);
     }
