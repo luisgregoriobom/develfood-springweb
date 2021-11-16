@@ -21,7 +21,7 @@ public class Request {
     private Long id;
     @Enumerated(EnumType.STRING)
     private StatusRequest status = StatusRequest.WAITING_TO_ACCEPT;
-    private LocalDateTime dateRequest;
+    private LocalDateTime dateRequest = LocalDateTime.now();
     private String obs;
     @ManyToOne
     private User user;
@@ -30,11 +30,13 @@ public class Request {
 
     public Request(RequestForm requestForm){
         this.id = requestForm.getId();
-        this.status = requestForm.getStatus();
-        this.dateRequest = requestForm.getDateRequest();
         this.obs = requestForm.getObs();
         this.user = requestForm.getUser();
         this.plate = requestForm.getPlates();
+    }
+
+    public void setUserName(User user){
+        this.user.setName(user.getName());
     }
 
 }

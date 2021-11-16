@@ -3,12 +3,14 @@ package br.com.develfoodspringweb.develfoodspringweb.controller.dto;
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
 import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import br.com.develfoodspringweb.develfoodspringweb.models.Request;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class RequestDto {
 
     private Long id;

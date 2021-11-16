@@ -33,6 +33,7 @@ public class RequestService {
         }
         request.setUser(currentUser.get());
         requestRepository.save(request);
+        request.setUser(null);
         return new RequestDto(request);
     }
 
