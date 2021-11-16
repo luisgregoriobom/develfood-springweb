@@ -4,7 +4,6 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.dto.PlateDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
-import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import br.com.develfoodspringweb.develfoodspringweb.repository.PlateRepository;
 import br.com.develfoodspringweb.develfoodspringweb.service.PlateService;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
@@ -19,7 +18,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -64,7 +62,10 @@ public class PlateController {
     public ResponseEntity<PlateDto> register(@RequestBody @Valid PlateForm plateForm,
                                              UriComponentsBuilder uriBuilder){
 
-        PlateDto plateToRegister = plateService.registrar(plateForm);
+        PlateDto plateToRegister = plateService.register(plateForm);
+        if (plateToRegister == null){
+            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "Failed to register new plate");
+        }
 
         URI uri = uriBuilder.
                 path("/api/plate/{id}").

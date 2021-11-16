@@ -11,20 +11,20 @@ public class PlateDto {
 
     private Long id;
     private String name;
-    private String obs;
+    private String description;
     private BigDecimal price;
     private Enum category;
     private String restaurantName;
-    private Long restaurantId;
+//    private Long restaurantId;
 
     public PlateDto(Plate plate) {
         this.id = plate.getId();
         this.name = plate.getName();
-        this.obs = plate.getObs();
+        this.description = plate.getDescription();
         this.price = plate.getPrice();
         this.category = plate.getCategory();
         this.restaurantName = plate.getRestaurant().getName();
-        this.restaurantId = plate.getRestaurant().getId();
+//        this.restaurantId = plate.getRestaurant().getId();
     }
 
     /**

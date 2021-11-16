@@ -44,12 +44,6 @@ public class PlateService {
      */
     public PlateDto register(PlateForm plateForm){
         Plate plate = plateForm.convertToPlate(plateForm);
-        plateRepository.save(plate);
-        return new PlateDto(plate);
-    }
-
-    public PlateDto registrar(PlateForm plateForm){
-        Plate plate = plateForm.convertToPlate(plateForm);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentRestaurantAuth = authentication.getName();
         Optional<Restaurant> currentRestaurant = restaurantRepository.findByEmail(currentRestaurantAuth);
@@ -60,15 +54,5 @@ public class PlateService {
         plateRepository.save(plate);
         return new PlateDto(plate);
     }
-// TENTATIVA DA FUNÇÃO DE CRIAR UM PRATO E JÁ ATRELAR A UM ID DE UM RESTAURANTE JÁ CADASTRADO - A SER IMPLEMENTADO
-//    public PlateDto register(PlateForm plateForm){
-//        Optional<Restaurant> restaurant = restaurantRepository.findById(plateForm.getRestaurantId());
-//        if (!restaurant.isPresent()){
-//            return null;
-//        }
-//        Plate plate = plateForm.convertToPlate(plateForm);
-//        plateRepository.save(plate);
-//        return new PlateDto(plate);
-//    }
 
 }

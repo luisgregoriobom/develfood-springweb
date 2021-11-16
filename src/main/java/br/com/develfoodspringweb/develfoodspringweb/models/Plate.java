@@ -15,7 +15,7 @@ public class Plate {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String obs;
+    private String description;
     private BigDecimal price;
     @Enumerated(EnumType.STRING)
     private Category category;
@@ -24,9 +24,9 @@ public class Plate {
     @ManyToOne
     private Request request;
 
-    public Plate(String name, String obs, BigDecimal price, Category category, Restaurant restaurant) {
+    public Plate(String name, String description, BigDecimal price, Category category, Restaurant restaurant) {
         this.name = name;
-        this.obs = obs;
+        this.description = description;
         this.price = price;
         this.category = category;
         this.restaurant = restaurant;
@@ -34,7 +34,8 @@ public class Plate {
 
     public Plate(PlateForm plateForm){
         this.name = plateForm.getName();
-        this.obs = plateForm.getObs();
+        this.description = plateForm.getDescription();
         this.price = plateForm.getPrice();
+        this.category = plateForm.getCategory();
     }
 }

@@ -28,7 +28,7 @@ public class PlateFormUpdate {
     public Plate update(Long id, PlateRepository plateRepository) {
         Plate plate = plateRepository.getById(id);
         plate.setName(this.name);
-        plate.setObs(this.obs);
+        plate.setDescription(this.obs);
         plate.setPrice(this.price);
 
         return plate;
