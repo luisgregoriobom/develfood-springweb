@@ -8,6 +8,8 @@ import br.com.develfoodspringweb.develfoodspringweb.repository.PlateRepository;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -47,11 +49,14 @@ public class PlateService {
     }
 
     public PlateDto registrar(PlateForm plateForm){
-        Optional<Restaurant> restaurant = restaurantRepository.findById(plateForm.getRestaurantId());
-        if (!restaurant.isPresent()){
+        Plate plate = plateForm.convertToPlate(plateForm);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentRestaurantAuth = authentication.getName();
+        Optional<Restaurant> currentRestaurant = restaurantRepository.findByEmail(currentRestaurantAuth);
+        if (!currentRestaurant.isPresent()){
             return null;
         }
-        Plate plate = plateForm.convertToPlate(plateForm);
+        plate.setRestaurant(currentRestaurant.get());
         plateRepository.save(plate);
         return new PlateDto(plate);
     }

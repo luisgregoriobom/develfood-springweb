@@ -26,7 +26,7 @@ public class PlateForm {
     @DecimalMin(value = "5.0", inclusive = false)
     private BigDecimal price;
     private Category category;
-    private Long restaurantId;
+//    private Long restaurantId;
 
     /**
      * Function to convert the object Form Class received into a Model Object.
