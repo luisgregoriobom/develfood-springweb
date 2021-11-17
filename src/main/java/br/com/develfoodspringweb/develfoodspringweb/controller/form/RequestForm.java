@@ -20,6 +20,7 @@ public class RequestForm {
     private String obs;
     private User user;
     private List<Plate> plates;
+    private List<Long> platesId;
 
     public Request convertToUserRequest (RequestForm requestForm){
         return new Request(requestForm);

@@ -4,6 +4,7 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RequestDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestForm;
 import br.com.develfoodspringweb.develfoodspringweb.models.Request;
 import br.com.develfoodspringweb.develfoodspringweb.models.User;
+import br.com.develfoodspringweb.develfoodspringweb.repository.PlateRepository;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RequestRepository;
 import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,8 @@ public class RequestService {
 
     private final UserRepository userRepository;
 
+    private final PlateRepository plateRepository;
+
     public RequestDto registerRequest(RequestForm requestForm){
         Request request = requestForm.convertToUserRequest(requestForm);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -31,6 +34,10 @@ public class RequestService {
         if (!currentUser.isPresent()){
             return null;
         }
+//        plateRepository.findByIds(request.getPlateIds());
+//        list.getPrice
+//                Double price = foreach price da list.
+
         request.setUser(currentUser.get());
         requestRepository.save(request);
         request.setUser(null);

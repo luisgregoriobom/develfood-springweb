@@ -29,8 +29,9 @@ public class Request {
     private String obs;
     @ManyToOne
     private User user;
-    @OneToMany(mappedBy = "request")
+    @OneToMany
     private List<Plate> plate;
+
 
     public Request(RequestForm requestForm){
         this.id = requestForm.getId();
