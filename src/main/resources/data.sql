@@ -4,6 +4,9 @@ INSERT INTO restaurants(name, cnpj, login, password, email, address) VALUES('Ita
 INSERT INTO restaurants(name, cnpj, login, password, email, address, phone, food_type) VALUES('Restaurant01', 'testCNPJ01', 'testLogin01', 'testPassword01', 'testEmail01', 'testAddress01', 'testPhone01', 'sushi');
 INSERT INTO restaurants(name, cnpj, login, password, email, address, phone, food_type) VALUES('restaurant02', 'testCNPJ02', 'testLogin02', 'testPassword02', 'testEmail02', 'testAddress02', 'testPhone02', 'drogas');
 
-INSERT INTO plates(restaurant_Id, category, name, obs, price) VALUES(1, 'SWEET', 'Torta de Morango Moreno', 'Torta de chocolate com recheio de creme de morango', '45.00');
-INSERT INTO plates(restaurant_Id, category, name, obs, price) VALUES(1, 'SAVORY', 'Pizza Marguerita GG', 'Pizza Clássica de 16 Fatias com Queijo, Tomate e Manjericão DELICINHA', '70.00');
+INSERT INTO requests(date_request, status, user_id) VALUES(NOW(),'WAITING_TO_ACCEPT', 1);
+INSERT INTO requests(date_request, status, user_id) VALUES(NOW(),'IN_ROUTE', 1);
+
+INSERT INTO plates(restaurant_Id, category, name, obs, price, request_id) VALUES(1, 'SWEET', 'Torta de Morango Moreno', 'Torta de chocolate com recheio de creme de morango', '45.00', 1);
+INSERT INTO plates(restaurant_Id, category, name, obs, price, request_id) VALUES(1, 'SAVORY', 'Pizza Marguerita GG', 'Pizza Clássica de 16 Fatias com Queijo, Tomate e Manjericão DELICINHA', '70.00', 1);
 

@@ -2,7 +2,7 @@ package br.com.develfoodspringweb.develfoodspringweb.models;
 
 
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateForm;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,8 +24,10 @@ public class Plate {
     private Category category;
     @ManyToOne
     private Restaurant restaurant;
-    @ManyToOne
-    private UserRequest userRequest;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
+    @JoinColumn(name = "request_id")
+    private Request request;
     @OneToMany
     private List<Plate> plateName = new ArrayList<>();
 
