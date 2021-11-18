@@ -14,7 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,10 +38,15 @@ public class RequestService {
         }
 
         List<Plate> platesFromRequest = plateRepository.findAllById(requestForm.getPlatesId());
+        boolean idVerify = plateRepository.existsPlateByIdIn(platesFromRequest);
+        if (idVerify == false){
+            return null;
+        }
         platesFromRequest.stream().forEach(pl -> {
-            Double preco = request.getPriceTotal() + pl.getPrice();
-            request.setPriceTotal(preco);
-        });
+                Double preco = request.getPriceTotal() + pl.getPrice();
+                request.setPriceTotal(preco);
+            });
+
 
         request.setUser(currentUser.get());
         requestRepository.save(request);

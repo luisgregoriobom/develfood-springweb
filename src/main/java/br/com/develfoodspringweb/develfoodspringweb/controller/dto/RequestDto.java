@@ -18,6 +18,7 @@ public class RequestDto {
     private LocalDateTime dateRequest;
     private User user;
     private List<Plate> plate;
+    private String obs;
     private Double priceTotal;
 
     public RequestDto(Request request){
@@ -26,6 +27,7 @@ public class RequestDto {
         this.dateRequest = request.getDateRequest();
         this.user = request.getUser();
         this.plate = request.getPlate();
+        this.obs = request.getObs();
         this.priceTotal = request.getPriceTotal();
     }
 

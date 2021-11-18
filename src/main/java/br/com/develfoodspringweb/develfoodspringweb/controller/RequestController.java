@@ -28,6 +28,7 @@ public class RequestController {
     public ResponseEntity<RequestDto> registerRequest(@RequestBody RequestForm requestForm,
                                                       UriComponentsBuilder uriBuilder){
         RequestDto requestToRegister = requestService.registerRequest(requestForm);
+
         if (requestToRegister == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Failed to create the request");
         }
