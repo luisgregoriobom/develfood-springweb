@@ -24,13 +24,13 @@ public class Request {
     private Long id;
     @Enumerated(EnumType.STRING)
     private StatusRequest status = StatusRequest.WAITING_TO_ACCEPT;
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private LocalDateTime dateRequest = LocalDateTime.now();
+    private LocalDateTime dateRequest = LocalDateTime.now(); //.format()
     private String obs;
     @ManyToOne
     private User user;
     @OneToMany
     private List<Plate> plate;
+    private Double priceTotal = 0.00;
 
 
     public Request(RequestForm requestForm){

@@ -12,7 +12,7 @@ public class PlateDto {
     private Long id;
     private String name;
     private String description;
-    private BigDecimal price;
+    private Double price;
     private Enum category;
     private String restaurantName;
 //    private Long restaurantId;

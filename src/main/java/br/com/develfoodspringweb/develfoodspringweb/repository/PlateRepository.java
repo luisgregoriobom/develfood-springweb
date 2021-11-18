@@ -13,7 +13,6 @@ import java.util.Optional;
  */
 public interface PlateRepository extends JpaRepository<Plate, Long>{
 
-
     Optional<Plate> findByName(String name);
 
 }

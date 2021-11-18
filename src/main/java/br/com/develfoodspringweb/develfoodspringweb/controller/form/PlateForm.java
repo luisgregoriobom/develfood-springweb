@@ -29,7 +29,7 @@ public class PlateForm {
     @NotEmpty @NotNull @Length(min = 10)
     private String description;
     @DecimalMin(value = "5.0", inclusive = false)
-    private BigDecimal price;
+    private Double price;
     private Category category;
     private Long restaurantId;
 

@@ -23,7 +23,7 @@ public class PlateFormUpdate {
     @NotEmpty @NotNull @Length(min = 10)
     private String obs;
     @DecimalMin(value = "5.0", inclusive = false)
-    private BigDecimal price;
+    private Double price;
 
     public Plate update(Long id, PlateRepository plateRepository) {
         Plate plate = plateRepository.getById(id);

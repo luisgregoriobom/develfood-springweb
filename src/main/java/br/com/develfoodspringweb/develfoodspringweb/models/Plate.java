@@ -16,7 +16,7 @@ public class Plate {
     private Long id;
     private String name;
     private String description;
-    private BigDecimal price;
+    private Double price;
     @Enumerated(EnumType.STRING)
     private Category category;
     @ManyToOne
@@ -24,7 +24,7 @@ public class Plate {
     @ManyToOne
     private Request request;
 
-    public Plate(String name, String description, BigDecimal price, Category category, Restaurant restaurant) {
+    public Plate(String name, String description, Double price, Category category, Restaurant restaurant) {
         this.name = name;
         this.description = description;
         this.price = price;

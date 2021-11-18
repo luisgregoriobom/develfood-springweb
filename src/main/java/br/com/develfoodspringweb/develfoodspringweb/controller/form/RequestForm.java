@@ -21,6 +21,7 @@ public class RequestForm {
     private User user;
     private List<Plate> plates;
     private List<Long> platesId;
+    private Double priceTotal;
 
     public Request convertToUserRequest (RequestForm requestForm){
         return new Request(requestForm);

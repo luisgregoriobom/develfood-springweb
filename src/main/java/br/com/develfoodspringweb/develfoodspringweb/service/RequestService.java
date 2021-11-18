@@ -2,6 +2,7 @@ package br.com.develfoodspringweb.develfoodspringweb.service;
 
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RequestDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestForm;
+import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Request;
 import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import br.com.develfoodspringweb.develfoodspringweb.repository.PlateRepository;
@@ -13,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -34,9 +37,12 @@ public class RequestService {
         if (!currentUser.isPresent()){
             return null;
         }
-//        plateRepository.findByIds(request.getPlateIds());
-//        list.getPrice
-//                Double price = foreach price da list.
+
+        List<Plate> platesFromRequest = plateRepository.findAllById(requestForm.getPlatesId());
+        platesFromRequest.stream().forEach(pl -> {
+            Double preco = request.getPriceTotal() + pl.getPrice();
+            request.setPriceTotal(preco);
+        });
 
         request.setUser(currentUser.get());
         requestRepository.save(request);
