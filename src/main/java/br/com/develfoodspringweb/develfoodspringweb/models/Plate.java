@@ -25,7 +25,7 @@ public class Plate {
     private Restaurant restaurant;
     @ManyToOne
     private Request request;
-    @OneToMany
+    @OneToMany (mappedBy = "plateName")
     private List<Plate> plateName = new ArrayList<>();
 
 

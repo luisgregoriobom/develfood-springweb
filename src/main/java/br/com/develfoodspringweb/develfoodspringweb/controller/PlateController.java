@@ -108,7 +108,6 @@ public class PlateController {
      * @return
      * @author: Luis Gregorio
      */
-
     @GetMapping("/{id}")
     @Transactional
     public ResponseEntity<PlateDto> details(@PathVariable Long id) {

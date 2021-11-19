@@ -20,7 +20,6 @@ public interface PlateRepository extends JpaRepository<Plate, Long>{
      * @return
      * @author: Luis Gregorio
      */
-
     Optional<Plate> findByName(String name);
 
     /**

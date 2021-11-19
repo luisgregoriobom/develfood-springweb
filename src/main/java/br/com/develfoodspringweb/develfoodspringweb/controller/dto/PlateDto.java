@@ -18,7 +18,6 @@ public class PlateDto {
     private Double price;
     private Enum category;
     private String restaurantName;
-//    private Long restaurantId;
 
 
     public PlateDto(Plate plate) {
@@ -28,11 +27,6 @@ public class PlateDto {
         this.price = plate.getPrice();
         this.category = plate.getCategory();
         this.restaurantName = plate.getRestaurant().getName();
-//        this.restaurantId = plate.getRestaurant().getId();
-    }
-
-    public PlateDto(List<Plate> platesFromRequest) {
-
     }
 
     /**
