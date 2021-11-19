@@ -19,7 +19,6 @@ public class UserDto {
     private String phone;
     private List<Request> request;
 
-
     public UserDto(User user) {
         this.id = user.getId();
         this.name = user.getName();
@@ -36,7 +35,6 @@ public class UserDto {
      * @return
      * @author: Thomas B.P.
      */
-
     public static UserDto convertToUserDto(User user) {
     return new UserDto(user);
     }

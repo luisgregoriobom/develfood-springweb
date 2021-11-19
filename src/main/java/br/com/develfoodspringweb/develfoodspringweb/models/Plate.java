@@ -5,10 +5,9 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateForm;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity @Table(name = "plates")
 @Data @NoArgsConstructor
@@ -26,6 +25,9 @@ public class Plate {
     private Restaurant restaurant;
     @ManyToOne
     private Request request;
+    @OneToMany
+    private List<Plate> plateName = new ArrayList<>();
+
 
     public Plate(String name, String description, Double price, Category category) {
         this.name = name;

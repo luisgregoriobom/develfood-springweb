@@ -6,7 +6,6 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateFormUpd
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
 import br.com.develfoodspringweb.develfoodspringweb.repository.PlateRepository;
 import br.com.develfoodspringweb.develfoodspringweb.service.PlateService;
-import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Optional;
+import java.util.List;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RestController
@@ -29,7 +28,23 @@ public class PlateController {
 
     private final PlateService plateService;
 
-    private final RestaurantRepository restaurantRepository;
+    /**
+     * Method GET to list all plates
+     * @param plateName
+     * @return
+     * @author: Luis Gregorio
+     */
+    @GetMapping("/ListAll")
+    @Transactional
+    public List<PlateDto> list(String plateName) {
+        if (plateName == null) {
+            List<Plate> plates = plateRepository.findAll();
+            return PlateDto.converToListDto(plates);
+        } else {
+            List<Plate> plates = plateRepository.findByPlateName(plateName);
+            return PlateDto.converToListDto(plates);
+        }
+    }
 
     /**
      * Function with GET method to do make a query with the name of the plate as parameter.
@@ -45,7 +60,7 @@ public class PlateController {
         PlateDto queryByName = plateService.getPlateByName(namePlate);
         if (queryByName == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Plate name not found");
+                                            "Plate name not found");
         }
         return new ResponseEntity<>(queryByName, HttpStatus.OK);
 
@@ -63,6 +78,7 @@ public class PlateController {
                                              UriComponentsBuilder uriBuilder){
 
         PlateDto plateToRegister = plateService.register(plateForm);
+
         if (plateToRegister == null){
             throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "Failed to register new plate");
         }
@@ -75,6 +91,7 @@ public class PlateController {
         return ResponseEntity.created(uri).body(plateToRegister);
     }
 
+
 //    @GetMapping
 //    public List<PlateDto> listOfPlates (Long restaurantId){
 //
@@ -85,37 +102,56 @@ public class PlateController {
 //
 //    }
 
+    /**
+     * GET function to detail a Plate
+     * @param id
+     * @return
+     * @author: Luis Gregorio
+     */
+
     @GetMapping("/{id}")
     @Transactional
     public ResponseEntity<PlateDto> details(@PathVariable Long id) {
-        Optional<Plate> plate = plateRepository.findById(id);
-        if (plate.isPresent()) {
-            return ResponseEntity.ok(new PlateDto(plate.get()));
+        PlateDto plateDetail = plateService.details(id);
+        if(plateDetail == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                                "Plate Not Found");
         }
-        return ResponseEntity.notFound().build();
-
+            return ResponseEntity.ok(plateDetail);
     }
 
+    /**
+     * PUT function to update a Plate
+     * @param id
+     * @param form
+     * @return
+     * @author: Luis Gregorio
+     */
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<PlateDto> update(@PathVariable Long id, @RequestBody @Valid PlateFormUpdate form) {
-        Optional<Plate> opt = plateRepository.findById(id);
-        if (opt.isPresent()) {
-            Plate plate = form.update(id, plateRepository);
-            return ResponseEntity.ok(new PlateDto(plate));
+        PlateDto plateUpdate = plateService.update(id, form);
+        if (plateUpdate == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Plate Not Found");
         }
-
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(plateUpdate);
     }
 
+    /**
+     * DELETE function to delete a Plate
+     * @param id
+     * @return
+     * @author: Luis Gregorio
+     */
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<?> remove(@PathVariable Long id){
-        Optional<Plate> opt = plateRepository.findById(id);
-        if(opt.isPresent()) {
-            plateRepository.deleteById(id);
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.notFound().build();
+       PlateDto plateRemove = plateService.remove(id);
+       if(plateRemove == null) {
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                   "Plate Not Found");
+       }
+       return ResponseEntity.ok().build();
     }
 }

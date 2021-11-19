@@ -3,6 +3,7 @@ package br.com.develfoodspringweb.develfoodspringweb.service;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RestaurantDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.FilterForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RestaurantForm;
+import br.com.develfoodspringweb.develfoodspringweb.controller.form.RestaurantFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -57,7 +56,6 @@ public class RestaurantService {
         } catch (Exception e){
             return null;
         }
-
         restaurantRepository.save(restaurant);
         if (restaurant.getId() == null){
             return null;
@@ -88,4 +86,55 @@ public class RestaurantService {
         return restaurantDtoList;
     }
 
+    /**
+     * Function to detail a Restaurant information
+     * @param id
+     * @return
+     * @author: Luis Gregorio
+     */
+    public RestaurantDto details(Long id) {
+        Optional<Restaurant> restaurant = restaurantRepository.findById(id);
+        if (!restaurant.isPresent()) {
+            return null;
+        }
+        return new RestaurantDto(restaurant.get());
+    }
+
+    /**
+     * Function to update a Restaurant data
+     * @param id
+     * @param form
+     * @return
+     * @author: Luis Gregorio
+     */
+    public RestaurantDto update(Long id, RestaurantFormUpdate form) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        try{
+            String encodedPassword = passwordEncoder.encode(form.getPassword());
+            form.setPassword(encodedPassword);
+        } catch(Exception e) {
+            return null;
+        }
+        Optional<Restaurant> opt = restaurantRepository.findById(id);
+        if (opt.isPresent()) {
+            Restaurant restaurant = form.update(id, restaurantRepository);
+            return new RestaurantDto(restaurant);
+        }
+        return null;
+    }
+
+    /**
+     * Function to remove a Restaurant
+     * @param id
+     * @return
+     * @author: Luis Gregorio
+     */
+    public RestaurantDto remove(Long id) {
+        Optional<Restaurant> restaurant = restaurantRepository.findById(id);
+        if(restaurant.isPresent()) {
+            restaurantRepository.deleteById(id);
+            return new RestaurantDto(restaurant.get());
+        }
+        return null;
+    }
 }

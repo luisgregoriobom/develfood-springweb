@@ -5,7 +5,6 @@ import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import java.lang.Long;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,10 +41,8 @@ public class PlateDto {
      * @return
      * @author: Thomas B.P.
      */
-
     public static PlateDto convertToPlateDto(Plate plates){
         return new PlateDto(plates);
-
     }
 
     /**

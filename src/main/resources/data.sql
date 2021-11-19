@@ -11,6 +11,6 @@ INSERT INTO plates(restaurant_id,category, name, description, price) VALUES(1, '
 INSERT INTO plates(restaurant_id,category, name, description, price) VALUES(2, 'SAVORY', 'Pizza Filé c/ palha', '16 Fatias com Queijo, Tomate e borracha', '50.00');
 INSERT INTO plates(restaurant_id,category, name, description, price) VALUES(3, 'SAVORY', 'Pizza Queijin Gorgonzola', 'Pizza que tu vai amar e te trancar, DELICINHA', '60.00');
 
-
 INSERT INTO requests(obs) VALUES('que isso meu padrinho');
+
 
