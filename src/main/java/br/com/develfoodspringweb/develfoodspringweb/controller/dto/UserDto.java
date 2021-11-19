@@ -1,9 +1,8 @@
 package br.com.develfoodspringweb.develfoodspringweb.controller.dto;
 
 import br.com.develfoodspringweb.develfoodspringweb.models.User;
-import br.com.develfoodspringweb.develfoodspringweb.models.UserRequest;
+import br.com.develfoodspringweb.develfoodspringweb.models.Request;
 import lombok.Data;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +17,7 @@ public class UserDto {
     private String email;
     private String address;
     private String phone;
-    private List<UserRequest> userRequest;
+    private List<Request> request;
 
 
     public UserDto(User user) {
@@ -37,7 +36,6 @@ public class UserDto {
      * @return
      * @author: Thomas B.P.
      */
-
     public static List<UserDto> converter(List<User> users) {
     return users.stream().map(UserDto::new).collect(Collectors.toList());
     }

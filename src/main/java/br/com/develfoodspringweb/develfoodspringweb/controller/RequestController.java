@@ -1,15 +1,17 @@
 package br.com.develfoodspringweb.develfoodspringweb.controller;
 
-import br.com.develfoodspringweb.develfoodspringweb.models.UserRequest;
+import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RequestDto;
+import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestFormUpdate;
+import br.com.develfoodspringweb.develfoodspringweb.controller.requestCommon.StatusPresent;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RequestRepository;
+import br.com.develfoodspringweb.develfoodspringweb.service.StatusRequestService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 /**
  * Created by Luis Gregorio.
@@ -21,34 +23,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/request")
 public class RequestController {
 
-    private final RequestRepository requestRepository;
+    private final StatusRequestService statusRequestService;
 
+    /**
+     * Method to perform PUT, endpoint to change the status of an request.
+     * @param id
+     * @param form
+     * @return
+     * @author: Luis Gregorio
+     */
     @PutMapping("/statusRequest/{id}")
-    public UserRequest changeStatus(@PathVariable Long id) {
-        UserRequest userRequest = requestRepository.findByIdRequest(id);
-        if(userRequest.getStatus()) {
-            userRequest.setStatus(userRequest.getStatus());
-            requestRepository.save(userRequest);
-        } else if (userRequest.getRequestStatus().equals(RequestStatusType.DELIVERED)) {
-            requestRepository.delete(userRequest);
-        }
-        return userRequest;
+    @Transactional
+    public ResponseEntity<StatusPresent> update(@PathVariable Long id, @RequestBody @Valid RequestFormUpdate form) {
+       RequestDto statusUpdate = statusRequestService.update(id, form);
+       StatusPresent present = statusRequestService.convertToPresent(statusUpdate);
+
+        return ResponseEntity.ok().body(present);
     }
 
-
-
-
-//    @PutMapping("/{id}")
-//    @Transactional
-//    public ResponseEntity<RestaurantDto> update(@PathVariable Long id, @RequestBody @Valid RestaurantFormUpdate form){
-//        RestaurantDto restaurantUpdate = restaurantService.update(id, form);
-//        if(restaurantUpdate == null) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-//                    "Restaurant Not Found");
-//        }
-//        return ResponseEntity.ok(restaurantUpdate);
-//    }
-    
-
 }
+
+
+
+
+
 

@@ -1,8 +1,7 @@
 package br.com.develfoodspringweb.develfoodspringweb.models;
 
 
-import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateForm;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,7 +22,8 @@ public class Plate {
     @ManyToOne
     private Restaurant restaurant;
     @ManyToOne
-    private UserRequest userRequest;
+    @JsonIgnore
+    private Request request;
 
     public Plate(String name, String obs, BigDecimal price, Category category, Restaurant restaurant) {
         this.name = name;

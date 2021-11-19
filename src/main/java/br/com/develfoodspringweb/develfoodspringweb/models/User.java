@@ -1,6 +1,7 @@
 package br.com.develfoodspringweb.develfoodspringweb.models;
 
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserForm;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -32,7 +33,8 @@ public class User implements UserDetails {
 
 
     @OneToMany(mappedBy = "user")
-    private List<UserRequest> userRequest;
+    @JsonIgnore
+    private List<Request> request;
 
 
 
