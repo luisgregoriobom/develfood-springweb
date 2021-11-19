@@ -24,4 +24,10 @@ public class UserRequest {
     @OneToMany(mappedBy = "userRequest")
     private List<Plate> plate;
 
+    public void nextStatus() {
+        if(status == StatusRequest.WAITING_TO_ACCEPT) {
+
+        }
+    }
+
 }
