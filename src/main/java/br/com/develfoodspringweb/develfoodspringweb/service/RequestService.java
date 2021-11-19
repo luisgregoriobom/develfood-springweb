@@ -1,5 +1,6 @@
 package br.com.develfoodspringweb.develfoodspringweb.service;
 
+import br.com.develfoodspringweb.develfoodspringweb.controller.dto.PlateDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RequestDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestForm;
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
@@ -14,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +30,12 @@ public class RequestService {
 
     private final PlateRepository plateRepository;
 
+    /**
+     * Function to create new request from the current user logged in
+     * @param requestForm
+     * @return
+     * @author: Thomas Benetti
+     */
     public RequestDto registerRequest(RequestForm requestForm){
         Request request = requestForm.convertToUserRequest(requestForm);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -36,22 +44,24 @@ public class RequestService {
         if (!currentUser.isPresent()){
             return null;
         }
-
         List<Plate> platesFromRequest = plateRepository.findAllById(requestForm.getPlatesId());
-        boolean idVerify = plateRepository.existsPlateByIdIn(platesFromRequest);
-        if (idVerify == false){
+        if (platesFromRequest.isEmpty()){
             return null;
         }
+
+        request.setPlates(platesFromRequest);
+
         platesFromRequest.stream().forEach(pl -> {
                 Double preco = request.getPriceTotal() + pl.getPrice();
                 request.setPriceTotal(preco);
             });
-
-
         request.setUser(currentUser.get());
         requestRepository.save(request);
-        request.setUser(null);
-        return new RequestDto(request);
+
+        RequestDto requestDto = new RequestDto(request);
+        requestDto.setUser(null);
+
+        return requestDto;
     }
 
 }

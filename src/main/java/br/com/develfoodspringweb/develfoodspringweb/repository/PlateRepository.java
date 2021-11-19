@@ -15,6 +15,4 @@ public interface PlateRepository extends JpaRepository<Plate, Long>{
 
     Optional<Plate> findByName(String name);
 
-    boolean existsPlateByIdIn(List<Plate> platesFromRequest);
-
 }

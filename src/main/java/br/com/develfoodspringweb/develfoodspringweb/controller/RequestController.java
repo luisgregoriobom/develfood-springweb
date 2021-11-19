@@ -24,6 +24,13 @@ public class RequestController {
 
     private final RequestService requestService;
 
+    /**
+     * Method to register new request
+     * @param requestForm
+     * @param uriBuilder
+     * @return
+     * @author: Thomas Benetti
+     */
     @PostMapping
     public ResponseEntity<RequestDto> registerRequest(@RequestBody RequestForm requestForm,
                                                       UriComponentsBuilder uriBuilder){
@@ -39,7 +46,6 @@ public class RequestController {
                 .toUri();
 
         return ResponseEntity.created(uri).body(requestToRegister);
-
     }
 
 }

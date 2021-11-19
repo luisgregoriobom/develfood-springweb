@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -24,12 +25,12 @@ public class Request {
     private Long id;
     @Enumerated(EnumType.STRING)
     private StatusRequest status = StatusRequest.WAITING_TO_ACCEPT;
-    private LocalDateTime dateRequest = LocalDateTime.now(); //.format()
+    private String dateRequest = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
     private String obs;
     @ManyToOne
     private User user;
     @OneToMany
-    private List<Plate> plate;
+    private List<Plate> plates;
     private Double priceTotal = 0.00;
 
 
@@ -37,7 +38,7 @@ public class Request {
         this.id = requestForm.getId();
         this.obs = requestForm.getObs();
         this.user = requestForm.getUser();
-        this.plate = requestForm.getPlates();
+        this.plates = requestForm.getPlates();
     }
 
 }
