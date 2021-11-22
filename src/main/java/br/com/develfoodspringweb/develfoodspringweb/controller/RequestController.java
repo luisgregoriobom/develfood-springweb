@@ -1,21 +1,14 @@
 package br.com.develfoodspringweb.develfoodspringweb.controller;
 
-import br.com.develfoodspringweb.develfoodspringweb.controller.restaurantCommon.PlatePresent;
 import br.com.develfoodspringweb.develfoodspringweb.controller.restaurantCommon.RequestPresent;
-import br.com.develfoodspringweb.develfoodspringweb.controller.restaurantCommon.UserPresent;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RequestDto;
-import br.com.develfoodspringweb.develfoodspringweb.controller.userCommon.PlatePresentUser;
 import br.com.develfoodspringweb.develfoodspringweb.controller.userCommon.RequestPresentUser;
-import br.com.develfoodspringweb.develfoodspringweb.controller.userCommon.RestaurantPresentUser;
-import br.com.develfoodspringweb.develfoodspringweb.controller.userCommon.UserPresentUser;
 import br.com.develfoodspringweb.develfoodspringweb.service.RequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Luis Gregorio.
