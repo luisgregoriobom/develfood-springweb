@@ -91,17 +91,6 @@ public class PlateController {
         return ResponseEntity.created(uri).body(plateToRegister);
     }
 
-
-//    @GetMapping
-//    public List<PlateDto> listOfPlates (Long restaurantId){
-//
-//        List<Plate> plates = plateRepository.findById();
-//        instancio o objeto, chamo no repositorio fazendo o getId
-//        faço a arrow function do optional pra list dos ID pra retornar uma DTOLIST (igual do filtro)
-//        retorno umalista de pratos do restaurantId
-//
-//    }
-
     /**
      * GET function to detail a Plate
      * @param id
