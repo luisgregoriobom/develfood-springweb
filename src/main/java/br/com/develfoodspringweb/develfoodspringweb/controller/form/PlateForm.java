@@ -2,24 +2,24 @@ package br.com.develfoodspringweb.develfoodspringweb.controller.form;
 
 import br.com.develfoodspringweb.develfoodspringweb.models.Category;
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
-
 import java.lang.Long;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PlateForm {
 
     @NotEmpty @NotNull @Length(min = 5)
     private String name;
-    @NotEmpty @NotNull @Length(min = 10)
-    private String obs;
+    @NotEmpty @NotNull
+    private String description;
     @DecimalMin(value = "5.0", inclusive = false)
-    private BigDecimal price;
+    private Double price;
     private Category category;
     private Long restaurantId;
 

@@ -30,7 +30,7 @@ public class User implements UserDetails {
     private String phone;
 
     @OneToMany(mappedBy = "user")
-    private List<UserRequest> userRequest;
+    private List<Request> request;
     @OneToMany(mappedBy = "user")
     private List<Profile> userProfile = new ArrayList<>();
 

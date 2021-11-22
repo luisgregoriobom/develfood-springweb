@@ -80,7 +80,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
      */
     private void authenticateRestaurant(String token){
         Long idRestaurant = tokenServs.getIdRestaurant(token);
-        Restaurant restaurant = restaurantRepository.findById(idRestaurant).get();
+        Restaurant restaurant = restaurantRepository.findById(idRestaurant).orElse(null);
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(restaurant, null, restaurant.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
