@@ -14,12 +14,23 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by Luis Gregorio.
+ *
+ * In this class we have the intercept of any exception that may occur in the program.
+ */
 @RestControllerAdvice
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class HandlerValidError {
 
     private final MessageSource messageSource;
 
+    /**
+     * Method to intercept the exception and apply a more user-friendly message.
+     * @param exception
+     * @return
+     * @author: Luis Gregorio
+     */
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public List<FormErrorDto> handle(MethodArgumentNotValidException exception) {

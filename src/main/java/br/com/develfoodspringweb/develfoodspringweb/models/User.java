@@ -20,7 +20,6 @@ import java.util.List;
 @NoArgsConstructor
 public class User implements UserDetails {
 
-
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
@@ -31,12 +30,11 @@ public class User implements UserDetails {
     private String address;
     private String phone;
 
-
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Request> request;
-
-
+    @OneToMany(mappedBy = "user")
+    private List<Profile> userProfile = new ArrayList<>();
 
     public User(String name, String cpf, String login, String password, String email, String address, String phone) {
         this.name = name;
@@ -48,7 +46,6 @@ public class User implements UserDetails {
         this.phone = phone;
     }
 
-
     public User(UserForm userForm){
         this.name = userForm.getName();
         this.cpf = userForm.getCpf();
@@ -58,16 +55,18 @@ public class User implements UserDetails {
         this.phone = userForm.getPhone();
     }
 
-    ////////////////////MÉTODOS DE PERMISSÃO PARA ACESSO DO USUARIO AUTENTICAR NO SISTEMA///////////////////////
-
-    @ManyToMany
-    private List<Profile> userProfile = new ArrayList<>();
-
-    // Pro SpringSecurity, além do User, precisamos ter uma classe pra representar
-    // o Perfil relacionado com as permissões do User
-
-    //Como Profile é uma entidade, tem de haver Cardinalidade de User para Profile
-    //User pode ter varios Profiles e Profiles pode estar atrelado a vários Users
+    /**
+     * Permission methods for user access to authenticate in the system.
+     * For SpringSecurity, in addition to the User, we need to have a class to represent,
+     *the profile related to User permissions.
+     *
+     * Profile is an entity, there must be Cardinality from User to Profile,
+     *user can have multiple Profiles, and Profile can be linked to multiple users.
+     *
+     * Implemented override methods of the UserDetails interface.
+     *
+     * @author: Luis Gregorio
+     */
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -103,6 +102,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-    }
+}
 

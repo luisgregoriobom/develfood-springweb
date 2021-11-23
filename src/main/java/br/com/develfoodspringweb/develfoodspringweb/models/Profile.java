@@ -1,9 +1,5 @@
 package br.com.develfoodspringweb.develfoodspringweb.models;
 
-////////////////////////////////////CLASSE PERFIL COM INFORMAÇÕES DO USUÁRIO///////////////////////////////////
-
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -12,6 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * Created by Luis Gregorio.
+ * Class created to return the profile of the user being authenticated
+ */
 @Entity
 @Data
 public class Profile implements GrantedAuthority {
@@ -19,8 +19,14 @@ public class Profile implements GrantedAuthority {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private User user;
+    private Restaurant restaurant;
 
-    //Devolver atributo que tem o nome do perfil
+    /**
+     * Returns a method over written attribute that has the name of the profile
+     * @return
+     * @author: Luis Gregorio
+     */
     @Override
     public String getAuthority() {
         return name;

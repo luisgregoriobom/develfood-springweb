@@ -7,6 +7,9 @@ import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 @Component
 public class InitialConfig {
 
@@ -17,21 +20,15 @@ public class InitialConfig {
     @Autowired
     private PlateRepository plateRepository;
 
+
+    /**
+     * Function to insert manually data into database and tryout if it is working
+     * @author: Thomas B.P.
+     */
     public void configurar(){
-//        Plate plate = new Plate();
-//        plate.setCategory(PlateCategory.SWEET);
-//        plate.setName("Bolinho de cenoura");
-//        plate.setDescription("Bolito de cenoura com chocolate");
-//        plate.setPrice(new BigDecimal(23.05));
-//        plateRepository.save(plate);
 
-//        Restaurant restaurant = new Restaurant("testName", "3333");
-//        restaurantRepository.save(restaurant);
-
-//        User user = new User();
-//        user.setName("testeName1");
-//        user.setPhone("111");
-//        userRepository.save(user);
+        Restaurant restaurant = new Restaurant("testName03", "testCnpj03", "testPhone03", "testFootType03");
+        restaurantRepository.save(restaurant);
     }
 
 }

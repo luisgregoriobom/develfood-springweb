@@ -5,6 +5,7 @@ import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
@@ -12,9 +13,8 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class RestaurantForm {
-
-
 
     @NotEmpty @NotNull @Length(min = 5)
     private String name;
@@ -33,16 +33,24 @@ public class RestaurantForm {
 
     private List<Plate> plates;
 
+    public RestaurantForm(Restaurant restaurant) {
+        this.name = restaurant.getName();
+        this.cnpj = restaurant.getCnpj();
+        this.login = restaurant.getLogin();
+        this.password = restaurant.getPassword();
+        this.email = restaurant.getEmail();
+        this.address = restaurant.getAddress();
+        this.phone = restaurant.getPhone();
+    }
+
 
     /**
      * Function to convert the object Form Class received into a Model Object
-     * @param restaurantRepository
+     * @param restaurantForm
      * @return
      * @author: Thomas B.P.
      */
-
-    public Restaurant converterToRestaurant(RestaurantRepository restaurantRepository) {
-        return new Restaurant(name, cnpj, login, password, email, address, phone);
+    public Restaurant convertToRestaurant(RestaurantForm restaurantForm) {
+        return new Restaurant(restaurantForm);
     }
-
 }

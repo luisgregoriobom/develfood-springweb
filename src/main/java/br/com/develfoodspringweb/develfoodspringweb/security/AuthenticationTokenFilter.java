@@ -15,20 +15,32 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+/**
+ * Created by Luis Gregorio.
+ *
+ * class will intercept token request to grant user access.
+ */
 public class AuthenticationTokenFilter extends OncePerRequestFilter {
-    //AUTENTICAÇÃO VIA TOKEN, CLASSE IRÁ INTERCEPTAR A REQUISIÇÃO DO TOKEN PARA LIBERAR ACESSO A TAL USUÁRIO
-    //REALIZAR ALGO RESTRITO NO SISTEMA.
 
     private TokenServ tokenServs;
     private UserRepository userRepository;
     private RestaurantRepository restaurantRepository;
 
-    public AuthenticationTokenFilter(TokenServ tokenServs, UserRepository userRepository, RestaurantRepository restaurantRepository) { //precisa de construtor pois classe filter nao faz injeção
+    public AuthenticationTokenFilter(TokenServ tokenServs, UserRepository userRepository, RestaurantRepository restaurantRepository) {
         this.tokenServs = tokenServs;
         this.userRepository = userRepository;
         this.restaurantRepository = restaurantRepository;
     }
 
+    /**
+     * Authentication by Token.
+     * @param request
+     * @param response
+     * @param filterChain
+     * @throws ServletException
+     * @throws IOException
+     * @author: Luis Gregorio
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -38,37 +50,48 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
         boolean valid = tokenServs.isTokenValid(token);
         if(valid) {
             String userType = tokenServs.getUserType(token);
-            System.out.println(userType);
             if(userType.equals("user")) {
-                System.out.println("luis1");
                 authenticateCliente(token);
             } else if(userType.equals("restaurant")) {
                 authenticateRestaurant(token);
             }
         }
         filterChain.doFilter(request, response);
-
     }
 
+    /**
+     * Method to authenticate User
+     * @param token
+     * @author: Luis Gregorio
+     */
     private void authenticateCliente(String token) {
 
-        System.out.println("luis2");
         Long idUser = tokenServs.getIdUser(token);
         User users = userRepository.getById(idUser);
         System.out.println(users.getId());
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(users, null, users.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
     }
 
+    /**
+     * Method to authenticate Restaurant
+     * @param token
+     * @author: Luis Gregorio
+     */
     private void authenticateRestaurant(String token){
         Long idRestaurant = tokenServs.getIdRestaurant(token);
-        Restaurant restaurant = restaurantRepository.getById(idRestaurant);
+        Restaurant restaurant = restaurantRepository.findById(idRestaurant).orElse(null);
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(restaurant, null, restaurant.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
     }
 
+    /**
+     * Method will cast a null if the token header does not meet any of these requirements.
+     * @param request
+     * @return
+     * @author: Luis Gregorio
+     */
     private String recoveryToken(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         if(token == null || token.isEmpty() || !token.startsWith("Bearer ")) {

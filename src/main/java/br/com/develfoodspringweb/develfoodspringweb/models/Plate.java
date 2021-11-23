@@ -1,22 +1,26 @@
 package br.com.develfoodspringweb.develfoodspringweb.models;
 
 
+import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateForm;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity @Table(name = "plates")
 @Data @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Plate {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String obs;
-    private BigDecimal price;
+    private String description;
+    private Double price;
     @Enumerated(EnumType.STRING)
     private Category category;
     @ManyToOne
@@ -24,12 +28,29 @@ public class Plate {
     @ManyToOne
     @JsonIgnore
     private Request request;
+    @OneToMany (mappedBy = "plateName")
+    private List<Plate> plateName = new ArrayList<>();
 
-    public Plate(String name, String obs, BigDecimal price, Category category, Restaurant restaurant) {
+
+    public Plate(String name, String description, Double price, Category category) {
         this.name = name;
-        this.obs = obs;
+        this.description = description;
         this.price = price;
         this.category = category;
-        this.restaurant = restaurant;
+
+    }
+
+    public Plate(Long id, String name, String description, Double price){
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+
+    public Plate(PlateForm plateForm){
+        this.name = plateForm.getName();
+        this.description = plateForm.getDescription();
+        this.price = plateForm.getPrice();
+        this.category = plateForm.getCategory();
     }
 }

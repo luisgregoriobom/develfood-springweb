@@ -8,6 +8,11 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Created by Luis Gregorio.
+ *
+ * In this class we can define what data a user can update in the system.
+ */
 @Data
 public class UserFormUpdate {
 
@@ -18,12 +23,18 @@ public class UserFormUpdate {
     @NotNull @NotEmpty @Length(min = 11)
     private String phone;
 
+    /**
+     * Method to call User data update.
+     * @param id
+     * @param userRepository
+     * @return
+     * @author: Luis Gregorio
+     */
     public User update(Long id, UserRepository userRepository) {
         User user = userRepository.getById(id);
         user.setPassword(this.password);
         user.setAddress(this.address);
         user.setPhone(this.phone);
-
         return user;
     }
 }

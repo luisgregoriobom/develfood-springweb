@@ -1,7 +1,6 @@
 package br.com.develfoodspringweb.develfoodspringweb.controller.form;
 
 import br.com.develfoodspringweb.develfoodspringweb.models.User;
-import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -28,12 +27,12 @@ public class UserForm {
 
     /**
      * Function to convert the object Form Class received into a Model Object
-     * @param userRepository
+     * @param userForm
      * @return
      * @author: Thomas B.P.
      */
-    public User convertToUser(UserRepository userRepository){
-        return new User(name, cpf, login, password, email, address, phone);
+    public User convertToUser(UserForm userForm){
+        return new User(userForm);
     }
 
 }
