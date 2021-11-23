@@ -1,27 +1,27 @@
 package br.com.develfoodspringweb.develfoodspringweb.controller.dto;
 
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
-import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import br.com.develfoodspringweb.develfoodspringweb.models.Request;
-import br.com.develfoodspringweb.develfoodspringweb.models.*;
-import lombok.Data;
-import java.time.LocalDateTime;
-import java.util.List;
+import br.com.develfoodspringweb.develfoodspringweb.models.StatusRequest;
+import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+
 import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RequestDto {
 
     private Long id;
+    private User user;
+    private String obs;
     private StatusRequest status = StatusRequest.WAITING_TO_ACCEPT;
     private String dateRequest;
-    private User user;
     private List<PlateDto> plateDtos;
     private List<Long> platesId;
-    private String obs;
-    private List<Plate> plate;
+    private List<Plate> plates;
     private Double priceTotal;
 
     public RequestDto(Request request){
@@ -31,7 +31,7 @@ public class RequestDto {
         this.user = request.getUser();
         this.obs = request.getObs();
         this.priceTotal = request.getPriceTotal();
-        this.plate = request.getPlate();
+        this.plates = request.getPlates();
         this.converToListDto(request.getPlates());
         }
 
@@ -58,20 +58,4 @@ public class RequestDto {
     public static RequestDto convertToRequestDto (Request request){
         return new RequestDto(request);
     }
-}
-
-/**
- * Created by Luis Gregorio.
- *
- * DTO class to pass model class attributes without entity relationship
- */
-@Data
-public class RequestDto {
-
-
-    private Long id;
-    private User user;
-    private LocalDateTime dateRequest;
-    private List<Plate> plate;
-    private String obs;
 }

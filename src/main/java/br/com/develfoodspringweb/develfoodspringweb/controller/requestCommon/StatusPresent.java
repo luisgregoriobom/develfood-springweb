@@ -16,5 +16,5 @@ public class StatusPresent {
      */
     private Long id;
     private StatusRequest status = StatusRequest.WAITING_TO_ACCEPT;
-    private LocalDateTime dateRequest = LocalDateTime.now();
+    private String dateRequest;
 }

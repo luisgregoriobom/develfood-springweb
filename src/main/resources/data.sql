@@ -12,10 +12,7 @@ INSERT INTO plates(restaurant_id,category, name, description, price) VALUES(1, '
 INSERT INTO plates(restaurant_id,category, name, description, price) VALUES(2, 'SAVORY', 'Pizza Filé c/ palha', '16 Fatias com Queijo, Tomate e borracha', '50.00');
 INSERT INTO plates(restaurant_id,category, name, description, price) VALUES(3, 'SAVORY', 'Pizza Queijin Gorgonzola', 'Pizza que tu vai amar e te trancar, DELICINHA', '60.00');
 
-
 INSERT INTO requests(date_request, status, user_id) VALUES(NOW(),'WAITING_TO_ACCEPT', 1);
 INSERT INTO requests(date_request, status, user_id) VALUES(NOW(),'IN_ROUTE', 1);
 
-INSERT INTO plates(category, name, obs, price, restaurant_id) VALUES('SWEET', 'Torta de Morango Moreno', 'Torta de chocolate com recheio de creme de morango', '45.00', '1');
-INSERT INTO plates(category, name, obs, price) VALUES('SAVORY', 'Pizza Marguerita GG', 'Pizza Clássica de 16 Fatias com Queijo, Tomate e Manjericão DELICINHA', '70.00');
 
