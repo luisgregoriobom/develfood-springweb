@@ -1,36 +1,57 @@
 package br.com.develfoodspringweb.develfoodspringweb.controller.dto;
 
-import br.com.develfoodspringweb.develfoodspringweb.models.*;
+import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
+import br.com.develfoodspringweb.develfoodspringweb.models.User;
+import br.com.develfoodspringweb.develfoodspringweb.models.Request;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * Created by Luis Gregorio.
- *
- * DTO class to pass model class attributes without entity relationship
- */
 @Data
-@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class RequestDto {
 
-
     private Long id;
-    private StatusRequest status = StatusRequest.WAITING_TO_ACCEPT;
+    private Enum status;
+    private String dateRequest;
     private User user;
-    private LocalDateTime dateRequest;
-    private List<Plate> plate;
+    private List<PlateDto> plateDtos;
+    private List<Long> platesId;
     private String obs;
+    private Double priceTotal;
 
-    public RequestDto(Request request) {
+    public RequestDto(Request request){
         this.id = request.getId();
         this.status = request.getStatus();
-        this.user = request.getUser();
         this.dateRequest = request.getDateRequest();
-        this.plate = request.getPlate();
-        this.obs = getObs();
+        this.user = request.getUser();
+        this.obs = request.getObs();
+        this.priceTotal = request.getPriceTotal();
+        this.converToListDto(request.getPlates());
+    }
+
+    /**
+     * Function to convert PlateModel class, receveid when creating a request, to a list of DTO class which is called from the constructor above in this class
+     * @param plates
+     * @return
+     * @author: Thomas Benetti
+     */
+    private void converToListDto(List<Plate> plates){
+        if (this.plateDtos == null){
+            this.plateDtos = new ArrayList<>();
+        }
+        plates.stream().forEach(plate -> this.plateDtos.add(new PlateDto(plate)));
+    }
+
+    /**
+     * Function to convert Model class to a list of DTO class
+     * @param request
+     * @return
+     * @author: Thomas Benetti
+     */
+    public static RequestDto convertToRequestDto (Request request){
+        return new RequestDto(request);
     }
 }

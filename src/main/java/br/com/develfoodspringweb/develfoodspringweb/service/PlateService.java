@@ -1,21 +1,16 @@
 package br.com.develfoodspringweb.develfoodspringweb.service;
 
-import br.com.develfoodspringweb.develfoodspringweb.controller.dto.PlateDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import br.com.develfoodspringweb.develfoodspringweb.repository.PlateRepository;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import javax.validation.Valid;
 import java.util.Optional;
 
 @Service
@@ -40,15 +35,20 @@ public class PlateService {
     }
 
     /**
-     * Function to register new Plate
+     * Function to register new Plate to the current restaurant logged in
      * @param plateForm
      * @return
      * @author: Thomas B.P.
      */
     public PlateDto register(PlateForm plateForm){
-        Optional<Restaurant> restaurant = restaurantRepository.findById(plateForm.getRestaurantId());
         Plate plate = plateForm.convertToPlate(plateForm);
-        plate.setRestaurant(restaurant.orElse(null));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentRestaurantAuth = authentication.getName();
+        Optional<Restaurant> currentRestaurant = restaurantRepository.findByEmail(currentRestaurantAuth);
+        if (!currentRestaurant.isPresent()){
+            return null;
+        }
+        plate.setRestaurant(currentRestaurant.orElse(null));
         plateRepository.save(plate);
         return new PlateDto(plate);
     }
@@ -66,6 +66,7 @@ public class PlateService {
         return null;
         }
         return new PlateDto(plate.get());
+
     }
 
 

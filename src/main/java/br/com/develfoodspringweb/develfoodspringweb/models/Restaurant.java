@@ -32,7 +32,7 @@ public class Restaurant implements UserDetails {
     private String phone;
     private String foodType;
 
-    @OneToMany
+    @OneToMany(mappedBy = "restaurantName")
     private List<Restaurant> restaurantName = new ArrayList<>();
     @OneToMany(mappedBy = "restaurant") @JsonIgnore
     private List<Plate> plate;

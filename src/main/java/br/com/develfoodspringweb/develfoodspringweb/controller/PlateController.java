@@ -79,6 +79,10 @@ public class PlateController {
 
         PlateDto plateToRegister = plateService.register(plateForm);
 
+        if (plateToRegister == null){
+            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "Failed to register new plate");
+        }
+
         URI uri = uriBuilder.
                 path("/api/plate/{id}").
                 buildAndExpand(plateToRegister.getId()).
