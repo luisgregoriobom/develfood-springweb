@@ -4,7 +4,9 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.form.RestaurantFo
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -15,7 +17,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "restaurants")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Restaurant implements UserDetails {
 
@@ -34,12 +37,13 @@ public class Restaurant implements UserDetails {
 
     @OneToMany(mappedBy = "restaurantName")
     private List<Restaurant> restaurantName = new ArrayList<>();
-    @OneToMany(mappedBy = "restaurant") @JsonIgnore
-    private List<Plate> plate;
+    @OneToMany(mappedBy = "restaurant")
+    @JsonIgnore
+    private List<Plate> plates;
     @OneToMany(mappedBy = "restaurant")
     private List<Profile> restaurantProfile = new ArrayList<>();
 
-    public Restaurant(String name, String cnpj, String login, String password, String email, String address, String phone, String foodType, List plate) {
+    public Restaurant(String name, String cnpj, String login, String password, String email, String address, String phone, String foodType, List plates) {
         this.name = name;
         this.cnpj = cnpj;
         this.login = login;
@@ -48,7 +52,7 @@ public class Restaurant implements UserDetails {
         this.address = address;
         this.phone = phone;
         this.foodType = foodType;
-        this.plate = plate;
+        this.plates = plates;
     }
 
     public Restaurant(RestaurantForm restaurantForm){

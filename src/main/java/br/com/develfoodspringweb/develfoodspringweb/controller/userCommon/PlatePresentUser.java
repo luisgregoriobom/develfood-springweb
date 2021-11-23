@@ -14,8 +14,8 @@ import java.math.BigDecimal;
 public class PlatePresentUser {
 
     private String name;
-    private String obs;
-    private BigDecimal price;
+    private String description;
+    private Double price;
     private Category category;
     private RestaurantPresentUser restaurant;
 }

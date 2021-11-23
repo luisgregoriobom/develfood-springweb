@@ -15,9 +15,9 @@ import java.util.List;
 public class RequestPresentUser {
 
     private Long id;
-    private LocalDateTime dateRequest;
+    private String dateRequest;
     private StatusRequest status;
     private String obs;
-    private List<PlatePresentUser> plate;
+    private List<PlatePresentUser> plates;
     private UserPresentUser user;
 }

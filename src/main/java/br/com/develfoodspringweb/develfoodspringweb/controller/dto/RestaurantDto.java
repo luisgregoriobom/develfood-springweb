@@ -25,7 +25,7 @@ public class RestaurantDto {
     private String address;
     private String phone;
     private String foodType;
-    private List<Plate> plate;
+    private List<Plate> plates;
 
     /**
      * Constructor to return only the necessary from the filter
@@ -47,7 +47,7 @@ public class RestaurantDto {
         this.address = restaurant.getAddress();
         this.phone = restaurant.getPhone();
         this.foodType = restaurant.getFoodType();
-        this.plate = restaurant.getPlate();
+        this.plates = restaurant.getPlates();
     }
 
 

@@ -1,9 +1,12 @@
 package br.com.develfoodspringweb.develfoodspringweb.controller.restaurantCommon;
 
+import br.com.develfoodspringweb.develfoodspringweb.controller.dto.PlateDto;
 import br.com.develfoodspringweb.develfoodspringweb.models.Category;
+import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by Luis Gregorio.
@@ -14,7 +17,8 @@ import java.math.BigDecimal;
 public class PlatePresent {
 
     private String name;
-    private String obs;
-    private BigDecimal price;
+    private String description;
+    private Double price;
     private Category category;
+    private List<PlateDto> plateDtos;
 }

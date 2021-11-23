@@ -1,15 +1,7 @@
 package br.com.develfoodspringweb.develfoodspringweb.service;
 
-import br.com.develfoodspringweb.develfoodspringweb.controller.dto.PlateDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RequestDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestForm;
-import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
-import br.com.develfoodspringweb.develfoodspringweb.models.Request;
-import br.com.develfoodspringweb.develfoodspringweb.models.User;
-import br.com.develfoodspringweb.develfoodspringweb.repository.PlateRepository;
-import br.com.develfoodspringweb.develfoodspringweb.repository.RequestRepository;
-import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
-import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RequestDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.restaurantCommon.PlatePresent;
 import br.com.develfoodspringweb.develfoodspringweb.controller.restaurantCommon.RequestPresent;
 import br.com.develfoodspringweb.develfoodspringweb.controller.restaurantCommon.UserPresent;
@@ -17,20 +9,22 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.userCommon.PlateP
 import br.com.develfoodspringweb.develfoodspringweb.controller.userCommon.RequestPresentUser;
 import br.com.develfoodspringweb.develfoodspringweb.controller.userCommon.RestaurantPresentUser;
 import br.com.develfoodspringweb.develfoodspringweb.controller.userCommon.UserPresentUser;
+import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Request;
+import br.com.develfoodspringweb.develfoodspringweb.models.User;
+import br.com.develfoodspringweb.develfoodspringweb.repository.PlateRepository;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RequestRepository;
+import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Optional;
-
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created By Luis Gregorio
@@ -64,7 +58,7 @@ public class RequestService {
             return null;
         }
 
-        request.setPlates(platesFromRequest);
+        request.setPlateId(platesFromRequest);
 
         platesFromRequest.stream().forEach(pl -> {
                 Double preco = request.getPriceTotal() + pl.getPrice();
@@ -88,6 +82,7 @@ public class RequestService {
     public RequestDto searchRequestId(Long id) {
         Request request = requestRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Request not found"));
         RequestDto dto = new RequestDto();
+        dto.setPlates(request.getPlateId());
         BeanUtils.copyProperties(request, dto);
         return dto;
     }
@@ -106,13 +101,14 @@ public class RequestService {
         present.setStatus(dto.getStatus());
         present.setObs(dto.getObs());
         present.setDateRequest(dto.getDateRequest());
+
         List<PlatePresent> platePresents = new ArrayList<>();
-        dto.getPlate().forEach(plate ->{
+        dto.getPlates().forEach(plates ->{
             PlatePresent platePresent = new PlatePresent();
-            platePresent.setObs(plate.getObs());
-            platePresent.setPrice(plate.getPrice());
-            platePresent.setCategory(plate.getCategory());
-            platePresent.setName(plate.getName());
+            platePresent.setName(plates.getName());
+            platePresent.setDescription(plates.getDescription());
+            platePresent.setPrice(plates.getPrice());
+            platePresent.setCategory(plates.getCategory());
             platePresents.add(platePresent);
         });
 
@@ -123,7 +119,7 @@ public class RequestService {
         userPresent.setEmail(dto.getUser().getEmail());
         userPresent.setPhone(dto.getUser().getPhone());
         present.setUser(userPresent);
-        present.setPlate(platePresents);
+        present.setPlates(platePresents);
 
         return present;
     }
@@ -143,9 +139,9 @@ public class RequestService {
         present.setObs(dto.getObs());
         present.setDateRequest(dto.getDateRequest());
         List<PlatePresentUser> platePresents = new ArrayList<>();
-        dto.getPlate().forEach(plate ->{
+        dto.getPlates().forEach(plate ->{
             PlatePresentUser platePresent = new PlatePresentUser();
-            platePresent.setObs(plate.getObs());
+            platePresent.setDescription(plate.getDescription());
             platePresent.setPrice(plate.getPrice());
             platePresent.setCategory(plate.getCategory());
             platePresent.setName(plate.getName());
@@ -159,7 +155,7 @@ public class RequestService {
         userPresent.setAddress(dto.getUser().getAddress());
         userPresent.setPhone(dto.getUser().getPhone());
         present.setUser(userPresent);
-        present.setPlate(platePresents);
+        present.setPlates(platePresents);
 
         return present;
     }
