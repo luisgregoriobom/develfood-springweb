@@ -34,7 +34,7 @@ public class RestaurantFormUpdate {
      */
     public Restaurant update(Long id, RestaurantRepository restaurantRepository) {
         Restaurant restaurant = restaurantRepository.getById(id);
-        restaurant.setAddress(this.password);
+        restaurant.setPassword(this.password);
         restaurant.setAddress(this.address);
         restaurant.setPhone(this.phone);
 

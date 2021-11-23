@@ -1,7 +1,8 @@
 package br.com.develfoodspringweb.develfoodspringweb.controller.dto;
 
-
+import br.com.develfoodspringweb.develfoodspringweb.models.Category;
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import java.lang.Long;
@@ -16,8 +17,10 @@ public class PlateDto {
     private String name;
     private String description;
     private Double price;
-    private Enum category;
+    private Category category;
     private String restaurantName;
+    @JsonIgnore
+    private List<Plate> plates;
 
 
     public PlateDto(Plate plate) {
@@ -27,6 +30,7 @@ public class PlateDto {
         this.price = plate.getPrice();
         this.category = plate.getCategory();
         this.restaurantName = plate.getRestaurant().getName();
+        this.plates = plate.getPlateName();
     }
 
     /**
