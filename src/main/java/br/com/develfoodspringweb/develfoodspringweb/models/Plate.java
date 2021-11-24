@@ -31,7 +31,6 @@ public class Plate {
     @ManyToOne
     private Restaurant restaurant;
     @ManyToMany(fetch = FetchType.EAGER)
-    @JsonIgnore
     @JoinTable(name="plates_request", joinColumns=
     @JoinColumn(name="request_id", referencedColumnName="id"),
             inverseJoinColumns=
