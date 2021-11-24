@@ -4,6 +4,7 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestForm;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,6 +36,7 @@ public class Request {
     private String obs;
     private Double priceTotal = 0.00;
     @ManyToOne
+    @JsonIgnore
     private User user;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="plates_request", joinColumns=

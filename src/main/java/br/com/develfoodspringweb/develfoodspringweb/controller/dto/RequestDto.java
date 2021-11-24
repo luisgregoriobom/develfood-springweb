@@ -5,6 +5,8 @@ import br.com.develfoodspringweb.develfoodspringweb.models.Request;
 import br.com.develfoodspringweb.develfoodspringweb.models.StatusRequest;
 import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import br.com.develfoodspringweb.develfoodspringweb.models.StatusRequest;
+import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,6 +40,7 @@ public class RequestDto {
         this.plates = request.getPlateId();
         this.converToListDto(request.getPlateId());
     }
+
 
     /**
      * Function to convert PlateModel class, receveid when creating a request, to a list of DTO class which is called from the constructor above in this class

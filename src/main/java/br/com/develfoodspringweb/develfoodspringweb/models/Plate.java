@@ -2,6 +2,7 @@ package br.com.develfoodspringweb.develfoodspringweb.models;
 
 
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateForm;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -30,11 +31,11 @@ public class Plate {
     @ManyToOne
     private Restaurant restaurant;
     @ManyToMany(fetch = FetchType.EAGER)
-    @JsonIgnore
     @JoinTable(name="plates_request", joinColumns=
     @JoinColumn(name="request_id", referencedColumnName="id"),
             inverseJoinColumns=
             @JoinColumn(name="plate_id", referencedColumnName="id"))
+    @JsonIgnore
     private List<Request> request;
     @OneToMany (mappedBy = "plateName")
     private List<Plate> plateName = new ArrayList<>();

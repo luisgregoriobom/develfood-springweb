@@ -6,5 +6,4 @@ public enum StatusRequest {
     PREPARING,
     IN_ROUTE,
     DELIVERED
-
 }

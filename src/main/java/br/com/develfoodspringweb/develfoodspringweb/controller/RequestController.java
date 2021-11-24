@@ -2,21 +2,24 @@ package br.com.develfoodspringweb.develfoodspringweb.controller;
 
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RequestDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestForm;
-import br.com.develfoodspringweb.develfoodspringweb.service.RequestService;
+import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestFormUpdate;
+import br.com.develfoodspringweb.develfoodspringweb.controller.requestCommon.StatusPresent;
 import br.com.develfoodspringweb.develfoodspringweb.controller.restaurantCommon.RequestPresent;
 import br.com.develfoodspringweb.develfoodspringweb.controller.userCommon.RequestPresentUser;
+import br.com.develfoodspringweb.develfoodspringweb.service.RequestService;
+import br.com.develfoodspringweb.develfoodspringweb.service.StatusRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.net.URI;
+
 ;
 
 
@@ -30,6 +33,7 @@ import java.net.URI;
 @RequestMapping("/api/request")
 public class RequestController {
 
+    private final StatusRequestService statusRequestService;
     private final RequestService requestService;
 
     /**
@@ -83,5 +87,27 @@ public class RequestController {
 
         return ResponseEntity.ok().body(present);
     }
+
+    /**
+     * Method to perform PUT, endpoint to change the status of an request.
+     * @param id
+     * @param form
+     * @return
+     * @author: Luis Gregorio
+     */
+    @PutMapping("/statusRequest/{id}")
+    @Transactional
+    public ResponseEntity<StatusPresent> update(@PathVariable Long id, @RequestBody @Valid RequestFormUpdate form) {
+       RequestDto statusUpdate = statusRequestService.update(id, form);
+       StatusPresent present = statusRequestService.convertToPresent(statusUpdate);
+
+        return ResponseEntity.ok().body(present);
+    }
+
 }
+
+
+
+
+
 

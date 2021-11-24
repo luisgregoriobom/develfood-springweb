@@ -10,6 +10,11 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+/**
+ * Created By Luis Gregorio
+ *
+ * Class created to collect information from the application and send it to the API
+ */
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RequestForm {
@@ -25,5 +30,4 @@ public class RequestForm {
     public Request convertToUserRequest (RequestForm requestForm){
         return new Request(requestForm);
     }
-
 }
