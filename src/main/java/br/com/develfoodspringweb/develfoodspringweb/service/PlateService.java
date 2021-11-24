@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
 import java.util.Optional;
 
 @Service
@@ -49,7 +50,7 @@ public class PlateService {
         if (!currentRestaurant.isPresent()){
             return null;
         }
-        plate.setRestaurant(currentRestaurant.get());
+        plate.setRestaurant(currentRestaurant.orElse(null));
         plateRepository.save(plate);
         return new PlateDto(plate);
     }

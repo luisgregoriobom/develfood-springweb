@@ -3,7 +3,9 @@ package br.com.develfoodspringweb.develfoodspringweb.models;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserForm;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,7 +15,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Transactional
 @Entity
 @Table(name = "users")
@@ -30,7 +33,7 @@ public class User implements UserDetails {
     private String address;
     private String phone;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Request> request;
     @OneToMany(mappedBy = "user")

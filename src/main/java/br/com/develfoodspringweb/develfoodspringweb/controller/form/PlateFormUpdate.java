@@ -21,14 +21,14 @@ public class PlateFormUpdate {
     @NotEmpty @NotNull @Length(min = 5)
     private String name;
     @NotEmpty @NotNull @Length(min = 10)
-    private String obs;
+    private String description;
     @DecimalMin(value = "5.0", inclusive = false)
     private Double price;
 
     public Plate update(Long id, PlateRepository plateRepository) {
         Plate plate = plateRepository.getById(id);
         plate.setName(this.name);
-        plate.setDescription(this.obs);
+        plate.setDescription(this.description);
         plate.setPrice(this.price);
 
         return plate;

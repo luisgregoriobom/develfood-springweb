@@ -6,13 +6,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity @Table(name = "plates")
-@Data @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Plate {
 
@@ -25,9 +30,14 @@ public class Plate {
     private Category category;
     @ManyToOne
     private Restaurant restaurant;
-    @ManyToOne
+    @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Request request;
+    @JoinTable(name="plates_request", joinColumns=
+    @JoinColumn(name="request_id", referencedColumnName="id"),
+            inverseJoinColumns=
+            @JoinColumn(name="plate_id", referencedColumnName="id"))
+    @JsonIgnore
+    private List<Request> request;
     @OneToMany (mappedBy = "plateName")
     private List<Plate> plateName = new ArrayList<>();
 

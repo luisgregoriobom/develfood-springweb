@@ -30,7 +30,6 @@ public class RestaurantForm {
     private String address;
     @NotNull @NotEmpty @Length(min = 11)
     private String phone;
-
     private List<Plate> plates;
 
     public RestaurantForm(Restaurant restaurant) {
@@ -41,6 +40,7 @@ public class RestaurantForm {
         this.email = restaurant.getEmail();
         this.address = restaurant.getAddress();
         this.phone = restaurant.getPhone();
+        this.plates = restaurant.getPlates();
     }
 
 

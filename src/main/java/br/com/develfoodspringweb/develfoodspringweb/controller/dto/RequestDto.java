@@ -4,25 +4,31 @@ import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Request;
 import br.com.develfoodspringweb.develfoodspringweb.models.StatusRequest;
 import br.com.develfoodspringweb.develfoodspringweb.models.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import br.com.develfoodspringweb.develfoodspringweb.models.StatusRequest;
+import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@NoArgsConstructor
 public class RequestDto {
 
     private Long id;
     private User user;
-    private String obs;
-    private StatusRequest status = StatusRequest.WAITING_TO_ACCEPT;
     private String dateRequest;
+    private StatusRequest status = StatusRequest.WAITING_TO_ACCEPT;
     private List<PlateDto> plateDtos;
+    private String obs;
     private List<Long> platesId;
-    private List<Plate> plates;
     private Double priceTotal;
+    @JsonIgnore
+    private List<Plate> plates;
 
     public RequestDto(Request request){
         this.id = request.getId();
@@ -31,9 +37,9 @@ public class RequestDto {
         this.user = request.getUser();
         this.obs = request.getObs();
         this.priceTotal = request.getPriceTotal();
-        this.plates = request.getPlates();
-        this.converToListDto(request.getPlates());
-        }
+        this.plates = request.getPlateId();
+        this.converToListDto(request.getPlateId());
+    }
 
 
     /**
@@ -42,8 +48,8 @@ public class RequestDto {
      * @return
      * @author: Thomas Benetti
      */
-    private void converToListDto(List<Plate> plates){
-        if (this.plateDtos == null){
+    private void converToListDto(List<Plate> plates) {
+        if(this.plateDtos == null){
             this.plateDtos = new ArrayList<>();
         }
         plates.stream().forEach(plate -> this.plateDtos.add(new PlateDto(plate)));
