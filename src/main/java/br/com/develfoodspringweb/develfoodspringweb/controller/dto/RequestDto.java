@@ -20,9 +20,9 @@ import java.util.List;
 public class RequestDto {
 
     private Long id;
+    private StatusRequest status;
     private User user;
     private String dateRequest;
-    private StatusRequest status = StatusRequest.WAITING_TO_ACCEPT;
     private List<PlateDto> plateDtos;
     private String obs;
     private List<Long> platesId;

@@ -26,7 +26,6 @@ public class RequestForm {
     private User user;
     private List<Plate> plates;
     private List<Long> platesId;
-    private String dateRequest;
 
     public Request convertToUserRequest (RequestForm requestForm){
         return new Request(requestForm);
