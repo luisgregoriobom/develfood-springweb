@@ -1,6 +1,7 @@
 package br.com.develfoodspringweb.develfoodspringweb.service;
 
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.PlateDto;
+import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RestaurantDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
@@ -42,6 +43,7 @@ public class PlateService {
      * @return
      * @author: Thomas B.P.
      */
+    private RestaurantDto restaurantDto;
     public PlateDto register(PlateForm plateForm){
         Plate plate = plateForm.convertToPlate(plateForm);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

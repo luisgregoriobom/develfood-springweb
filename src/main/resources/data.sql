@@ -10,3 +10,5 @@ INSERT INTO plates(restaurant_id,category, name, description, price) VALUES(1, '
 INSERT INTO plates(restaurant_id,category, name, description, price) VALUES(1, 'SAVORY', 'Pizza Marguerita GG', 'Pizza Clássica de 16 Fatias com Queijo, Tomate e Manjericão DELICINHA', '70.00');
 INSERT INTO plates(restaurant_id,category, name, description, price) VALUES(2, 'SAVORY', 'Pizza Filé c/ palha', '16 Fatias com Queijo, Tomate e borracha', '50.00');
 INSERT INTO plates(restaurant_id,category, name, description, price) VALUES(3, 'SAVORY', 'Pizza Queijin Gorgonzola', 'Pizza que tu vai amar e te trancar, DELICINHA', '60.00');
+
+INSERT INTO requests(obs, price_total, status, user_id) VALUES('cavalin', '160.0', 'DELIVERED', 1);

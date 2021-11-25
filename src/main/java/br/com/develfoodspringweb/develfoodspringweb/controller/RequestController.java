@@ -1,5 +1,6 @@
 package br.com.develfoodspringweb.develfoodspringweb.controller;
 
+import br.com.develfoodspringweb.develfoodspringweb.controller.dto.EmailDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RequestDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestFormUpdate;
@@ -97,11 +98,19 @@ public class RequestController {
      */
     @PutMapping("/statusRequest/{id}")
     @Transactional
-    public ResponseEntity<StatusPresent> update(@PathVariable Long id, @RequestBody @Valid RequestFormUpdate form) {
-       RequestDto statusUpdate = statusRequestService.update(id, form);
-       StatusPresent present = statusRequestService.convertToPresent(statusUpdate);
+    public ResponseEntity<StatusPresent> update(@PathVariable Long id, @RequestBody@Valid RequestFormUpdate form, EmailDto emailDto) {
+        RequestDto statusUpdate = statusRequestService.update(id, form, emailDto);
+        StatusPresent present = statusRequestService.convertToPresent(statusUpdate);
 
         return ResponseEntity.ok().body(present);
+    }
+
+
+    //METODO TESTE PRA ENVIO COMUM DE EMAIL
+    @PostMapping("/envioEmail")
+    public ResponseEntity<EmailDto> sendingEmail(@RequestBody EmailDto emailDto){
+        statusRequestService.sendEmail(emailDto);
+        return new ResponseEntity<>(emailDto, HttpStatus.CREATED);
     }
 
 }
