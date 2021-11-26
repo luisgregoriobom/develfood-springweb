@@ -21,4 +21,5 @@ public class PlatePresent {
     private Double price;
     private Category category;
     private List<PlateDto> plateDtos;
+    private String photo;
 }

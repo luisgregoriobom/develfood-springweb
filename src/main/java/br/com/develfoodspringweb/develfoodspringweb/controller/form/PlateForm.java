@@ -22,6 +22,8 @@ public class PlateForm {
     private Double price;
     private Category category;
     private Long restaurantId;
+    @NotNull @NotEmpty
+    private String photo;
 
     /**
      * Function to convert the object Form Class received into a Model Object.

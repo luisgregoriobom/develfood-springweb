@@ -18,4 +18,5 @@ public class PlatePresentUser {
     private Double price;
     private Category category;
     private RestaurantPresentUser restaurant;
+    private String photo;
 }

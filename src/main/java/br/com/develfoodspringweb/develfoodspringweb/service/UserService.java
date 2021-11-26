@@ -42,8 +42,10 @@ public class UserService {
         User user = userForm.convertToUser(userForm);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         try {
+            String photo = user.getPhoto();
             String encodedPassword = passwordEncoder.encode(userForm.getPassword());
             user.setPassword(encodedPassword);
+            user.setPhoto(photo);
         } catch (Exception e) {
             return null;
         }
@@ -76,16 +78,20 @@ public class UserService {
      * @author: Luis Gregorio
      */
     public UserDto update(Long id, UserFormUpdate form) {
+        User userUpdate = form.convertToUserUpdate(form);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         try{
             String encodedPassword = passwordEncoder.encode(form.getPassword());
             form.setPassword(encodedPassword);
+
         } catch(Exception e) {
             return null;
         }
         Optional<User> opt = userRepository.findById(id);
         if (opt.isPresent()) {
             User user = form.update(id, userRepository);
+            String photo = userUpdate.getPhoto();
+            form.setPhoto(photo);
             return new UserDto(user);
         }
         return null;
