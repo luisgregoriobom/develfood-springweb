@@ -5,6 +5,7 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
+import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import br.com.develfoodspringweb.develfoodspringweb.repository.PlateRepository;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +51,9 @@ public class PlateService {
         if (!currentRestaurant.isPresent()){
             return null;
         }
+        plate.setPhoto(plateForm.getPhoto());
         plate.setRestaurant(currentRestaurant.orElse(null));
+
         plateRepository.save(plate);
         return new PlateDto(plate);
     }
@@ -80,9 +83,12 @@ public class PlateService {
      * @author: Luis Gregorio
      */
     public PlateDto update(Long id, PlateFormUpdate form) {
+        Plate plateUpdate = form.convertToPlateUpdate(form);
         Optional<Plate> opt = plateRepository.findById(id);
         if (opt.isPresent()) {
             Plate plate = form.update(id, plateRepository);
+            String photo = plateUpdate.getPhoto();
+            form.setPhoto(photo);
             return new PlateDto(plate);
         }
         return null;

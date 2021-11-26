@@ -5,6 +5,8 @@ import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+
+import javax.validation.constraints.NotNull;
 import java.lang.Long;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +23,7 @@ public class PlateDto {
     private String restaurantName;
     @JsonIgnore
     private List<Plate> plates;
+    private String photo;
 
 
     public PlateDto(Plate plate) {
@@ -31,6 +34,7 @@ public class PlateDto {
         this.category = plate.getCategory();
         this.restaurantName = plate.getRestaurant().getName();
         this.plates = plate.getPlateName();
+        this.photo = plate.getPhoto();
     }
 
     /**
