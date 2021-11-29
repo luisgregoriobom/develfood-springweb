@@ -11,17 +11,27 @@ import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RequestRepository;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.IOException;
 import java.util.Optional;
 
 
@@ -31,7 +41,9 @@ public class StatusRequestService {
 
     private final RequestRepository requestRepository;
     private final JavaMailSender emailSender;
+    private final TemplateEngine templateEngine;
     private final RestaurantRepository restaurantRepository;
+    private final Configuration configuration;
 
     public RequestDto update(Long id, RequestFormUpdate form, EmailDto emailDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -48,44 +60,23 @@ public class StatusRequestService {
         }
         Request request = form.update(id, requestRepository);
         try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom(currentRestaurant.get().getEmail());
-            message.setTo(user.getEmail());
-            message.setSubject("TesteCabeçalho " + user.getName());
-            message.setText("eeeeeeeeeeeita" + request.getStatus());
-            emailSender.send(message);
+            Context context = new Context();
+            context.setVariable("user", user);
+            String process = templateEngine.process("emailStatusRequest", context);
+
+            MimeMessage mimeMessage = emailSender.createMimeMessage();
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+            mimeMessageHelper.setFrom(currentRestaurant.get().getEmail());
+            mimeMessageHelper.setText(process, true);
+            mimeMessageHelper.setTo(user.getEmail());
+            mimeMessageHelper.setSubject(emailDto.getEmailSubject() + request.getId());
+            emailSender.send(mimeMessage);
 
             emailDto.setEmailStatus(EmailStatus.SENT);
-        } catch (MailException e){
+        } catch (MailException | MessagingException e){
             emailDto.setEmailStatus(EmailStatus.ERROR);
         }
         return new RequestDto(request);
-    }
-
-    public void sendEmail(EmailDto emailDto){
-
-//        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-//        mailSender.setHost(this.emailConfigDto.getHost());
-//        mailSender.setPort(this.emailConfigDto.getPort());
-//        mailSender.setUsername(this.emailConfigDto.getUsername());
-//        mailSender.setPassword(this.emailConfigDto.getPassword());
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentRestaurantAuth = authentication.getName();
-        Optional<Restaurant> currentRestaurant = restaurantRepository.findByEmail(currentRestaurantAuth);
-
-        try {
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setFrom(currentRestaurant.get().getEmail());
-            mailMessage.setTo("teste@qualquercoisa.com");
-            mailMessage.setSubject("Teste Subject" + emailDto.getEmailFrom());
-            mailMessage.setText(emailDto.getEmailText());
-            emailSender.send(mailMessage);
-
-            emailDto.setEmailStatus(EmailStatus.SENT);
-        } catch (MailException e){
-            emailDto.setEmailStatus(EmailStatus.ERROR);
-        }
-
     }
 
     /**
