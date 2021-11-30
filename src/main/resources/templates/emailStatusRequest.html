@@ -1,16 +1,75 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Email</title>
-</head>
-<body>
-<div>Welcome <b th:text="${user.name}"></b></div>
+    <head>
+        <meta charset="UTF-8"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+        <style>
+        .container{
+            font-family: 'Roboto', sans-serif;
+            background: rgba(000,000,000,0.01);
+            height:100%;
+            width:100%;
+            }
+        .footer{
+            height:200px;
+            width:100%;
+        }
+        .imagem{
+            position:absolute;
+            opacity:0.3;
+            bottom:20px;
+        }
+        .texto{
+            margin-top:3px;
+            width:100%;
+        }
+        .footerText{
+            text-align:center;
+            margin-top:4px;
+            width:100%;
+            }
+        </style>
+    </head>
+    <body class="container">
+        <div class="imagem">
+            <div><img src="../logo.png" class="img-fluid"/></div>
+        </div>
+        <div class="container">
+            <div >
+                <h2 class="display-2 lead"><div th:text="${user}">user,</div></h2>
 
-<div> Your username is <b th:text="${user.username}"></b></div>
-</body>
+                    <div class="col-12 col-sm-6 mb-3" >
+                        <div><img src="https://i.redd.it/8hkekbti9a221.jpg" class="img-fluid" /></div>
+                    </div>
+
+                    <div class="p-3 mb-2">
+                        <div class="col-12 col-sm-6 texto">
+                            <div class="texto"> Passando pra avisar que o seu pedido de n° <b class="text-center" th:text="${request}">request</b></div>
+
+                            <div class="texto"> Pedido realizado em: <l th:text="${requestDate}">requestDate</l></div>
+
+                            <div class="texto"> No valor de: <l th:text="${'R$ ' + #numbers.formatDecimal(requestPrice,3,'POINT',2,'COMMA')}">PrecoTotal</l></div>
+
+                            <th:block th:switch="${requestStatus.name()}">
+                                <div> Teve a seguinte alteração de status: <b th:case="'WAINTING_TO_ACCEPT'" class="card-header alert-danger" th:text="${requestStatus}">requestStatus</b>
+                                <b th:case="'PREPARING'" class="card-header alert-info" th:text="${requestStatus}">requestStatus</b>
+                                <b th:case="'IN_ROUTE'" class="card-header alert-warning" th:text="${requestStatus}">requestStatus</b>
+                                <b th:case="'DELIVERED'" class="card-header alert-success" th:text="${requestStatus}">requestStatus</b></div>
+                            </th:block>
+
+                        </div>
+                    </div>
+
+                <nav class="d-flex justify-content-center">
+                <a href=""><button type="button" class="btn btn-secondary">B1</button></a>
+                <a href=""><button type="button" class="btn btn-secondary">B2</button></a>
+                </nav>
+                <div class="footerText"><b>
+                    <p>Email automático enviado pela equipe Develfood</p>
+                    <p><em>Porfavor não responda este e-mail</em></p>
+                </b></div>
+            </div>
+    </body>
 </html>
