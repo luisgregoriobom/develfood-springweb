@@ -62,15 +62,15 @@ public class StatusRequestService {
             context.setVariable("requestStatus", request.getStatus());
             context.setVariable("requestPrice", request.getPriceTotal());
             context.setVariable("requestDate", request.getDateRequest());
+            context.setVariable("restaurantName", currentRestaurant.get().getName());
             String htmlBody = templateEngine.process("emailStatusRequest.html", context);
 
             MimeMessage mimeMessage = emailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
-            mimeMessageHelper.setFrom(currentRestaurant.get().getEmail());
             mimeMessageHelper.setText(htmlBody, true);
             mimeMessageHelper.setTo(user.getEmail());
-            mimeMessageHelper.setSubject(emailDto.getEmailSubject() + request.getId() + request.getDateRequest());
+            mimeMessageHelper.setSubject(emailDto.getEmailSubject() + request.getId());
             emailSender.send(mimeMessage);
 
             emailDto.setEmailStatus(EmailStatus.SENT);

@@ -25,7 +25,7 @@ public class EmailConfigDto {
     @Value("${spring.mail.password}")
     private String password;
 
-//
+
 //    @Bean @Primary
 //    public ITemplateResolver thymeleafTemplateResolver(){
 //        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
