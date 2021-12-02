@@ -1,8 +1,11 @@
 package br.com.develfoodspringweb.develfoodspringweb.controller;
 
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RequestDto;
+import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RestaurantDto;
+import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestFormUpdate;
+import br.com.develfoodspringweb.develfoodspringweb.controller.form.RestaurantForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.requestCommon.StatusPresent;
 import br.com.develfoodspringweb.develfoodspringweb.controller.restaurantCommon.RequestPresent;
 import br.com.develfoodspringweb.develfoodspringweb.controller.userCommon.RequestPresentUser;
@@ -70,7 +73,6 @@ public class RequestController {
     public ResponseEntity<RequestPresent> filterRestaurantId(@PathVariable("id") Long id) {
         RequestDto dto = requestService.searchRequestId(id);
         RequestPresent present = requestService.convertToPresent(dto);
-
         return ResponseEntity.ok().body(present);
     }
 

@@ -25,7 +25,6 @@ public class RequestDto {
     private String dateRequest;
     private List<PlateDto> plateDtos;
     private String obs;
-    private List<Long> platesId;
     private Double priceTotal;
     @JsonIgnore
     private List<Plate> plates;

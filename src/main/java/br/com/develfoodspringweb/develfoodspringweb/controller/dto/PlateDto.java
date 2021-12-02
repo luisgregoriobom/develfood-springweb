@@ -5,12 +5,15 @@ import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.lang.Long;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@NoArgsConstructor
 public class PlateDto {
 
     private Long id;
@@ -18,9 +21,12 @@ public class PlateDto {
     private String description;
     private Double price;
     private Category category;
+    private int quantity;
+    private Double priceTotal;
     private String restaurantName;
     @JsonIgnore
     private List<Plate> plates;
+
 
 
     public PlateDto(Plate plate) {
