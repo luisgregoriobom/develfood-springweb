@@ -38,6 +38,7 @@ public class Plate {
     @JsonIgnore
     private List<Request> request;
     @OneToMany (mappedBy = "plateName")
+    @JsonIgnore
     private List<Plate> plateName = new ArrayList<>();
 
 
