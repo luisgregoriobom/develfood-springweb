@@ -100,6 +100,7 @@ public class RequestService {
         requestForm.getPlatesId().forEach(vl ->{
             Optional<Plate> platesFromRequest = plateRepository.findById(vl.getId());
             PlateDto plateDto = new PlateDto();
+            plateDto.setPhoto(platesFromRequest.get().getPhoto());
             plateDto.setId(platesFromRequest.get().getId());
             plateDto.setName(platesFromRequest.get().getName());
             plateDto.setDescription(platesFromRequest.get().getDescription());
