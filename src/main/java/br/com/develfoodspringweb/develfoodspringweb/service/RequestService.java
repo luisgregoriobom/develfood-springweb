@@ -155,6 +155,7 @@ public class RequestService {
             platePresent.setDescription(plates.getDescription());
             platePresent.setPrice(plates.getPrice());
             platePresent.setCategory(plates.getCategory());
+            platePresent.setPhoto(plates.getPhoto());
             platePresents.add(platePresent);
         });
 
@@ -164,6 +165,7 @@ public class RequestService {
         userPresent.setCpf(dto.getUser().getCpf());
         userPresent.setEmail(dto.getUser().getEmail());
         userPresent.setPhone(dto.getUser().getPhone());
+        userPresent.setPhone(dto.getUser().getPhoto());
         present.setUser(userPresent);
         present.setPlates(platePresents);
 
@@ -191,6 +193,7 @@ public class RequestService {
             platePresent.setPrice(plate.getPrice());
             platePresent.setCategory(plate.getCategory());
             platePresent.setName(plate.getName());
+            platePresent.setPhoto(plate.getPhoto());
             RestaurantPresentUser restaurant = new RestaurantPresentUser();
             restaurant.setName(plate.getRestaurant().getName());
             platePresent.setRestaurant(restaurant);
@@ -200,8 +203,10 @@ public class RequestService {
         UserPresentUser userPresent = new UserPresentUser();
         userPresent.setAddress(dto.getUser().getAddress());
         userPresent.setPhone(dto.getUser().getPhone());
+        userPresent.setPhoto(dto.getUser().getPhoto());
         present.setUser(userPresent);
         present.setPlates(platePresents);
+
 
         return present;
     }

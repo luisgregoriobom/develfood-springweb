@@ -28,6 +28,8 @@ public class Plate {
     private Category category;
     @ManyToOne
     private Restaurant restaurant;
+    @Column(columnDefinition = "text")
+    private String photo;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="plates_request", joinColumns=
     @JoinColumn(name="request_id", referencedColumnName="id"),
@@ -36,22 +38,24 @@ public class Plate {
     @JsonIgnore
     private List<Request> request;
     @OneToMany (mappedBy = "plateName")
-    @JsonIgnore
     private List<Plate> plateName = new ArrayList<>();
 
 
-    public Plate(String name, String description, Double price, Category category) {
+    public Plate(String name, String description, Double price, Category category, String photo) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.category = category;
+        this.photo = photo;
+
     }
 
-    public Plate(Long id, String name, String description, Double price){
+    public Plate(Long id, String name, String description, Double price, String photo){
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
+        this.photo = photo;
     }
 
     public Plate(PlateForm plateForm){

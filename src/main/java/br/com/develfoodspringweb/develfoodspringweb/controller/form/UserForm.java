@@ -24,6 +24,7 @@ public class UserForm {
     private String address;
     @NotNull @NotEmpty @Length(min = 11)
     private String phone;
+    private String photo;
 
     /**
      * Function to convert the object Form Class received into a Model Object
@@ -34,5 +35,4 @@ public class UserForm {
     public User convertToUser(UserForm userForm){
         return new User(userForm);
     }
-
 }

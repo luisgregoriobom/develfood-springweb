@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
@@ -32,14 +33,15 @@ public class User implements UserDetails {
     private String email;
     private String address;
     private String phone;
-
+    @Column(columnDefinition = "text")
+    private String photo;
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Request> request;
     @OneToMany(mappedBy = "user")
     private List<Profile> userProfile = new ArrayList<>();
 
-    public User(String name, String cpf, String login, String password, String email, String address, String phone) {
+    public User(String name, String cpf, String login, String password, String email, String address, String phone, String photo) {
         this.name = name;
         this.cpf = cpf;
         this.login = login;
@@ -47,6 +49,7 @@ public class User implements UserDetails {
         this.email = email;
         this.address = address;
         this.phone = phone;
+        this.photo = photo;
     }
 
     public User(UserForm userForm){
@@ -56,6 +59,7 @@ public class User implements UserDetails {
         this.email = userForm.getEmail();
         this.address = userForm.getAddress();
         this.phone = userForm.getPhone();
+        this.photo = userForm.getPhoto();
     }
 
     /**
@@ -105,5 +109,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }
 

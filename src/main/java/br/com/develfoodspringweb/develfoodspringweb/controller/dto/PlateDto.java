@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+import javax.validation.constraints.NotNull;
 import java.lang.Long;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +28,7 @@ public class PlateDto {
     private String restaurantName;
     @JsonIgnore
     private List<Plate> plates;
+    private String photo;
 
 
 
@@ -37,6 +40,7 @@ public class PlateDto {
         this.category = plate.getCategory();
         this.restaurantName = plate.getRestaurant().getName();
         this.plates = plate.getPlateName();
+        this.photo = plate.getPhoto();
     }
 
     /**
