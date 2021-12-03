@@ -12,9 +12,7 @@ import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RequestRepository;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -24,11 +22,9 @@ import org.springframework.stereotype.Service;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.util.Map;
 import java.util.Optional;
 
 
@@ -41,6 +37,14 @@ public class StatusRequestService {
     private final TemplateEngine templateEngine;
     private final RestaurantRepository restaurantRepository;
 
+    /**
+     * Function to update the status of a request then the user receives an email of update
+     * @param id
+     * @param form
+     * @param emailDto
+     * @return
+     * @author: Luis Gregorio, Thomas Benetti
+     */
     public RequestDto update(Long id, RequestFormUpdate form, EmailDto emailDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentRestaurantAuth = authentication.getName();

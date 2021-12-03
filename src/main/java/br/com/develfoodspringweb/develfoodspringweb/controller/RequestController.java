@@ -92,11 +92,11 @@ public class RequestController {
     }
 
     /**
-     * Method to perform PUT, endpoint to change the status of an request.
+     * Method to perform PUT, endpoint to change the status of a request and the user receive an email of status update
      * @param id
      * @param form
      * @return
-     * @author: Luis Gregorio
+     * @author: Luis Gregorio, Thomas Benetti
      */
     @PutMapping("/statusRequest/{id}")
     @Transactional
