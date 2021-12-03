@@ -87,7 +87,7 @@ public class RequestService {
     }
 
     /**
-     * Refactored method for returning the DTO in the create order request.
+     * Refactored method for returning the DTO in the create request.
      * This method aims to show the quantity of products as well as their sum, adding a final sum to the request.
      *
      * @param requestForm
