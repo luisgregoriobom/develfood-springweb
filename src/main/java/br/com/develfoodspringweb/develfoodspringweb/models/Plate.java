@@ -4,8 +4,6 @@ package br.com.develfoodspringweb.develfoodspringweb.models;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateForm;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,9 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity @Table(name = "plates")
-@Getter
-@Setter
-@NoArgsConstructor
+@Getter @Setter @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Plate {
 
@@ -26,6 +22,8 @@ public class Plate {
     private String name;
     private String description;
     private Double price;
+    @JoinColumn(name = "quantity")
+    private int quantity;
     @Enumerated(EnumType.STRING)
     private Category category;
     @ManyToOne
@@ -65,5 +63,6 @@ public class Plate {
         this.description = plateForm.getDescription();
         this.price = plateForm.getPrice();
         this.category = plateForm.getCategory();
+        this.quantity = plateForm.getQuantity();
     }
 }

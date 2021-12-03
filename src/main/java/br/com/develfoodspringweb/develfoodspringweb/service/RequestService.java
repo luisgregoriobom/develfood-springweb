@@ -1,5 +1,7 @@
 package br.com.develfoodspringweb.develfoodspringweb.service;
 
+import br.com.develfoodspringweb.develfoodspringweb.configuration.valid.ApiExceptionError;
+import br.com.develfoodspringweb.develfoodspringweb.controller.dto.PlateDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RequestDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.restaurantCommon.PlatePresent;
@@ -11,9 +13,11 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.userCommon.Restau
 import br.com.develfoodspringweb.develfoodspringweb.controller.userCommon.UserPresentUser;
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Request;
+import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import br.com.develfoodspringweb.develfoodspringweb.repository.PlateRepository;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RequestRepository;
+import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
 import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -38,6 +42,7 @@ public class RequestService {
     private final RequestRepository requestRepository;
     private final UserRepository userRepository;
     private final PlateRepository plateRepository;
+    private final RestaurantRepository restaurantRepository;
 
     /**
      * Function to create new request from the current user logged in
@@ -45,32 +50,73 @@ public class RequestService {
      * @return
      * @author: Thomas Benetti
      */
-    public RequestDto registerRequest(RequestForm requestForm){
-        Request request = requestForm.convertToUserRequest(requestForm);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUserAuth = authentication.getName();
-        Optional<User> currentUser = userRepository.findByEmail(currentUserAuth);
-        if (!currentUser.isPresent()){
-            return null;
-        }
-        List<Plate> platesFromRequest = plateRepository.findAllById(requestForm.getPlatesId());
-        if (platesFromRequest.isEmpty()){
-            return null;
-        }
-
-        request.setPlateId(platesFromRequest);
-
-        platesFromRequest.stream().forEach(pl -> {
-                Double preco = request.getPriceTotal() + pl.getPrice();
-                request.setPriceTotal(preco);
+    public RequestDto registerRequest(RequestForm requestForm) {
+        Optional<Restaurant> idRestaurants = restaurantRepository.findById(requestForm.getRestaurantId());
+        if (idRestaurants.isPresent()) {
+            requestForm.getPlatesId().forEach(pp -> {
+                var valid = idRestaurants.get().getPlates().stream().anyMatch(plate -> plate.getId().equals(pp.getId()));
+                        if(!valid) {
+                            throw new ApiExceptionError("It is impossible to create a request with plates from other restaurants");
+                        }
             });
-        request.setUser(currentUser.get());
-        requestRepository.save(request);
 
-        RequestDto requestDto = new RequestDto(request);
-        requestDto.setUser(null);
+            Request request = requestForm.convertToUserRequest(requestForm);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String currentUserAuth = authentication.getName();
+            Optional<User> currentUser = userRepository.findByEmail(currentUserAuth);
+            if (!currentUser.isPresent()) {
+                return null;
+            }
 
-        return requestDto;
+            List<Plate> listPlate = new ArrayList<>();
+            List<PlateDto> listPlateDto = new ArrayList<>();
+            plateManipulation(requestForm, request, listPlate, listPlateDto);
+
+            request.setPlateId(listPlate);
+
+            request.setUser(currentUser.get());
+            requestRepository.save(request);
+
+            RequestDto requestDto = new RequestDto(request);
+            requestDto.setPlateDtos(listPlateDto);
+            requestDto.setUser(null);
+
+            return requestDto;
+        }
+        return null;
+    }
+
+    /**
+     * Refactored method for returning the DTO in the create request.
+     * This method aims to show the quantity of products as well as their sum, adding a final sum to the request.
+     *
+     * @param requestForm
+     * @param request
+     * @param listPlate
+     * @param listPlateDto
+     * @author: Luis Gregorio
+     */
+    private void plateManipulation(RequestForm requestForm, Request request, List<Plate> listPlate, List<PlateDto> listPlateDto) {
+        requestForm.getPlatesId().forEach(vl ->{
+            Optional<Plate> platesFromRequest = plateRepository.findById(vl.getId());
+            PlateDto plateDto = new PlateDto();
+            plateDto.setId(platesFromRequest.get().getId());
+            plateDto.setName(platesFromRequest.get().getName());
+            plateDto.setDescription(platesFromRequest.get().getDescription());
+            plateDto.setPrice(platesFromRequest.get().getPrice());
+            plateDto.setCategory(platesFromRequest.get().getCategory());
+            plateDto.setQuantity(vl.getQuantity());
+            plateDto.setRestaurantName(platesFromRequest.get().getRestaurant().getName());
+
+            if (platesFromRequest.isPresent()) {
+                Double priceTotal = vl.getQuantity() * platesFromRequest.get().getPrice();
+                Double preco = request.getPriceTotal() + priceTotal;
+                plateDto.setPriceTotal(priceTotal);
+                request.setPriceTotal(preco);
+            }
+            listPlate.add(platesFromRequest.get());
+            listPlateDto.add(plateDto);
+        });
     }
 
     /**

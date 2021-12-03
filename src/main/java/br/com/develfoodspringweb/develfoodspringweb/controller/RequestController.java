@@ -20,9 +20,6 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 
-;
-
-
 /**
  * Created by Luis Gregorio.
  *
@@ -70,7 +67,6 @@ public class RequestController {
     public ResponseEntity<RequestPresent> filterRestaurantId(@PathVariable("id") Long id) {
         RequestDto dto = requestService.searchRequestId(id);
         RequestPresent present = requestService.convertToPresent(dto);
-
         return ResponseEntity.ok().body(present);
     }
 

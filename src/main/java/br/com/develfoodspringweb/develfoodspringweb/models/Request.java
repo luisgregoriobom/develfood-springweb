@@ -48,9 +48,7 @@ public class Request {
 
 
     public Request(RequestForm requestForm){
-        this.id = requestForm.getId();
         this.obs = requestForm.getObs();
-        this.user = requestForm.getUser();
         this.plateId = requestForm.getPlates();
     }
 
