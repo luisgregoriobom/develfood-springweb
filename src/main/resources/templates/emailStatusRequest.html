@@ -32,7 +32,7 @@
                 <p>Informações do pedido:</p>
                 <p>Pedido realizado em <l th:text="${requestDate}">requestDate</l></p>
                 <p>Pedido no valor de <l th:text="${'R$ ' + #numbers.formatDecimal(requestPrice,3,'POINT',2,'COMMA')}">requestPrice</l></p>
-                <p>Consulte seu pedido <a href="#" th:href="@{'http://localhost/api/request/UserRequest/'+${request}}">clicando aqui</a></p>
+                <p>Consulte seu pedido <a href="#" th:href="@{'https://develfood-2.herokuapp.com/api/UserRequest/'+${request}}">clicando aqui</a></p>
 
             </div>
 
