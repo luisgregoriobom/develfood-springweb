@@ -21,10 +21,10 @@
             <div>
                 Status do pedido:
                 <th:block th:switch="${requestStatus.name}">
-                    <strong style="color:red" th:case="'WAITING_TO_ACCEPT'" th:text="${requestStatus}">requestStatus</strong>
-                    <strong style="color:orange" th:case="'PREPARING'" th:text="${requestStatus}">requestStatus</strong>
-                    <strong style="color:blue" th:case="'IN_ROUTE'" th:text="${requestStatus}">requestStatus</strong>
-                    <strong style="color:green" th:case="'DELIVERED'" th:text="${requestStatus}">requestStatus</strong>
+                    <strong style="color:red" th:case="'WAITING_TO_ACCEPT'" >ESPERANDO SER ACEITO PELO RESTAURANTE</strong>
+                    <strong style="color:orange" th:case="'PREPARING'" >SEU PEDIDO ESTÁ SENDO PREPARADO</strong>
+                    <strong style="color:blue" th:case="'IN_ROUTE'" >SEU PEDIDO SAIU PARA ENTREGA</strong>
+                    <strong style="color:green" th:case="'DELIVERED'" >SEU PEDIDO JÁ FOI ENTREGUE</strong>
                 </th:block>
             </div>
 
