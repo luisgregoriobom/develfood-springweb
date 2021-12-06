@@ -7,6 +7,7 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestFormU
 import br.com.develfoodspringweb.develfoodspringweb.controller.requestCommon.StatusPresent;
 import br.com.develfoodspringweb.develfoodspringweb.controller.restaurantCommon.RequestPresent;
 import br.com.develfoodspringweb.develfoodspringweb.controller.userCommon.RequestPresentUser;
+import br.com.develfoodspringweb.develfoodspringweb.models.EmailStatus;
 import br.com.develfoodspringweb.develfoodspringweb.service.RequestService;
 import br.com.develfoodspringweb.develfoodspringweb.service.StatusRequestService;
 import lombok.RequiredArgsConstructor;
@@ -103,6 +104,10 @@ public class RequestController {
     public ResponseEntity<StatusPresent> update(@PathVariable Long id, @RequestBody@Valid RequestFormUpdate form, EmailDto emailDto) {
         RequestDto statusUpdate = statusRequestService.update(id, form, emailDto);
         StatusPresent present = statusRequestService.convertToPresent(statusUpdate);
+
+        if (emailDto.getEmailStatus() == EmailStatus.ERROR){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to send email");
+        }
 
         return ResponseEntity.ok().body(present);
     }

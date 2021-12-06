@@ -43,7 +43,6 @@ public class PlateService {
      * @return
      * @author: Thomas B.P.
      */
-    private RestaurantDto restaurantDto;
     public PlateDto register(PlateForm plateForm){
         Plate plate = plateForm.convertToPlate(plateForm);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -56,7 +55,6 @@ public class PlateService {
         plateRepository.save(plate);
         return new PlateDto(plate);
     }
-
 
     /**
      * Function to detail a new Plate
@@ -72,7 +70,6 @@ public class PlateService {
         return new PlateDto(plate.get());
 
     }
-
 
     /**
      * Function to update Plate data

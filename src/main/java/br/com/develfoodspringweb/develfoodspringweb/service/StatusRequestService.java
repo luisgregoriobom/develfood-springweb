@@ -25,6 +25,8 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -61,12 +63,14 @@ public class StatusRequestService {
         Request request = form.update(id, requestRepository);
         try {
             Context context = new Context();
-            context.setVariable("user", user.getName());
-            context.setVariable("request", request.getId());
-            context.setVariable("requestStatus", request.getStatus());
-            context.setVariable("requestPrice", request.getPriceTotal());
-            context.setVariable("requestDate", request.getDateRequest());
-            context.setVariable("restaurantName", currentRestaurant.get().getName());
+            Map<String, Object> variables = new HashMap<>();
+            variables.put("user", user.getName());
+            variables.put("request", request.getId());
+            variables.put("requestStatus", request.getStatus());
+            variables.put("requestPrice", request.getPriceTotal());
+            variables.put("requestDate", request.getDateRequest());
+            variables.put("restaurantName", currentRestaurant.get().getName());
+            context.setVariables(variables);
             String htmlBody = templateEngine.process("emailStatusRequest.html", context);
 
             MimeMessage mimeMessage = emailSender.createMimeMessage();

@@ -15,8 +15,6 @@ public class EmailDto {
 
 
     private String emailSubject = "ALTERAÇÃO DE STATUS - PEDIDO N°: ";
-    @Column(columnDefinition = "TEXT")
-    private String emailText = " ";
     private String emailDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
     private EmailStatus emailStatus;
 
