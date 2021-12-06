@@ -1,17 +1,20 @@
 package br.com.develfoodspringweb.develfoodspringweb.controller;
 
+import br.com.develfoodspringweb.develfoodspringweb.controller.dto.EmailDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RequestDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.controller.requestCommon.StatusPresent;
 import br.com.develfoodspringweb.develfoodspringweb.controller.restaurantCommon.RequestPresent;
 import br.com.develfoodspringweb.develfoodspringweb.controller.userCommon.RequestPresentUser;
+import br.com.develfoodspringweb.develfoodspringweb.models.EmailStatus;
 import br.com.develfoodspringweb.develfoodspringweb.service.RequestService;
 import br.com.develfoodspringweb.develfoodspringweb.service.StatusRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -19,6 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Map;
 
 /**
  * Created by Luis Gregorio.
@@ -85,17 +89,21 @@ public class RequestController {
     }
 
     /**
-     * Method to perform PUT, endpoint to change the status of an request.
+     * Method to perform PUT, endpoint to change the status of a request and the user receive an email of status update
      * @param id
      * @param form
      * @return
-     * @author: Luis Gregorio
+     * @author: Luis Gregorio, Thomas Benetti
      */
     @PutMapping("/statusRequest/{id}")
     @Transactional
-    public ResponseEntity<StatusPresent> update(@PathVariable Long id, @RequestBody @Valid RequestFormUpdate form) {
-       RequestDto statusUpdate = statusRequestService.update(id, form);
-       StatusPresent present = statusRequestService.convertToPresent(statusUpdate);
+    public ResponseEntity<StatusPresent> update(@PathVariable Long id, @RequestBody@Valid RequestFormUpdate form, EmailDto emailDto) {
+        RequestDto statusUpdate = statusRequestService.update(id, form, emailDto);
+        StatusPresent present = statusRequestService.convertToPresent(statusUpdate);
+
+        if (emailDto.getEmailStatus() == EmailStatus.ERROR){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to send email");
+        }
 
         return ResponseEntity.ok().body(present);
     }

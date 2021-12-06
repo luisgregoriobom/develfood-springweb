@@ -1,6 +1,7 @@
 package br.com.develfoodspringweb.develfoodspringweb.service;
 
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.PlateDto;
+import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RestaurantDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
@@ -58,7 +59,6 @@ public class PlateService {
         return new PlateDto(plate);
     }
 
-
     /**
      * Function to detail a new Plate
      * @param id
@@ -73,7 +73,6 @@ public class PlateService {
         return new PlateDto(plate.get());
 
     }
-
 
     /**
      * Function to update Plate data
