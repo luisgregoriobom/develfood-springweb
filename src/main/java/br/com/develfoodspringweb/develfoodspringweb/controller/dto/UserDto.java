@@ -2,12 +2,14 @@ package br.com.develfoodspringweb.develfoodspringweb.controller.dto;
 
 import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import br.com.develfoodspringweb.develfoodspringweb.models.Request;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 
 import java.util.List;
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDto {
 
     private Long id;
@@ -18,6 +20,7 @@ public class UserDto {
     private String address;
     private String phone;
     private List<Request> request;
+    private String photo;
 
     public UserDto(User user) {
         this.id = user.getId();
@@ -27,6 +30,7 @@ public class UserDto {
         this.email = user.getEmail();
         this.address = user.getAddress();
         this.phone = user.getPhone();
+        this.photo = user.getPhoto();
     }
 
     /**

@@ -22,6 +22,7 @@ public class UserFormUpdate {
     private String address;
     @NotNull @NotEmpty @Length(min = 11)
     private String phone;
+    private String photo;
 
     /**
      * Method to call User data update.
@@ -35,6 +36,17 @@ public class UserFormUpdate {
         user.setPassword(this.password);
         user.setAddress(this.address);
         user.setPhone(this.phone);
+        user.setPhoto(this.photo);
         return user;
+    }
+
+    /**
+     * Function to convert the object Form Class received into a Model Object
+     * @param form
+     * @return
+     * @author: Luis Gregorio
+     */
+    public User convertToUserUpdate(UserFormUpdate form) {
+        return new User();
     }
 }

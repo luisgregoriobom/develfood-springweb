@@ -24,13 +24,24 @@ public class PlateFormUpdate {
     private String description;
     @DecimalMin(value = "5.0", inclusive = false)
     private Double price;
+    private String photo;
 
     public Plate update(Long id, PlateRepository plateRepository) {
         Plate plate = plateRepository.getById(id);
         plate.setName(this.name);
         plate.setDescription(this.description);
         plate.setPrice(this.price);
-
+        plate.setPhoto(this.photo);
         return plate;
+    }
+
+    /**
+     * Function to convert the object Form Class received into a Model Object
+     * @param form
+     * @return
+     * @author: Luis Gregorio
+     */
+    public Plate convertToPlateUpdate(PlateFormUpdate form) {
+        return new Plate();
     }
 }

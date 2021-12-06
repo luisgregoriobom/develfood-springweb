@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import java.lang.Long;
+import java.util.List;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -14,14 +15,19 @@ import javax.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PlateForm {
 
+
+    private String obs;
     @NotEmpty @NotNull @Length(min = 5)
     private String name;
     @NotEmpty @NotNull
     private String description;
+    private int quantity = 1;
     @DecimalMin(value = "5.0", inclusive = false)
     private Double price;
     private Category category;
     private Long restaurantId;
+    @NotNull @NotEmpty
+    private String photo;
 
     /**
      * Function to convert the object Form Class received into a Model Object.

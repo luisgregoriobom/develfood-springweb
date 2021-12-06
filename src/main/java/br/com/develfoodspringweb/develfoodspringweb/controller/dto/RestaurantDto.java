@@ -7,6 +7,7 @@ import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantReposit
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@NoArgsConstructor
 public class RestaurantDto {
 
     private Long id;

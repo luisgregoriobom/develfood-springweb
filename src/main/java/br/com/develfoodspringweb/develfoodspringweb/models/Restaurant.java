@@ -36,11 +36,13 @@ public class Restaurant implements UserDetails {
     private String foodType;
 
     @OneToMany(mappedBy = "restaurantName")
+    @JsonIgnore
     private List<Restaurant> restaurantName = new ArrayList<>();
     @OneToMany(mappedBy = "restaurant")
     @JsonIgnore
     private List<Plate> plates;
     @OneToMany(mappedBy = "restaurant")
+    @JsonIgnore 
     private List<Profile> restaurantProfile = new ArrayList<>();
 
     public Restaurant(String name, String cnpj, String login, String password, String email, String address, String phone, String foodType, List plates) {

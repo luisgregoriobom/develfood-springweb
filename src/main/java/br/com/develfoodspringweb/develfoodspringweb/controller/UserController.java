@@ -101,7 +101,7 @@ public class UserController {
             UserDto userUpdate = userService.update(id, form);
             if(userUpdate == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Restaurant Not Found");
+                        "User Not Found");
             }
             return ResponseEntity.ok(userUpdate);
     }
@@ -118,7 +118,7 @@ public class UserController {
             UserDto userRemove = userService.remove(id);
             if(userRemove == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Restaurant Not Found");
+                        "User Not Found");
             }
             return ResponseEntity.ok().build();
     }
