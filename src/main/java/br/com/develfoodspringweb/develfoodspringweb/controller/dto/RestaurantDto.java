@@ -22,12 +22,12 @@ public class RestaurantDto {
     private Long id;
     private String name;
     private String cnpj;
-    private String login;
     private String email;
     private String address;
     private String phone;
     private String foodType;
     private List<Plate> plates;
+    private String photo;
 
     /**
      * Constructor to return only the necessary from the filter
@@ -44,12 +44,12 @@ public class RestaurantDto {
         this.id = restaurant.getId();
         this.name = restaurant.getName();
         this.cnpj = restaurant.getCnpj();
-        this.login = restaurant.getLogin();
         this.email = restaurant.getEmail();
         this.address = restaurant.getAddress();
         this.phone = restaurant.getPhone();
         this.foodType = restaurant.getFoodType();
         this.plates = restaurant.getPlates();
+        this.photo = restaurant.getPhoto();
     }
 
 

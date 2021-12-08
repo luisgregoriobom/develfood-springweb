@@ -21,8 +21,6 @@ public class RestaurantForm {
     @NotNull @NotEmpty @Length(min = 11)
     private String cnpj;
     @NotNull @NotEmpty @Length(min = 5)
-    private String login;
-    @NotNull @NotEmpty @Length(min = 5)
     private String password;
     @NotNull @NotEmpty @Length(min = 5)
     private String email;
@@ -31,11 +29,11 @@ public class RestaurantForm {
     @NotNull @NotEmpty @Length(min = 11)
     private String phone;
     private List<Plate> plates;
+    private String photo;
 
     public RestaurantForm(Restaurant restaurant) {
         this.name = restaurant.getName();
         this.cnpj = restaurant.getCnpj();
-        this.login = restaurant.getLogin();
         this.password = restaurant.getPassword();
         this.email = restaurant.getEmail();
         this.address = restaurant.getAddress();
