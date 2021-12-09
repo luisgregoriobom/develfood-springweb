@@ -109,9 +109,14 @@ public class PlateService {
         return null;
     }
 
-    public List<Plate> listOfPlates(Long id){
+    public List<PlateDto> listOfPlates(Long id){
         Optional<Restaurant> restaurant = restaurantRepository.findById(id);
-        List<Plate> plateList = restaurant.get().getPlates();
+        if (!restaurant.isPresent()){
+            return null;
+        }
+        List<Plate> plateModelList = restaurant.get().getPlates();
+        List<PlateDto> plateList = PlateDto.converToListDto(plateModelList);
         return plateList;
+
     }
 }

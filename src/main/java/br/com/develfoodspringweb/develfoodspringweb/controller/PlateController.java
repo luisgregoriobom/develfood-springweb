@@ -146,8 +146,12 @@ public class PlateController {
     }
 
     @GetMapping("/list-all-plates/{id}")
-    public ResponseEntity<List<Plate>> listPlatesFromRestaurant (@PathVariable Long id){
-        List<Plate> plates = plateService.listOfPlates(id);
-        return new ResponseEntity<List<Plate>>(plates, HttpStatus.OK);
+    public ResponseEntity<List<PlateDto>> listPlatesFromRestaurant(@PathVariable Long id){
+        List<PlateDto> plates = plateService.listOfPlates(id);
+        if (plates == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Plates or Restaurant not found");
+        }
+        return new ResponseEntity<>(plates, HttpStatus.OK);
     }
 }
