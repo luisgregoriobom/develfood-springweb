@@ -5,24 +5,15 @@ import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-/**
- * Created by Luis Gregorio.
- *
- * In this class we can define what data a user can update in the system.
- */
+
 @Data
-public class UserFormUpdate {
+public class UserPasswordUpdateForm {
 
     @NotNull @NotEmpty @Length(min = 5)
-    private String address;
-    @NotNull @NotEmpty @Length(min = 11)
-    private String phone;
-    @Column(columnDefinition = "text")
-    private String photo;
+    private String password;
 
     /**
      * Method to call User data update.
@@ -31,11 +22,10 @@ public class UserFormUpdate {
      * @return
      * @author: Luis Gregorio
      */
-    public User update(Long id, UserRepository userRepository) {
+    public User updatePassword(Long id, UserRepository userRepository) {
         User user = userRepository.getById(id);
-        user.setAddress(this.address);
-        user.setPhone(this.phone);
-        user.setPhoto(this.photo);
+        user.setPassword(this.password);
+
         return user;
     }
 
@@ -45,7 +35,7 @@ public class UserFormUpdate {
      * @return
      * @author: Luis Gregorio
      */
-    public User convertToUserUpdate(UserFormUpdate form) {
+    public User convertToUserUpdate(UserPasswordUpdateForm form) {
         return new User();
     }
 }

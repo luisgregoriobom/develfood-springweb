@@ -3,6 +3,7 @@ package br.com.develfoodspringweb.develfoodspringweb.controller;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.UserDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserFormUpdate;
+import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserPasswordUpdateForm;
 import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
 import br.com.develfoodspringweb.develfoodspringweb.service.UserService;
 import lombok.Data;
@@ -104,6 +105,25 @@ public class UserController {
                         "User Not Found");
             }
             return ResponseEntity.ok(userUpdate);
+    }
+
+    /**
+     * Method to update the user's password only.
+     * @param id
+     * @param passwordUpdateForm
+     * @return
+     * @author: Thomas B.P.
+     */
+    @PutMapping("/passwordUpdate/{id}")
+    @Transactional
+    public ResponseEntity<UserDto> updatePassword(@PathVariable Long id,
+                                                  @RequestBody @Valid UserPasswordUpdateForm passwordUpdateForm){
+        UserDto userUpdate = userService.updatePassword(id, passwordUpdateForm);
+        if (userUpdate == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "User not found");
+        }
+        return ResponseEntity.ok(userUpdate);
     }
 
     /**

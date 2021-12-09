@@ -136,7 +136,6 @@ public class RestaurantService {
         } catch (Exception e){
             return null;
         }
-
         if (!restaurantOpt.isPresent()){
             return null;
         }

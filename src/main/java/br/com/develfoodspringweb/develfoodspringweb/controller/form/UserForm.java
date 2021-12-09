@@ -4,6 +4,7 @@ import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -22,6 +23,7 @@ public class UserForm {
     private String address;
     @NotNull @NotEmpty @Length(min = 11)
     private String phone;
+    @Column(columnDefinition = "text")
     private String photo;
 
     /**
