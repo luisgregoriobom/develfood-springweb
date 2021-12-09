@@ -5,6 +5,7 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RestaurantDto
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.FilterForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RestaurantForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RestaurantFormUpdate;
+import br.com.develfoodspringweb.develfoodspringweb.controller.form.RestaurantPasswordUpdateForm;
 import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
 import br.com.develfoodspringweb.develfoodspringweb.service.RestaurantService;
@@ -146,6 +147,25 @@ public class RestaurantController {
     }
 
     /**
+     * Method to update the restaurant's password only.
+     * @param id
+     * @param passwordUpdateForm
+     * @return
+     * @author: Thomas B.P.
+     */
+    @PutMapping("/updatePassword/{id}")
+    @Transactional
+    public ResponseEntity<RestaurantDto> updatePassword (@PathVariable Long id,
+                                                         @RequestBody @Valid RestaurantPasswordUpdateForm passwordUpdateForm){
+        RestaurantDto restaurantUpdate = restaurantService.updatePassword(id, passwordUpdateForm);
+        if (restaurantUpdate == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Restaurant not found");
+        }
+        return ResponseEntity.ok(restaurantUpdate);
+    }
+
+
+    /**
      * Method to delete a restaurant from the database.
      * @param id
      * @return
@@ -161,4 +181,5 @@ public class RestaurantController {
         }
         return ResponseEntity.ok().build();
     }
+
 }

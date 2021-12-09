@@ -19,8 +19,6 @@ import javax.validation.constraints.NotNull;
 public class RestaurantFormUpdate {
 
     @NotNull @NotEmpty @Length(min = 5)
-    private String password;
-    @NotNull @NotEmpty @Length(min = 5)
     private String address;
     @NotNull @NotEmpty @Length(min = 11)
     private String phone;
@@ -34,7 +32,6 @@ public class RestaurantFormUpdate {
      */
     public Restaurant update(Long id, RestaurantRepository restaurantRepository) {
         Restaurant restaurant = restaurantRepository.getById(id);
-        restaurant.setPassword(this.password);
         restaurant.setAddress(this.address);
         restaurant.setPhone(this.phone);
 

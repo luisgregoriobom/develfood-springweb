@@ -1,4 +1,4 @@
-INSERT INTO users(photo, name, password, email, phone, address, cpf, login) VALUES('testephototestephototestephototestephototestephoto', 'Luis', '$2a$10$xjtKOut0QcEIoUkYSajYI.hG3fbiMZbLiAJFtnJXaEpkFJvnIa3le', 'develfoodii@gmail.com', '(54)99170-6646', 'Rua Eleuterio Roncada, 256, Apto24', '038.519.000-06', 'testelogin');
+INSERT INTO users(photo, name, password, email, phone, address, cpf) VALUES('testephototestephototestephototestephototestephoto', 'Luis', '$2a$10$xjtKOut0QcEIoUkYSajYI.hG3fbiMZbLiAJFtnJXaEpkFJvnIa3le', 'develfoodii@gmail.com', '(54)99170-6646', 'Rua Eleuterio Roncada, 256, Apto24', '038.519.000-06');
 
 INSERT INTO restaurants(name, cnpj, password, email, address, phone, food_type) VALUES('Restaurant01', 'testCNPJ01', 'testPassword01', 'testEmail01', 'testAddress01', 'testPhone01', 'sushi');
 INSERT INTO restaurants(name, cnpj, password, email, address, phone, food_type) VALUES('restaurant02', 'testCNPJ02', 'testPassword02', 'testEmail02', 'testAddress02', 'testPhone02', 'drogas');

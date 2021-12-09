@@ -15,8 +15,6 @@ public class UserForm {
     @NotNull @NotEmpty @Length(min = 11)
     private String cpf;
     @NotNull @NotEmpty @Length(min = 5)
-    private String login;
-    @NotNull @NotEmpty @Length(min = 5)
     private String password;
     @NotNull @NotEmpty @Length(min = 5)
     private String email;

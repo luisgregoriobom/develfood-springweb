@@ -15,7 +15,6 @@ public class UserDto {
     private Long id;
     private String name;
     private String cpf;
-    private String login;
     private String email;
     private String address;
     private String phone;
@@ -26,7 +25,6 @@ public class UserDto {
         this.id = user.getId();
         this.name = user.getName();
         this.cpf = user.getCpf();
-        this.login = user.getLogin();
         this.email = user.getEmail();
         this.address = user.getAddress();
         this.phone = user.getPhone();
