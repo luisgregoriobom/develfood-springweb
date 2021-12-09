@@ -4,7 +4,9 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.dto.PlateDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
+import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import br.com.develfoodspringweb.develfoodspringweb.repository.PlateRepository;
+import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
 import br.com.develfoodspringweb.develfoodspringweb.service.PlateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RestController
@@ -25,7 +28,6 @@ import java.util.List;
 public class PlateController {
 
     private final PlateRepository plateRepository;
-
     private final PlateService plateService;
 
     /**
@@ -141,5 +143,11 @@ public class PlateController {
                    "Plate Not Found");
        }
        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/list-all-plates/{id}")
+    public ResponseEntity<List<Plate>> listPlatesFromRestaurant (@PathVariable Long id){
+        List<Plate> plates = plateService.listOfPlates(id);
+        return new ResponseEntity<List<Plate>>(plates, HttpStatus.OK);
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -106,5 +107,11 @@ public class PlateService {
             return new PlateDto(plate.get());
         }
         return null;
+    }
+
+    public List<Plate> listOfPlates(Long id){
+        Optional<Restaurant> restaurant = restaurantRepository.findById(id);
+        List<Plate> plateList = restaurant.get().getPlates();
+        return plateList;
     }
 }
