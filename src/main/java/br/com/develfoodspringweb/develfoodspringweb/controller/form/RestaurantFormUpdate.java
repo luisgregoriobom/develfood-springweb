@@ -25,6 +25,7 @@ public class RestaurantFormUpdate {
     private String phone;
     @Column(columnDefinition = "text")
     private String photo;
+    private String foodType;
 
     /**
      * Method to call Restaurant data update.
@@ -38,6 +39,7 @@ public class RestaurantFormUpdate {
         restaurant.setAddress(this.address);
         restaurant.setPhone(this.phone);
         restaurant.setPhoto(this.photo);
+        restaurant.setFoodType(this.foodType);
 
         return restaurant;
     }

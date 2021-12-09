@@ -32,6 +32,23 @@ public class UserDto {
     }
 
     /**
+     * Constructor to return specifics atributes to update and updatePassword functions
+     * @param name
+     * @param email
+     * @param address
+     * @param phone
+     * @param photo
+     * @author: Thomas B.P.
+     */
+    public UserDto(String name, String email, String address, String phone, String photo){
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.phone = phone;
+        this.photo = photo;
+    }
+
+    /**
      * Function to convert the object Model class received into a DTO Object class
      * @param user
      * @return

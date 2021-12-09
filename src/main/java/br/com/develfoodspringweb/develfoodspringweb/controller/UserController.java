@@ -114,7 +114,7 @@ public class UserController {
      * @return
      * @author: Thomas B.P.
      */
-    @PutMapping("/passwordUpdate/{id}")
+    @PutMapping("/updatePassword/{id}")
     @Transactional
     public ResponseEntity<UserDto> updatePassword(@PathVariable Long id,
                                                   @RequestBody @Valid UserPasswordUpdateForm passwordUpdateForm){

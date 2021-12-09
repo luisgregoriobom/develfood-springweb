@@ -40,6 +40,25 @@ public class RestaurantDto {
         this.foodType = foodType;
     }
 
+    /**
+     *Constructor to return specifics atributes to update and updatePassword functions
+     * @param name
+     * @param email
+     * @param address
+     * @param phone
+     * @param foodType
+     * @param photo
+     * @author: Thomas B.P.
+     */
+    public RestaurantDto(String name, String email, String address, String phone, String foodType, String photo){
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.phone = phone;
+        this.foodType = foodType;
+        this.photo = photo;
+    }
+
     public RestaurantDto(Restaurant restaurant) {
         this.id = restaurant.getId();
         this.name = restaurant.getName();

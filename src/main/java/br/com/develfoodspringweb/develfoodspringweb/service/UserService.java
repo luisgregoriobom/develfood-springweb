@@ -80,11 +80,16 @@ public class UserService {
      */
     public UserDto update(Long id, UserFormUpdate form) {
         Optional<User> opt = userRepository.findById(id);
-        if (opt.isPresent()) {
-            User user = form.update(id, userRepository);
-            return new UserDto(user);
+        if (!opt.isPresent()) {
+            return null;
+
         }
-        return null;
+        User user = form.update(id, userRepository);
+        return new UserDto(user.getName(),
+                user.getEmail(),
+                user.getAddress(),
+                user.getPhone(),
+                user.getPhoto());
     }
 
     /**
@@ -108,7 +113,11 @@ public class UserService {
             return null;
         }
         User user = passwordUpdateForm.updatePassword(id, userRepository);
-        return new UserDto(user);
+        return new UserDto(user.getName(),
+                user.getEmail(),
+                user.getAddress(),
+                user.getPhone(),
+                user.getPhoto());
     }
 
     /**

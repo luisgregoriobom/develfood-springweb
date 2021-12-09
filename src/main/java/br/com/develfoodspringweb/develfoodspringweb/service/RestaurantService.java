@@ -112,11 +112,16 @@ public class RestaurantService {
      */
     public RestaurantDto update(Long id, RestaurantFormUpdate form) {
         Optional<Restaurant> opt = restaurantRepository.findById(id);
-        if (opt.isPresent()) {
-            Restaurant restaurant = form.update(id, restaurantRepository);
-            return new RestaurantDto(restaurant);
+        if (!opt.isPresent()) {
+            return null;
         }
-        return null;
+        Restaurant restaurant = form.update(id, restaurantRepository);
+        return new RestaurantDto(restaurant.getName(),
+                restaurant.getEmail(),
+                restaurant.getAddress(),
+                restaurant.getPhone(),
+                restaurant.getFoodType(),
+                restaurant.getPhoto());
     }
 
     /**
@@ -140,7 +145,12 @@ public class RestaurantService {
             return null;
         }
         Restaurant restaurant = passwordUpdateForm.updatePassword(id, restaurantRepository);
-        return new RestaurantDto(restaurant);
+        return new RestaurantDto(restaurant.getName(),
+                restaurant.getEmail(),
+                restaurant.getAddress(),
+                restaurant.getPhone(),
+                restaurant.getFoodType(),
+                restaurant.getPhoto());
 
     }
 
