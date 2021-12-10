@@ -27,8 +27,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created By Luis Gregorio
@@ -85,6 +87,30 @@ public class RequestService {
         }
         return null;
     }
+
+    /**
+     *
+     * @return
+     * @author: Thomas B.P.
+     */
+    public List<RequestDto> viewRequests (){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserAuth = authentication.getName();
+        Optional<User> currentUser = userRepository.findByEmail(currentUserAuth);
+        List<Request> requests = currentUser.get().getRequest();
+
+        List<RequestDto> requestsFromUser = RequestDto.convertToListDto(requests);
+
+
+        return requestsFromUser;
+
+//        public RequestDto searchRequestId(Long id) {
+//            Request request = requestRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Request not found"));
+//            RequestDto dto = new RequestDto();
+//            dto.setPlates(request.getPlateId());
+//            BeanUtils.copyProperties(request, dto);
+//            return dto;
+        }
 
     /**
      * Refactored method for returning the DTO in the create request.

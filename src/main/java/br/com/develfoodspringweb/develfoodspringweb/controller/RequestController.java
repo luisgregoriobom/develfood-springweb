@@ -22,6 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -106,6 +107,12 @@ public class RequestController {
         }
 
         return ResponseEntity.ok().body(present);
+    }
+
+    @GetMapping("/view-requests")
+    public ResponseEntity<List<RequestDto>> viewAllRequests(){
+        List<RequestDto> allRequests = requestService.viewRequests();
+        return new ResponseEntity<>(allRequests, HttpStatus.OK);
     }
 
 }

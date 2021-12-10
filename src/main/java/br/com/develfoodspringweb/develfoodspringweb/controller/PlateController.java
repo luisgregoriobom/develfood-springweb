@@ -145,6 +145,12 @@ public class PlateController {
        return ResponseEntity.ok().build();
     }
 
+    /**
+     * Method to list all plates from a desired restaurant or its own plates
+     * @param id
+     * @return
+     * @author: Thomas B.P.
+     */
     @GetMapping("/list-all-plates/{id}")
     public ResponseEntity<List<PlateDto>> listPlatesFromRestaurant(@PathVariable Long id){
         List<PlateDto> plates = plateService.listOfPlates(id);

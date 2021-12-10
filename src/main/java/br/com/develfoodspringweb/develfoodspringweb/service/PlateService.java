@@ -109,6 +109,12 @@ public class PlateService {
         return null;
     }
 
+    /**
+     * Function to list all plates from a specific restaurant.
+     * @param id
+     * @return
+     * @author: Thomas B.P.
+     */
     public List<PlateDto> listOfPlates(Long id){
         Optional<Restaurant> restaurant = restaurantRepository.findById(id);
         if (!restaurant.isPresent()){

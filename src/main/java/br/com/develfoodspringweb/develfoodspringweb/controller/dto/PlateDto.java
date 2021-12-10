@@ -6,9 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-
-import javax.validation.constraints.NotNull;
 import java.lang.Long;
 import java.util.List;
 import java.util.stream.Collectors;
