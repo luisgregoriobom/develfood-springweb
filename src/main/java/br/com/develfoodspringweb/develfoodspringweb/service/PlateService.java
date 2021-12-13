@@ -110,19 +110,36 @@ public class PlateService {
     }
 
     /**
-     * Function to list all plates from a specific restaurant.
+     * Function for a user to list all plates from a specific restaurant.
      * @param id
      * @return
      * @author: Thomas B.P.
      */
     public List<PlateDto> listOfPlates(Long id){
+        //if o usuario logado estiver no banco permitir o código abaixo
         Optional<Restaurant> restaurant = restaurantRepository.findById(id);
         if (!restaurant.isPresent()){
             return null;
         }
-        List<Plate> plateModelList = restaurant.get().getPlates();
-        List<PlateDto> plateList = PlateDto.converToListDto(plateModelList);
-        return plateList;
+        List<PlateDto> plateList = PlateDto.converToListDto(restaurant.get().getPlates());
 
+        return plateList;
+    }
+
+    /**
+     * Function for the current restaurant logged in see his own plates
+     * @return
+     * @author: Thomas B.P.
+     */
+    public List<PlateDto> listOfPlatesFromRestaurant(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentRestaurantAuth = authentication.getName();
+        Optional<Restaurant> restaurant = restaurantRepository.findByEmail(currentRestaurantAuth);
+        if (!restaurant.isPresent()){
+            return null;
+        }
+        List<PlateDto> plateList = PlateDto.converToListDto(restaurant.get().getPlates());
+
+        return plateList;
     }
 }

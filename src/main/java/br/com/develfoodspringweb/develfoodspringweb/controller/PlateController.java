@@ -146,7 +146,7 @@ public class PlateController {
     }
 
     /**
-     * Method to list all plates from a desired restaurant or its own plates
+     * Method for a user to list all plates from a desired restaurant.
      * @param id
      * @return
      * @author: Thomas B.P.
@@ -157,6 +157,21 @@ public class PlateController {
         if (plates == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "Plates or Restaurant not found");
+        }
+        return new ResponseEntity<>(plates, HttpStatus.OK);
+    }
+
+    /**
+     * Method for the current restaurant logged in see his own plates
+     * @return
+     * @author: Thomas B.P.
+     */
+    @GetMapping("/list-all-plates")
+    public ResponseEntity<List<PlateDto>> listPlatesOfRestaurantAuth(){
+        List<PlateDto> plates = plateService.listOfPlatesFromRestaurant();
+        if (plates == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Plates not found");
         }
         return new ResponseEntity<>(plates, HttpStatus.OK);
     }
