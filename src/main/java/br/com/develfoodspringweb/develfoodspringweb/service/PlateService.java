@@ -9,6 +9,7 @@ import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import br.com.develfoodspringweb.develfoodspringweb.repository.PlateRepository;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
+import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,7 @@ public class PlateService {
 
     private final PlateRepository plateRepository;
     private final RestaurantRepository restaurantRepository;
+    private final UserRepository userRepository;
 
     /**
      * Function that make a query with the name of the plate as parameter and check in the database if the name is present
@@ -116,14 +118,20 @@ public class PlateService {
      * @author: Thomas B.P.
      */
     public List<PlateDto> listOfPlates(Long id){
-        //if o usuario logado estiver no banco permitir o código abaixo
-        Optional<Restaurant> restaurant = restaurantRepository.findById(id);
-        if (!restaurant.isPresent()){
-            return null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserAuth = authentication.getName();
+        Optional<User> userAuth = userRepository.findByEmail(currentUserAuth);
+        if (userAuth.isPresent()){
+            Optional<Restaurant> restaurant = restaurantRepository.findById(id);
+            if (!restaurant.isPresent()){
+                return null;
+            }
+            List<PlateDto> plateList = PlateDto.converToListDto(restaurant.get().getPlates());
+            return plateList;
         }
-        List<PlateDto> plateList = PlateDto.converToListDto(restaurant.get().getPlates());
+        return null;
 
-        return plateList;
+
     }
 
     /**
