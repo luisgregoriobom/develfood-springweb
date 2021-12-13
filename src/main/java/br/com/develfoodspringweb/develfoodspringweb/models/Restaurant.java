@@ -44,6 +44,8 @@ public class Restaurant implements UserDetails {
     @OneToMany(mappedBy = "restaurant")
     @JsonIgnore 
     private List<Profile> restaurantProfile = new ArrayList<>();
+    @OneToMany(mappedBy = "restaurant")
+    private List<Request> requests;
 
     public Restaurant(String name, String cnpj, String login, String password, String email, String address, String phone, String foodType, List plates) {
         this.name = name;

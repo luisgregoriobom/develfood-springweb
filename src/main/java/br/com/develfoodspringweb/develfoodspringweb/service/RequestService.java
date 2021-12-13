@@ -54,6 +54,7 @@ public class RequestService {
      */
     public RequestDto registerRequest(RequestForm requestForm) {
         Optional<Restaurant> idRestaurants = restaurantRepository.findById(requestForm.getRestaurantId());
+
         if (idRestaurants.isPresent()) {
             requestForm.getPlatesId().forEach(pp -> {
                 var valid = idRestaurants.get().getPlates().stream().anyMatch(plate -> plate.getId().equals(pp.getId()));
@@ -63,6 +64,7 @@ public class RequestService {
             });
 
             Request request = requestForm.convertToUserRequest(requestForm);
+            request.setRestaurant(idRestaurants.get());
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String currentUserAuth = authentication.getName();
             Optional<User> currentUser = userRepository.findByEmail(currentUserAuth);
@@ -89,11 +91,11 @@ public class RequestService {
     }
 
     /**
-     *
+     * Function to list all requests that a User has made
      * @return
      * @author: Thomas B.P.
      */
-    public List<RequestDto> viewRequests (){
+    public List<RequestDto> viewUserRequests (){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserAuth = authentication.getName();
         Optional<User> currentUser = userRepository.findByEmail(currentUserAuth);
@@ -101,16 +103,27 @@ public class RequestService {
 
         List<RequestDto> requestsFromUser = RequestDto.convertToListDto(requests);
 
-
         return requestsFromUser;
 
-//        public RequestDto searchRequestId(Long id) {
-//            Request request = requestRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Request not found"));
-//            RequestDto dto = new RequestDto();
-//            dto.setPlates(request.getPlateId());
-//            BeanUtils.copyProperties(request, dto);
-//            return dto;
         }
+
+    /**
+     * Function to list all requests that a User has made
+     * @return
+     * @author: Thomas B.P.
+     */
+    public List<RequestDto> viewRestaurantRequests (){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserAuth = authentication.getName();
+        Optional<Restaurant> currentUser = restaurantRepository.findByEmail(currentUserAuth);
+        List<Request> requests = currentUser.get().getRequests();
+
+        List<RequestDto> requestsFromRestaurant = RequestDto.convertToListDto(requests);
+
+        return requestsFromRestaurant;
+
+    }
+
 
     /**
      * Refactored method for returning the DTO in the create request.

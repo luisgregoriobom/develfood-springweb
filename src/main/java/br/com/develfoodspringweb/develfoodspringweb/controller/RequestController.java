@@ -109,9 +109,15 @@ public class RequestController {
         return ResponseEntity.ok().body(present);
     }
 
-    @GetMapping("/view-requests")
-    public ResponseEntity<List<RequestDto>> viewAllRequests(){
-        List<RequestDto> allRequests = requestService.viewRequests();
+    @GetMapping("/view-user-requests")
+    public ResponseEntity<List<RequestDto>> viewAllUserRequests(){
+        List<RequestDto> allRequests = requestService.viewUserRequests();
+        return new ResponseEntity<>(allRequests, HttpStatus.OK);
+    }
+
+    @GetMapping("/view-restaurant-requests")
+    public ResponseEntity<List<RequestDto>> viewAllRestaurantRequests(){
+        List<RequestDto> allRequests = requestService.viewRestaurantRequests();
         return new ResponseEntity<>(allRequests, HttpStatus.OK);
     }
 
