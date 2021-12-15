@@ -1,6 +1,8 @@
 package br.com.develfoodspringweb.develfoodspringweb.controller;
 
+import br.com.develfoodspringweb.develfoodspringweb.controller.dto.EmailDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.UserDto;
+import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
@@ -24,7 +26,6 @@ import java.net.URI;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
 
-    private final UserRepository userRepository;
     private final UserService userService;
 
     /**
@@ -54,10 +55,10 @@ public class UserController {
      * @author: Thomas B.P.
      */
     @PostMapping
-    public ResponseEntity<UserDto> register(@RequestBody @Valid UserForm userForm,
+    public ResponseEntity<UserDto> register(@RequestBody @Valid Long id, UserForm userForm, RequestFormUpdate form, EmailDto emailDto,
                                             UriComponentsBuilder uriBuilder){
 
-        UserDto userToRegister = userService.register(userForm);
+        UserDto userToRegister = userService.register(id, userForm, form, emailDto);
         if (userToRegister == null){
             throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "User not created.");
         }
