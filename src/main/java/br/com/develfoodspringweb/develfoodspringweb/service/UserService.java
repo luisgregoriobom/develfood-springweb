@@ -76,7 +76,7 @@ public class UserService {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
             mimeMessageHelper.setText(htmlBody, true);
             mimeMessageHelper.setTo(user.getEmail());
-            mimeMessageHelper.setSubject(emailDto.getEmailSubjectUser());
+            mimeMessageHelper.setSubject(emailDto.getEmailSubjectUser() + user.getName());
             emailSender.send(mimeMessage);
             emailDto.setEmailStatus(EmailStatus.SENT);
 
