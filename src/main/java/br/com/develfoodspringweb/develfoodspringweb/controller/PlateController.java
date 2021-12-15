@@ -3,6 +3,7 @@ package br.com.develfoodspringweb.develfoodspringweb.controller;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.PlateDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateFormUpdate;
+import br.com.develfoodspringweb.develfoodspringweb.models.Category;
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
 import br.com.develfoodspringweb.develfoodspringweb.repository.PlateRepository;
 import br.com.develfoodspringweb.develfoodspringweb.service.PlateService;
@@ -141,5 +142,16 @@ public class PlateController {
                    "Plate Not Found");
        }
        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Method to return a list of categories a plate may have.
+     * @return
+     * @author: Thomas B.P.
+     */
+    @GetMapping("/list-of-categories")
+    public ResponseEntity<List<Category>> listOfCategoryFromPlates(){
+        List<Category> categories = plateService.listOfCategory();
+        return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 }

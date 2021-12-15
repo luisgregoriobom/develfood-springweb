@@ -4,6 +4,7 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.dto.PlateDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RestaurantDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateFormUpdate;
+import br.com.develfoodspringweb.develfoodspringweb.models.Category;
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import br.com.develfoodspringweb.develfoodspringweb.models.User;
@@ -15,6 +16,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -107,4 +111,27 @@ public class PlateService {
         }
         return null;
     }
+
+    /**
+     * Function to list all categories that a plate may have.
+     * @return
+     * @author: Thomas B.P.
+     */
+    public List<Category> listOfCategory(){
+        List<Category> categories = Arrays.asList(Category.values());
+        return categories;
+    }
+//    public List<PlateDto> listOfCategory(String category){
+//        if (Arrays.stream(Category.values()).findFirst(category.toUpperCase())){ //fazer loop dentro dos enums para verificar se a string que to passamndo existe
+//
+//        }
+//        if (!category.equals(Category.values().toString())){
+//            return new ArrayList<>();
+//        }
+//        List<Plate> plateCategory = plateRepository.findByCategory(Category.valueOf(category.toUpperCase()));
+//
+//        List<PlateDto> plates = PlateDto.converToListDto(plateCategory);
+//        return plates;
+//    }
+
 }
