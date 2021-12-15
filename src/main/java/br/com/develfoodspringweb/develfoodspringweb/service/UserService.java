@@ -13,6 +13,7 @@ import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
@@ -33,7 +34,6 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final RequestRepository requestRepository;
     private final TemplateEngine templateEngine;
     private final JavaMailSender emailSender;
 
@@ -53,21 +53,13 @@ public class UserService {
 
     /**
      * Function to register new User
-     * @param userForm
+     * @param
      * @return
-     * @author: Thomas B.P.
+     * @author: Thomas B.P, Luis Gregorio
      */
-
-    public UserDto register(Long id, UserForm userForm, RequestFormUpdate form, EmailDto emailDto) {
+    public UserDto register(UserForm userForm, EmailDto emailDto){
         User user = userForm.convertToUser(userForm);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentRestaurantAuth = authentication.getName();
-        Optional<User> currentUser = userRepository.findByEmail(currentRestaurantAuth);
-        if (!currentUser.isPresent()){
-            return null;
-        }
-
         try {
             String photo = user.getPhoto();
             String encodedPassword = passwordEncoder.encode(userForm.getPassword());
@@ -77,30 +69,26 @@ public class UserService {
             Context context = new Context();
             Map<String, Object> variables = new HashMap<>();
             variables.put("user", user.getName());
-            variables.put("email", user.getEmail());
             context.setVariables(variables);
             String htmlBody = templateEngine.process("userRegister.html", context);
 
-            MimeMessage message = emailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
-            helper.setText(htmlBody, true);
-            helper.setTo(user.getEmail());
-            helper.setSubject(emailDto.getEmailSubjectUser() + user.getId());
-            emailSender.send(message);
-
+            MimeMessage mimeMessage = emailSender.createMimeMessage();
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            mimeMessageHelper.setText(htmlBody, true);
+            mimeMessageHelper.setTo(user.getEmail());
+            mimeMessageHelper.setSubject(emailDto.getEmailSubjectUser());
+            emailSender.send(mimeMessage);
             emailDto.setEmailStatus(EmailStatus.SENT);
-        } catch (MailException | MessagingException e) {
+
+        } catch (MailException | MessagingException e){
             emailDto.setEmailStatus(EmailStatus.ERROR);
         }
-
         userRepository.save(user);
         if (user.getId() == null) {
             return null;
         }
         return new UserDto(user);
     }
-
 
     /**
      * Function to detail a User information

@@ -14,7 +14,7 @@ public class EmailDto {
 
 
     private String emailSubject = "ALTERAÇÃO DE STATUS - PEDIDO N°: ";
-    private String emailSubjectUser = "CADASTRO PLATAFORMA DEVELFOOD! ";
+    private String emailSubjectUser = "BEM VINDO A PLATAFORMA DEVELFOOD";
     private String emailDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
     private EmailStatus emailStatus;
 
