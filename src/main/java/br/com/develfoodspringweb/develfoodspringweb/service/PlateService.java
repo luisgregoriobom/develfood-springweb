@@ -10,6 +10,7 @@ import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import br.com.develfoodspringweb.develfoodspringweb.repository.PlateRepository;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
+import com.sun.java.accessibility.util.Translator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -117,21 +119,9 @@ public class PlateService {
      * @return
      * @author: Thomas B.P.
      */
-    public List<Category> listOfCategory(){
-        List<Category> categories = Arrays.asList(Category.values());
+    public List<String> listOfCategory(){
+        List<String> categories = Arrays.stream(Category.values()).map(Category::getTranslation).collect(Collectors.toList());
         return categories;
     }
-//    public List<PlateDto> listOfCategory(String category){
-//        if (Arrays.stream(Category.values()).findFirst(category.toUpperCase())){ //fazer loop dentro dos enums para verificar se a string que to passamndo existe
-//
-//        }
-//        if (!category.equals(Category.values().toString())){
-//            return new ArrayList<>();
-//        }
-//        List<Plate> plateCategory = plateRepository.findByCategory(Category.valueOf(category.toUpperCase()));
-//
-//        List<PlateDto> plates = PlateDto.converToListDto(plateCategory);
-//        return plates;
-//    }
 
 }

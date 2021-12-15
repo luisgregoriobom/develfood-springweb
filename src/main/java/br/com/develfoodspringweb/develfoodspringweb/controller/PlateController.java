@@ -150,8 +150,8 @@ public class PlateController {
      * @author: Thomas B.P.
      */
     @GetMapping("/list-of-categories")
-    public ResponseEntity<List<Category>> listOfCategoryFromPlates(){
-        List<Category> categories = plateService.listOfCategory();
+    public ResponseEntity<List<String>> listOfCategoryFromPlates(){
+        List<String> categories = plateService.listOfCategory();
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 }
