@@ -3,6 +3,7 @@ package br.com.develfoodspringweb.develfoodspringweb.service;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.UserDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserFormUpdate;
+import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserPasswordUpdateForm;
 import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -78,23 +79,45 @@ public class UserService {
      * @author: Luis Gregorio
      */
     public UserDto update(Long id, UserFormUpdate form) {
-        User userUpdate = form.convertToUserUpdate(form);
+        Optional<User> opt = userRepository.findById(id);
+        if (!opt.isPresent()) {
+            return null;
+
+        }
+        User user = form.update(id, userRepository);
+        return new UserDto(user.getName(),
+                user.getEmail(),
+                user.getAddress(),
+                user.getPhone(),
+                user.getPhoto());
+    }
+
+    /**
+     * Function to update only the password from a user.
+     * @param id
+     * @param passwordUpdateForm
+     * @return
+     * @author: Thomas B.P.
+     */
+    public UserDto updatePassword(Long id, UserPasswordUpdateForm passwordUpdateForm){
+        Optional<User> userOpt = userRepository.findById(id);
+
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         try{
-            String encodedPassword = passwordEncoder.encode(form.getPassword());
-            form.setPassword(encodedPassword);
-
-        } catch(Exception e) {
+            String encodedPassword = passwordEncoder.encode(passwordUpdateForm.getPassword());
+            passwordUpdateForm.setPassword(encodedPassword);
+        } catch (Exception e){
             return null;
         }
-        Optional<User> opt = userRepository.findById(id);
-        if (opt.isPresent()) {
-            User user = form.update(id, userRepository);
-            String photo = userUpdate.getPhoto();
-            form.setPhoto(photo);
-            return new UserDto(user);
+        if (!userOpt.isPresent()){
+            return null;
         }
-        return null;
+        User user = passwordUpdateForm.updatePassword(id, userRepository);
+        return new UserDto(user.getName(),
+                user.getEmail(),
+                user.getAddress(),
+                user.getPhone(),
+                user.getPhoto());
     }
 
     /**

@@ -22,12 +22,12 @@ public class RestaurantDto {
     private Long id;
     private String name;
     private String cnpj;
-    private String login;
     private String email;
     private String address;
     private String phone;
     private String foodType;
     private List<Plate> plates;
+    private String photo;
 
     /**
      * Constructor to return only the necessary from the filter
@@ -40,16 +40,35 @@ public class RestaurantDto {
         this.foodType = foodType;
     }
 
+    /**
+     *Constructor to return specifics atributes to update and updatePassword functions
+     * @param name
+     * @param email
+     * @param address
+     * @param phone
+     * @param foodType
+     * @param photo
+     * @author: Thomas B.P.
+     */
+    public RestaurantDto(String name, String email, String address, String phone, String foodType, String photo){
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.phone = phone;
+        this.foodType = foodType;
+        this.photo = photo;
+    }
+
     public RestaurantDto(Restaurant restaurant) {
         this.id = restaurant.getId();
         this.name = restaurant.getName();
         this.cnpj = restaurant.getCnpj();
-        this.login = restaurant.getLogin();
         this.email = restaurant.getEmail();
         this.address = restaurant.getAddress();
         this.phone = restaurant.getPhone();
         this.foodType = restaurant.getFoodType();
         this.plates = restaurant.getPlates();
+        this.photo = restaurant.getPhoto();
     }
 
 

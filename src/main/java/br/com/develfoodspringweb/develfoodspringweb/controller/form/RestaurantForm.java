@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -21,8 +22,6 @@ public class RestaurantForm {
     @NotNull @NotEmpty @Length(min = 11)
     private String cnpj;
     @NotNull @NotEmpty @Length(min = 5)
-    private String login;
-    @NotNull @NotEmpty @Length(min = 5)
     private String password;
     @NotNull @NotEmpty @Length(min = 5)
     private String email;
@@ -31,11 +30,12 @@ public class RestaurantForm {
     @NotNull @NotEmpty @Length(min = 11)
     private String phone;
     private List<Plate> plates;
+    @Column(columnDefinition = "text")
+    private String photo;
 
     public RestaurantForm(Restaurant restaurant) {
         this.name = restaurant.getName();
         this.cnpj = restaurant.getCnpj();
-        this.login = restaurant.getLogin();
         this.password = restaurant.getPassword();
         this.email = restaurant.getEmail();
         this.address = restaurant.getAddress();
