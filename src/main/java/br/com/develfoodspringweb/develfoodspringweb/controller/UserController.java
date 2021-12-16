@@ -91,15 +91,14 @@ public class UserController {
 
     /**
      * Method to update some information of a user exists in the database.
-     * @param id
      * @param form
      * @return
      * @author: Luis Gregorio
      */
-    @PutMapping("/{id}")
+    @PutMapping("/update")
     @Transactional
-    public ResponseEntity<UserDto> update(@PathVariable Long id, @RequestBody @Valid UserFormUpdate form){
-            UserDto userUpdate = userService.update(id, form);
+    public ResponseEntity<UserDto> update(@RequestBody @Valid UserFormUpdate form){
+            UserDto userUpdate = userService.update(form);
             if(userUpdate == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "User Not Found");
@@ -109,16 +108,14 @@ public class UserController {
 
     /**
      * Method to update the user's password only.
-     * @param id
      * @param passwordUpdateForm
      * @return
      * @author: Thomas B.P.
      */
-    @PutMapping("/updatePassword/{id}")
+    @PutMapping("/update-password")
     @Transactional
-    public ResponseEntity<UserDto> updatePassword(@PathVariable Long id,
-                                                  @RequestBody @Valid UserPasswordUpdateForm passwordUpdateForm){
-        UserDto userUpdate = userService.updatePassword(id, passwordUpdateForm);
+    public ResponseEntity<UserDto> updatePassword(@RequestBody @Valid UserPasswordUpdateForm passwordUpdateForm){
+        UserDto userUpdate = userService.updatePassword(passwordUpdateForm);
         if (userUpdate == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "User not found");

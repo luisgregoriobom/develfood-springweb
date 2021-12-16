@@ -14,6 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -105,17 +107,20 @@ public class RestaurantService {
 
     /**
      * Function to update a Restaurant data
-     * @param id
      * @param form
      * @return
      * @author: Luis Gregorio
      */
-    public RestaurantDto update(Long id, RestaurantFormUpdate form) {
-        Optional<Restaurant> opt = restaurantRepository.findById(id);
-        if (!opt.isPresent()) {
+    public RestaurantDto update(RestaurantFormUpdate form) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String restaurantAuth = authentication.getName();
+        Optional<Restaurant> restaurantOpt = restaurantRepository.findByEmail(restaurantAuth);
+        Long restaurantId = restaurantOpt.get().getId();
+
+        if (!restaurantOpt.isPresent()) {
             return null;
         }
-        Restaurant restaurant = form.update(id, restaurantRepository);
+        Restaurant restaurant = form.update(restaurantId, restaurantRepository);
         return new RestaurantDto(restaurant.getName(),
                 restaurant.getEmail(),
                 restaurant.getAddress(),
@@ -126,13 +131,15 @@ public class RestaurantService {
 
     /**
      * Function to update only the password from a restaurant
-     * @param id
      * @param passwordUpdateForm
      * @return
      * @author: Thomas B.P.
      */
-    public RestaurantDto updatePassword(Long id, RestaurantPasswordUpdateForm passwordUpdateForm){
-        Optional<Restaurant> restaurantOpt = restaurantRepository.findById(id);
+    public RestaurantDto updatePassword(RestaurantPasswordUpdateForm passwordUpdateForm){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String restaurantAuth = authentication.getName();
+        Optional<Restaurant> restaurantOpt = restaurantRepository.findByEmail(restaurantAuth);
+        Long restaurantId = restaurantOpt.get().getId();
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         try{
@@ -144,7 +151,7 @@ public class RestaurantService {
         if (!restaurantOpt.isPresent()){
             return null;
         }
-        Restaurant restaurant = passwordUpdateForm.updatePassword(id, restaurantRepository);
+        Restaurant restaurant = passwordUpdateForm.updatePassword(restaurantId, restaurantRepository);
         return new RestaurantDto(restaurant.getName(),
                 restaurant.getEmail(),
                 restaurant.getAddress(),
