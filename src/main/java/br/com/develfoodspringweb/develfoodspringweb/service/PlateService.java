@@ -9,12 +9,16 @@ import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import br.com.develfoodspringweb.develfoodspringweb.repository.PlateRepository;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
+import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
+import br.com.develfoodspringweb.develfoodspringweb.security.TokenServ;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,6 +27,7 @@ public class PlateService {
 
     private final PlateRepository plateRepository;
     private final RestaurantRepository restaurantRepository;
+    private final UserRepository userRepository;
 
     /**
      * Function that make a query with the name of the plate as parameter and check in the database if the name is present
@@ -106,5 +111,46 @@ public class PlateService {
             return new PlateDto(plate.get());
         }
         return null;
+    }
+
+    /**
+     * Function for a user to list all plates from a specific restaurant.
+     * @param id
+     * @return
+     * @author: Thomas B.P.
+     */
+    public List<PlateDto> listOfPlates(Long id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof User && id != null){
+            Optional<Restaurant> restaurant = restaurantRepository.findById(id);
+            if (!restaurant.isPresent()){
+                return null;
+            }
+            List<PlateDto> plateList = PlateDto.converToListDto(restaurant.get().getPlates());
+            return plateList;
+        }
+        throw new RuntimeException("Restaurant not found");
+    }
+
+    /**
+     * Function for the current restaurant logged in see his own plates
+     * @return
+     * @author: Thomas B.P.
+     */
+    public List<PlateDto> listOfPlatesFromRestaurant() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof Restaurant) {
+            String currentRestaurantAuth = authentication.getName();
+            Optional<Restaurant> restaurant = restaurantRepository.findByEmail(currentRestaurantAuth);
+            if (!restaurant.isPresent()) {
+                return null;
+            }
+            List<PlateDto> plateList = PlateDto.converToListDto(restaurant.get().getPlates());
+
+            return plateList;
+        }
+        throw new RuntimeException("Not found");
     }
 }

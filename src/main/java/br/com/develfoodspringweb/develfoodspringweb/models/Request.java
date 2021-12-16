@@ -38,6 +38,8 @@ public class Request {
     @ManyToOne
     @JsonIgnore
     private User user;
+    @ManyToOne
+    private Restaurant restaurant;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="plates_request", joinColumns=
     @JoinColumn(name="plate_id", referencedColumnName="id"),

@@ -25,7 +25,7 @@ import java.net.URI;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
 
-    private final UserRepository userRepository;
+
     private final UserService userService;
 
     /**
