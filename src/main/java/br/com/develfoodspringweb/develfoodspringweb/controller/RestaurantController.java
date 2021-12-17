@@ -130,15 +130,14 @@ public class RestaurantController {
 
     /**
      * Method for updating the data of an already registered restaurant.
-     * @param id
      * @param form
      * @return
      * @author: Luis Gregorio
      */
-    @PutMapping("/{id}")
+    @PutMapping("/update")
     @Transactional
-    public ResponseEntity<RestaurantDto> update(@PathVariable Long id, @RequestBody @Valid RestaurantFormUpdate form){
-        RestaurantDto restaurantUpdate = restaurantService.update(id, form);
+    public ResponseEntity<RestaurantDto> update(@RequestBody @Valid RestaurantFormUpdate form){
+        RestaurantDto restaurantUpdate = restaurantService.update(form);
         if(restaurantUpdate == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                                             "Restaurant Not Found");
@@ -148,22 +147,19 @@ public class RestaurantController {
 
     /**
      * Method to update the restaurant's password only.
-     * @param id
      * @param passwordUpdateForm
      * @return
      * @author: Thomas B.P.
      */
-    @PutMapping("/updatePassword/{id}")
+    @PutMapping("/update-password")
     @Transactional
-    public ResponseEntity<RestaurantDto> updatePassword (@PathVariable Long id,
-                                                         @RequestBody @Valid RestaurantPasswordUpdateForm passwordUpdateForm){
-        RestaurantDto restaurantUpdate = restaurantService.updatePassword(id, passwordUpdateForm);
+    public ResponseEntity<RestaurantDto> updatePassword (@RequestBody @Valid RestaurantPasswordUpdateForm passwordUpdateForm){
+        RestaurantDto restaurantUpdate = restaurantService.updatePassword(passwordUpdateForm);
         if (restaurantUpdate == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Restaurant not found");
         }
         return ResponseEntity.ok(restaurantUpdate);
     }
-
 
     /**
      * Method to delete a restaurant from the database.
