@@ -2,6 +2,7 @@ package br.com.develfoodspringweb.develfoodspringweb.controller.dto;
 
 import br.com.develfoodspringweb.develfoodspringweb.models.Category;
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
+import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -26,7 +27,7 @@ public class PlateDto {
     @JsonIgnore
     private List<Plate> plates;
     private String photo;
-
+    private Long restaurantId;
 
 
     public PlateDto(Plate plate) {
@@ -38,6 +39,8 @@ public class PlateDto {
         this.restaurantName = plate.getRestaurant().getName();
         this.plates = plate.getPlateName();
         this.photo = plate.getPhoto();
+        this.restaurantId = plate.getRestaurant().getId();
+
     }
 
     /**
