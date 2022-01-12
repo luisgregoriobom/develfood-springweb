@@ -28,6 +28,7 @@ public class PlateDto {
     private List<Plate> plates;
     private String photo;
     private Long restaurantId;
+    private String obs;
 
 
     public PlateDto(Plate plate) {
@@ -40,6 +41,7 @@ public class PlateDto {
         this.plates = plate.getPlateName();
         this.photo = plate.getPhoto();
         this.restaurantId = plate.getRestaurant().getId();
+        this.obs = plate.getObs();
 
     }
 

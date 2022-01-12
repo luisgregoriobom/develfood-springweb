@@ -19,4 +19,5 @@ public class PlatePresentUser {
     private Category category;
     private RestaurantPresentUser restaurant;
     private String photo;
+    private String obs;
 }

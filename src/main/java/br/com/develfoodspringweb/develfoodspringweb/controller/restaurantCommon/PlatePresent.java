@@ -22,4 +22,5 @@ public class PlatePresent {
     private Category category;
     private List<PlateDto> plateDtos;
     private String photo;
+    private String obs;
 }
