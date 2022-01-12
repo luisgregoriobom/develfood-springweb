@@ -152,16 +152,17 @@ public class PlateController {
      * @author: Thomas B.P.
      */
     @GetMapping("/list-of-categories")
-    public ResponseEntity<List<String>> listOfCategoryFromPlates(){
+    public ResponseEntity<List<String>> listOfCategoryFromPlates() {
         List<String> categories = plateService.listOfCategory();
         return new ResponseEntity<>(categories, HttpStatus.OK);
-      
+    }
+
+        /**
      * Method for a user to list all plates from a desired restaurant.
      * @param id
      * @return
      * @author: Thomas B.P.
      */
-       
     @GetMapping("/list-all-plates/{id}")
     public ResponseEntity<List<PlateDto>> listPlatesFromRestaurant(@PathVariable Long id){
         List<PlateDto> plates = plateService.listOfPlates(id);

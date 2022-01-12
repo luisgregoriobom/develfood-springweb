@@ -125,7 +125,7 @@ public class PlateService {
         List<String> categories = Arrays.stream(Category.values()).map(Category::getTranslation).collect(Collectors.toList());
         return categories;
     }
-
+    /**
      * Function for a user to list all plates from a specific restaurant.
      * @param id
      * @return
