@@ -109,6 +109,7 @@ public class RequestController {
         return ResponseEntity.ok().body(present);
     }
 
+
     /**
      * Function to the current user logged in see his own requests
      * @return
@@ -130,7 +131,6 @@ public class RequestController {
         List<RequestDto> allRequests = requestService.viewRestaurantRequests();
         return new ResponseEntity<>(allRequests, HttpStatus.OK);
     }
-
 }
 
 

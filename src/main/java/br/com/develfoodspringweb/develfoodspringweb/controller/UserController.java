@@ -1,8 +1,11 @@
 package br.com.develfoodspringweb.develfoodspringweb.controller;
 
+import br.com.develfoodspringweb.develfoodspringweb.controller.dto.EmailDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.UserDto;
+import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserFormUpdate;
+import br.com.develfoodspringweb.develfoodspringweb.models.EmailStatus;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserPasswordUpdateForm;
 import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
 import br.com.develfoodspringweb.develfoodspringweb.service.UserService;
@@ -24,7 +27,6 @@ import java.net.URI;
 @RequestMapping("/api/user")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
-
 
     private final UserService userService;
 
@@ -49,21 +51,24 @@ public class UserController {
 
     /**
      * Function with POST method to register new User while the function create the URI route and return the head HTTP location with the URL
-     * @param userForm
+     * @param form
      * @param uriBuilder
      * @return
      * @author: Thomas B.P.
      */
     @PostMapping
-    public ResponseEntity<UserDto> register(@RequestBody @Valid UserForm userForm,
+    public ResponseEntity<UserDto> register(@RequestBody @Valid UserForm form, EmailDto emailDto,
                                             UriComponentsBuilder uriBuilder){
 
-        UserDto userToRegister = userService.register(userForm);
+        UserDto userToRegister = userService.register(form, emailDto);
         if (userToRegister == null){
             throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "User not created.");
         }
-        if (userForm.getPassword() == null){
+        if (form.getPassword() == null){
             throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "Error encrypting password.");
+        }
+        if (emailDto.getEmailStatus() == EmailStatus.ERROR){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to send email");
         }
         URI uri = uriBuilder
                 .path("/api/user/{id}")
