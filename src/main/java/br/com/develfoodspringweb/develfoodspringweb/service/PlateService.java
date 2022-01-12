@@ -11,12 +11,14 @@ import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import br.com.develfoodspringweb.develfoodspringweb.repository.PlateRepository;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
 import com.sun.java.accessibility.util.Translator;
+import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
+import br.com.develfoodspringweb.develfoodspringweb.security.TokenServ;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -124,4 +126,43 @@ public class PlateService {
         return categories;
     }
 
+     * Function for a user to list all plates from a specific restaurant.
+     * @param id
+     * @return
+     * @author: Thomas B.P.
+     */
+    public List<PlateDto> listOfPlates(Long id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof User && id != null){
+            Optional<Restaurant> restaurant = restaurantRepository.findById(id);
+            if (!restaurant.isPresent()){
+                return null;
+            }
+            List<PlateDto> plateList = PlateDto.converToListDto(restaurant.get().getPlates());
+            return plateList;
+        }
+        throw new RuntimeException("Restaurant not found");
+    }
+
+    /**
+     * Function for the current restaurant logged in see his own plates
+     * @return
+     * @author: Thomas B.P.
+     */
+    public List<PlateDto> listOfPlatesFromRestaurant() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof Restaurant) {
+            String currentRestaurantAuth = authentication.getName();
+            Optional<Restaurant> restaurant = restaurantRepository.findByEmail(currentRestaurantAuth);
+            if (!restaurant.isPresent()) {
+                return null;
+            }
+            List<PlateDto> plateList = PlateDto.converToListDto(restaurant.get().getPlates());
+
+            return plateList;
+        }
+        throw new RuntimeException("Not found");
+    }
 }

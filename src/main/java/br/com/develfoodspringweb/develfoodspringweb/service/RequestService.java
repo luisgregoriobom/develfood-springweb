@@ -27,8 +27,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created By Luis Gregorio
@@ -52,6 +54,7 @@ public class RequestService {
      */
     public RequestDto registerRequest(RequestForm requestForm) {
         Optional<Restaurant> idRestaurants = restaurantRepository.findById(requestForm.getRestaurantId());
+
         if (idRestaurants.isPresent()) {
             requestForm.getPlatesId().forEach(pp -> {
                 var valid = idRestaurants.get().getPlates().stream().anyMatch(plate -> plate.getId().equals(pp.getId()));
@@ -61,6 +64,7 @@ public class RequestService {
             });
 
             Request request = requestForm.convertToUserRequest(requestForm);
+            request.setRestaurant(idRestaurants.get());
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String currentUserAuth = authentication.getName();
             Optional<User> currentUser = userRepository.findByEmail(currentUserAuth);
@@ -87,6 +91,40 @@ public class RequestService {
     }
 
     /**
+     * Function to list all requests that a User has made
+     * @return
+     * @author: Thomas B.P.
+     */
+    public List<RequestDto> viewUserRequests (){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserAuth = authentication.getName();
+        Optional<User> currentUser = userRepository.findByEmail(currentUserAuth);
+        List<Request> requests = currentUser.get().getRequest();
+
+        List<RequestDto> requestsFromUser = RequestDto.convertToListDto(requests);
+
+        return requestsFromUser;
+
+        }
+
+    /**
+     * Function to list all requests that a User has made
+     * @return
+     * @author: Thomas B.P.
+     */
+    public List<RequestDto> viewRestaurantRequests (){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserAuth = authentication.getName();
+        Optional<Restaurant> currentUser = restaurantRepository.findByEmail(currentUserAuth);
+        List<Request> requests = currentUser.get().getRequests();
+
+        List<RequestDto> requestsFromRestaurant = RequestDto.convertToListDto(requests);
+
+        return requestsFromRestaurant;
+
+    }
+
+    /**
      * Refactored method for returning the DTO in the create request.
      * This method aims to show the quantity of products as well as their sum, adding a final sum to the request.
      *
@@ -107,6 +145,7 @@ public class RequestService {
             plateDto.setPrice(platesFromRequest.get().getPrice());
             plateDto.setCategory(platesFromRequest.get().getCategory());
             plateDto.setQuantity(vl.getQuantity());
+            plateDto.setObs(vl.getObs());
             plateDto.setRestaurantName(platesFromRequest.get().getRestaurant().getName());
 
             if (platesFromRequest.isPresent()) {
@@ -146,7 +185,6 @@ public class RequestService {
         RequestPresent present = new RequestPresent();
         present.setId(dto.getId());
         present.setStatus(dto.getStatus());
-        present.setObs(dto.getObs());
         present.setDateRequest(dto.getDateRequest());
 
         List<PlatePresent> platePresents = new ArrayList<>();
@@ -157,6 +195,7 @@ public class RequestService {
             platePresent.setPrice(plates.getPrice());
             platePresent.setCategory(plates.getCategory());
             platePresent.setPhoto(plates.getPhoto());
+            platePresent.setObs(plates.getObs());
             platePresents.add(platePresent);
         });
 
@@ -185,7 +224,6 @@ public class RequestService {
         RequestPresentUser present = new RequestPresentUser();
         present.setId(dto.getId());
         present.setStatus(dto.getStatus());
-        present.setObs(dto.getObs());
         present.setDateRequest(dto.getDateRequest());
         List<PlatePresentUser> platePresents = new ArrayList<>();
         dto.getPlates().forEach(plate ->{
@@ -195,6 +233,7 @@ public class RequestService {
             platePresent.setCategory(plate.getCategory());
             platePresent.setName(plate.getName());
             platePresent.setPhoto(plate.getPhoto());
+            platePresent.setObs(plate.getObs());
             RestaurantPresentUser restaurant = new RestaurantPresentUser();
             restaurant.setName(plate.getRestaurant().getName());
             platePresent.setRestaurant(restaurant);

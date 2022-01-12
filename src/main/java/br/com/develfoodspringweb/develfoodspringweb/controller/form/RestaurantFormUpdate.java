@@ -7,6 +7,7 @@ import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -19,11 +20,12 @@ import javax.validation.constraints.NotNull;
 public class RestaurantFormUpdate {
 
     @NotNull @NotEmpty @Length(min = 5)
-    private String password;
-    @NotNull @NotEmpty @Length(min = 5)
     private String address;
     @NotNull @NotEmpty @Length(min = 11)
     private String phone;
+    @Column(columnDefinition = "text")
+    private String photo;
+    private String foodType;
 
     /**
      * Method to call Restaurant data update.
@@ -34,9 +36,10 @@ public class RestaurantFormUpdate {
      */
     public Restaurant update(Long id, RestaurantRepository restaurantRepository) {
         Restaurant restaurant = restaurantRepository.getById(id);
-        restaurant.setPassword(this.password);
         restaurant.setAddress(this.address);
         restaurant.setPhone(this.phone);
+        restaurant.setPhoto(this.photo);
+        restaurant.setFoodType(this.foodType);
 
         return restaurant;
     }

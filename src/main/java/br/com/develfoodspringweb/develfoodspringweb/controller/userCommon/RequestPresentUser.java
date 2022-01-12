@@ -17,7 +17,6 @@ public class RequestPresentUser {
     private Long id;
     private String dateRequest;
     private StatusRequest status;
-    private String obs;
     private List<PlatePresentUser> plates;
     private UserPresentUser user;
 }

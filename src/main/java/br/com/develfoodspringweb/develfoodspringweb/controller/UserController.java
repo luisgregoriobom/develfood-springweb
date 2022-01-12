@@ -1,8 +1,12 @@
 package br.com.develfoodspringweb.develfoodspringweb.controller;
 
+import br.com.develfoodspringweb.develfoodspringweb.controller.dto.EmailDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.UserDto;
+import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserFormUpdate;
+import br.com.develfoodspringweb.develfoodspringweb.models.EmailStatus;
+import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserPasswordUpdateForm;
 import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
 import br.com.develfoodspringweb.develfoodspringweb.service.UserService;
 import lombok.Data;
@@ -24,7 +28,6 @@ import java.net.URI;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
 
-    private final UserRepository userRepository;
     private final UserService userService;
 
     /**
@@ -48,21 +51,24 @@ public class UserController {
 
     /**
      * Function with POST method to register new User while the function create the URI route and return the head HTTP location with the URL
-     * @param userForm
+     * @param form
      * @param uriBuilder
      * @return
      * @author: Thomas B.P.
      */
     @PostMapping
-    public ResponseEntity<UserDto> register(@RequestBody @Valid UserForm userForm,
+    public ResponseEntity<UserDto> register(@RequestBody @Valid UserForm form, EmailDto emailDto,
                                             UriComponentsBuilder uriBuilder){
 
-        UserDto userToRegister = userService.register(userForm);
+        UserDto userToRegister = userService.register(form, emailDto);
         if (userToRegister == null){
             throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "User not created.");
         }
-        if (userForm.getPassword() == null){
+        if (form.getPassword() == null){
             throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "Error encrypting password.");
+        }
+        if (emailDto.getEmailStatus() == EmailStatus.ERROR){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to send email");
         }
         URI uri = uriBuilder
                 .path("/api/user/{id}")
@@ -90,20 +96,36 @@ public class UserController {
 
     /**
      * Method to update some information of a user exists in the database.
-     * @param id
      * @param form
      * @return
      * @author: Luis Gregorio
      */
-    @PutMapping("/{id}")
+    @PutMapping("/update")
     @Transactional
-    public ResponseEntity<UserDto> update(@PathVariable Long id, @RequestBody @Valid UserFormUpdate form){
-            UserDto userUpdate = userService.update(id, form);
+    public ResponseEntity<UserDto> update(@RequestBody @Valid UserFormUpdate form){
+            UserDto userUpdate = userService.update(form);
             if(userUpdate == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "User Not Found");
             }
             return ResponseEntity.ok(userUpdate);
+    }
+
+    /**
+     * Method to update the user's password only.
+     * @param passwordUpdateForm
+     * @return
+     * @author: Thomas B.P.
+     */
+    @PutMapping("/update-password")
+    @Transactional
+    public ResponseEntity<UserDto> updatePassword(@RequestBody @Valid UserPasswordUpdateForm passwordUpdateForm){
+        UserDto userUpdate = userService.updatePassword(passwordUpdateForm);
+        if (userUpdate == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "User not found");
+        }
+        return ResponseEntity.ok(userUpdate);
     }
 
     /**
