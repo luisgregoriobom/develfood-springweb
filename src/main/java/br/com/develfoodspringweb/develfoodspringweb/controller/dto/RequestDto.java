@@ -11,8 +11,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -29,15 +31,21 @@ public class RequestDto {
     @JsonIgnore
     private List<Plate> plates;
 
+
+    public RequestDto(Long id, StatusRequest status, String dateRequest, User user,
+                      String obs, Double priceTotal, List<Plate> plates){
+        this.id = id;
+        this.status = status;
+        this.dateRequest = dateRequest;
+        this.user = user;
+        this.obs = obs;
+        this.priceTotal =priceTotal;
+        this.plateDtos = plates.stream().map(PlateDto::new).collect(Collectors.toList());
+    }
+
     public RequestDto(Request request){
-        this.id = request.getId();
-        this.status = request.getStatus();
-        this.dateRequest = request.getDateRequest();
-        this.user = request.getUser();
-        this.obs = request.getObs();
-        this.priceTotal = request.getPriceTotal();
-        this.plates = request.getPlateId();
-        this.converToListDto(request.getPlateId());
+        this(request.getId(), request.getStatus(), request.getDateRequest(),
+                null, request.getObs(), request.getPriceTotal(), request.getPlateId());
     }
 
 
@@ -52,6 +60,10 @@ public class RequestDto {
             this.plateDtos = new ArrayList<>();
         }
         plates.stream().forEach(plate -> this.plateDtos.add(new PlateDto(plate)));
+    }
+
+    public static List<RequestDto> convertToListDto(List<Request> requests){
+        return requests.stream().map(RequestDto::new).collect(Collectors.toList());
     }
 
     /**

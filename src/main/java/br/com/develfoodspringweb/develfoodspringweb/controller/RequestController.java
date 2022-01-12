@@ -22,6 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -106,6 +107,29 @@ public class RequestController {
         }
 
         return ResponseEntity.ok().body(present);
+    }
+
+
+    /**
+     * Function to the current user logged in see his own requests
+     * @return
+     * @author: Thomas B.P.
+     */
+    @GetMapping("/view-user-requests")
+    public ResponseEntity<List<RequestDto>> viewAllUserRequests(){
+        List<RequestDto> allRequests = requestService.viewUserRequests();
+        return new ResponseEntity<>(allRequests, HttpStatus.OK);
+    }
+
+    /**
+     * Function to the current restaurant logged in see his own requests
+     * @return
+     * @author: Thomas B.P.
+     */
+    @GetMapping("/view-restaurant-requests")
+    public ResponseEntity<List<RequestDto>> viewAllRestaurantRequests(){
+        List<RequestDto> allRequests = requestService.viewRestaurantRequests();
+        return new ResponseEntity<>(allRequests, HttpStatus.OK);
     }
 }
 

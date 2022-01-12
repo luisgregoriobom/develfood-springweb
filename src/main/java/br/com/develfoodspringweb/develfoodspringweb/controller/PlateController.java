@@ -4,7 +4,9 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.dto.PlateDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
+import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import br.com.develfoodspringweb.develfoodspringweb.repository.PlateRepository;
+import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
 import br.com.develfoodspringweb.develfoodspringweb.service.PlateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RestController
@@ -25,7 +28,6 @@ import java.util.List;
 public class PlateController {
 
     private final PlateRepository plateRepository;
-
     private final PlateService plateService;
 
     /**
@@ -141,5 +143,36 @@ public class PlateController {
                    "Plate Not Found");
        }
        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Method for a user to list all plates from a desired restaurant.
+     * @param id
+     * @return
+     * @author: Thomas B.P.
+     */
+    @GetMapping("/list-all-plates/{id}")
+    public ResponseEntity<List<PlateDto>> listPlatesFromRestaurant(@PathVariable Long id){
+        List<PlateDto> plates = plateService.listOfPlates(id);
+        if (plates == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Plates or Restaurant not found");
+        }
+        return new ResponseEntity<>(plates, HttpStatus.OK);
+    }
+
+    /**
+     * Method for the current restaurant logged in see his own plates
+     * @return
+     * @author: Thomas B.P.
+     */
+    @GetMapping("/list-all-plates")
+    public ResponseEntity<List<PlateDto>> listPlatesOfRestaurantAuth(){
+        List<PlateDto> plates = plateService.listOfPlatesFromRestaurant();
+        if (plates == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Plates not found");
+        }
+        return new ResponseEntity<>(plates, HttpStatus.OK);
     }
 }

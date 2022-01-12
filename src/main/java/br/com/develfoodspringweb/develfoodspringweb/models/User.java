@@ -28,7 +28,6 @@ public class User implements UserDetails {
     private Long id;
     private String name;
     private String cpf;
-    private String login;
     private String password;
     private String email;
     private String address;
@@ -41,10 +40,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Profile> userProfile = new ArrayList<>();
 
-    public User(String name, String cpf, String login, String password, String email, String address, String phone, String photo) {
+    public User(String name, String cpf, String password, String email, String address, String phone, String photo) {
         this.name = name;
         this.cpf = cpf;
-        this.login = login;
         this.password = password;
         this.email = email;
         this.address = address;
@@ -55,7 +53,6 @@ public class User implements UserDetails {
     public User(UserForm userForm){
         this.name = userForm.getName();
         this.cpf = userForm.getCpf();
-        this.login = userForm.getLogin();
         this.email = userForm.getEmail();
         this.address = userForm.getAddress();
         this.phone = userForm.getPhone();

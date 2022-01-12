@@ -5,6 +5,7 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RestaurantDto
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.FilterForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RestaurantForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RestaurantFormUpdate;
+import br.com.develfoodspringweb.develfoodspringweb.controller.form.RestaurantPasswordUpdateForm;
 import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
 import br.com.develfoodspringweb.develfoodspringweb.service.RestaurantService;
@@ -129,18 +130,33 @@ public class RestaurantController {
 
     /**
      * Method for updating the data of an already registered restaurant.
-     * @param id
      * @param form
      * @return
      * @author: Luis Gregorio
      */
-    @PutMapping("/{id}")
+    @PutMapping("/update")
     @Transactional
-    public ResponseEntity<RestaurantDto> update(@PathVariable Long id, @RequestBody @Valid RestaurantFormUpdate form){
-        RestaurantDto restaurantUpdate = restaurantService.update(id, form);
+    public ResponseEntity<RestaurantDto> update(@RequestBody @Valid RestaurantFormUpdate form){
+        RestaurantDto restaurantUpdate = restaurantService.update(form);
         if(restaurantUpdate == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                                             "Restaurant Not Found");
+        }
+        return ResponseEntity.ok(restaurantUpdate);
+    }
+
+    /**
+     * Method to update the restaurant's password only.
+     * @param passwordUpdateForm
+     * @return
+     * @author: Thomas B.P.
+     */
+    @PutMapping("/update-password")
+    @Transactional
+    public ResponseEntity<RestaurantDto> updatePassword (@RequestBody @Valid RestaurantPasswordUpdateForm passwordUpdateForm){
+        RestaurantDto restaurantUpdate = restaurantService.updatePassword(passwordUpdateForm);
+        if (restaurantUpdate == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Restaurant not found");
         }
         return ResponseEntity.ok(restaurantUpdate);
     }
@@ -161,4 +177,5 @@ public class RestaurantController {
         }
         return ResponseEntity.ok().build();
     }
+
 }

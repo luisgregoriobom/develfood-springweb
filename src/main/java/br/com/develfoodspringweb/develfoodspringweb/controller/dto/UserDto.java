@@ -15,7 +15,6 @@ public class UserDto {
     private Long id;
     private String name;
     private String cpf;
-    private String login;
     private String email;
     private String address;
     private String phone;
@@ -26,11 +25,27 @@ public class UserDto {
         this.id = user.getId();
         this.name = user.getName();
         this.cpf = user.getCpf();
-        this.login = user.getLogin();
         this.email = user.getEmail();
         this.address = user.getAddress();
         this.phone = user.getPhone();
         this.photo = user.getPhoto();
+    }
+
+    /**
+     * Constructor to return specifics atributes to update and updatePassword functions
+     * @param name
+     * @param email
+     * @param address
+     * @param phone
+     * @param photo
+     * @author: Thomas B.P.
+     */
+    public UserDto(String name, String email, String address, String phone, String photo){
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.phone = phone;
+        this.photo = photo;
     }
 
     /**

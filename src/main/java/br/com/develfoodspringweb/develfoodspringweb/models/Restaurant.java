@@ -27,13 +27,15 @@ public class Restaurant implements UserDetails {
     private Long id;
     private String name;
     private String cnpj;
-    private String login;
     @JsonBackReference("passwordRestaurant")
     private String password;
     private String email;
     private String address;
     private String phone;
     private String foodType;
+
+    @Column(columnDefinition = "text")
+    private String photo;
 
     @OneToMany(mappedBy = "restaurantName")
     @JsonIgnore
@@ -44,40 +46,30 @@ public class Restaurant implements UserDetails {
     @OneToMany(mappedBy = "restaurant")
     @JsonIgnore 
     private List<Profile> restaurantProfile = new ArrayList<>();
+    @OneToMany(mappedBy = "restaurant")
+    private List<Request> requests;
 
-    public Restaurant(String name, String cnpj, String login, String password, String email, String address, String phone, String foodType, List plates) {
+    public Restaurant(String name, String cnpj, String password, String email, String address, String phone, String foodType, List plates, String photo) {
         this.name = name;
         this.cnpj = cnpj;
-        this.login = login;
         this.password = password;
         this.email = email;
         this.address = address;
         this.phone = phone;
         this.foodType = foodType;
         this.plates = plates;
+        this.photo = photo;
     }
 
     public Restaurant(RestaurantForm restaurantForm){
         this.name = restaurantForm.getName();
         this.cnpj = restaurantForm.getCnpj();
-        this.login = restaurantForm.getLogin();
         this.email = restaurantForm.getEmail();
         this.address = restaurantForm.getAddress();
         this.phone = restaurantForm.getPhone();
+        this.photo = restaurantForm.getPhoto();
     }
 
-    /**
-     * Constructor created just to manually add data into the database with configurar method that belong to InitialConfig class on configuration package
-     * @param name
-     * @param phone
-     * @author: Thomas B.P.
-     */
-    public Restaurant(String name, String cnpj, String phone, String foodType){
-        this.name = name;
-        this.cnpj = cnpj;
-        this.phone = phone;
-        this.foodType = foodType;
-    }
 
     /**
      * Permission methods for user access to authenticate in the system

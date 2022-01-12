@@ -4,6 +4,7 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RestaurantDto
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.FilterForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RestaurantForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.RestaurantFormUpdate;
+import br.com.develfoodspringweb.develfoodspringweb.controller.form.RestaurantPasswordUpdateForm;
 import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -51,7 +54,9 @@ public class RestaurantService {
         Restaurant restaurant = restaurantForm.convertToRestaurant(restaurantForm);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         try {
+            String photo = restaurant.getPhoto();
             String encodedPassword = passwordEncoder.encode(restaurantForm.getPassword());
+            restaurant.setPhoto(photo);
             restaurant.setPassword(encodedPassword);
         } catch (Exception e){
             return null;
@@ -102,25 +107,58 @@ public class RestaurantService {
 
     /**
      * Function to update a Restaurant data
-     * @param id
      * @param form
      * @return
      * @author: Luis Gregorio
      */
-    public RestaurantDto update(Long id, RestaurantFormUpdate form) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        try{
-            String encodedPassword = passwordEncoder.encode(form.getPassword());
-            form.setPassword(encodedPassword);
-        } catch(Exception e) {
+    public RestaurantDto update(RestaurantFormUpdate form) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String restaurantAuth = authentication.getName();
+        Optional<Restaurant> restaurantOpt = restaurantRepository.findByEmail(restaurantAuth);
+        Long restaurantId = restaurantOpt.get().getId();
+
+        if (!restaurantOpt.isPresent()) {
             return null;
         }
-        Optional<Restaurant> opt = restaurantRepository.findById(id);
-        if (opt.isPresent()) {
-            Restaurant restaurant = form.update(id, restaurantRepository);
-            return new RestaurantDto(restaurant);
+        Restaurant restaurant = form.update(restaurantId, restaurantRepository);
+        return new RestaurantDto(restaurant.getName(),
+                restaurant.getEmail(),
+                restaurant.getAddress(),
+                restaurant.getPhone(),
+                restaurant.getFoodType(),
+                restaurant.getPhoto());
+    }
+
+    /**
+     * Function to update only the password from a restaurant
+     * @param passwordUpdateForm
+     * @return
+     * @author: Thomas B.P.
+     */
+    public RestaurantDto updatePassword(RestaurantPasswordUpdateForm passwordUpdateForm){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String restaurantAuth = authentication.getName();
+        Optional<Restaurant> restaurantOpt = restaurantRepository.findByEmail(restaurantAuth);
+        Long restaurantId = restaurantOpt.get().getId();
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        try{
+            String encodedPassword = passwordEncoder.encode(passwordUpdateForm.getPassword());
+            passwordUpdateForm.setPassword(encodedPassword);
+        } catch (Exception e){
+            return null;
         }
-        return null;
+        if (!restaurantOpt.isPresent()){
+            return null;
+        }
+        Restaurant restaurant = passwordUpdateForm.updatePassword(restaurantId, restaurantRepository);
+        return new RestaurantDto(restaurant.getName(),
+                restaurant.getEmail(),
+                restaurant.getAddress(),
+                restaurant.getPhone(),
+                restaurant.getFoodType(),
+                restaurant.getPhoto());
+
     }
 
     /**
@@ -137,4 +175,6 @@ public class RestaurantService {
         }
         return null;
     }
+
+
 }

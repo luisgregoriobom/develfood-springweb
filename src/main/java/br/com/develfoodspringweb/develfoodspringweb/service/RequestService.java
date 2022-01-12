@@ -27,8 +27,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created By Luis Gregorio
@@ -52,6 +54,7 @@ public class RequestService {
      */
     public RequestDto registerRequest(RequestForm requestForm) {
         Optional<Restaurant> idRestaurants = restaurantRepository.findById(requestForm.getRestaurantId());
+
         if (idRestaurants.isPresent()) {
             requestForm.getPlatesId().forEach(pp -> {
                 var valid = idRestaurants.get().getPlates().stream().anyMatch(plate -> plate.getId().equals(pp.getId()));
@@ -61,6 +64,7 @@ public class RequestService {
             });
 
             Request request = requestForm.convertToUserRequest(requestForm);
+            request.setRestaurant(idRestaurants.get());
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String currentUserAuth = authentication.getName();
             Optional<User> currentUser = userRepository.findByEmail(currentUserAuth);
@@ -84,6 +88,40 @@ public class RequestService {
             return requestDto;
         }
         return null;
+    }
+
+    /**
+     * Function to list all requests that a User has made
+     * @return
+     * @author: Thomas B.P.
+     */
+    public List<RequestDto> viewUserRequests (){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserAuth = authentication.getName();
+        Optional<User> currentUser = userRepository.findByEmail(currentUserAuth);
+        List<Request> requests = currentUser.get().getRequest();
+
+        List<RequestDto> requestsFromUser = RequestDto.convertToListDto(requests);
+
+        return requestsFromUser;
+
+        }
+
+    /**
+     * Function to list all requests that a User has made
+     * @return
+     * @author: Thomas B.P.
+     */
+    public List<RequestDto> viewRestaurantRequests (){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserAuth = authentication.getName();
+        Optional<Restaurant> currentUser = restaurantRepository.findByEmail(currentUserAuth);
+        List<Request> requests = currentUser.get().getRequests();
+
+        List<RequestDto> requestsFromRestaurant = RequestDto.convertToListDto(requests);
+
+        return requestsFromRestaurant;
+
     }
 
     /**
