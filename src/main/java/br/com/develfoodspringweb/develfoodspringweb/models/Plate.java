@@ -22,6 +22,8 @@ public class Plate {
     private String name;
     private String description;
     private Double price;
+    @JoinColumn(name = "obs")
+    private String obs;
     @JoinColumn(name = "quantity")
     private int quantity;
     @Enumerated(EnumType.STRING)

@@ -145,6 +145,7 @@ public class RequestService {
             plateDto.setPrice(platesFromRequest.get().getPrice());
             plateDto.setCategory(platesFromRequest.get().getCategory());
             plateDto.setQuantity(vl.getQuantity());
+            plateDto.setObs(vl.getObs());
             plateDto.setRestaurantName(platesFromRequest.get().getRestaurant().getName());
 
             if (platesFromRequest.isPresent()) {
@@ -184,7 +185,6 @@ public class RequestService {
         RequestPresent present = new RequestPresent();
         present.setId(dto.getId());
         present.setStatus(dto.getStatus());
-        present.setObs(dto.getObs());
         present.setDateRequest(dto.getDateRequest());
 
         List<PlatePresent> platePresents = new ArrayList<>();
@@ -195,6 +195,7 @@ public class RequestService {
             platePresent.setPrice(plates.getPrice());
             platePresent.setCategory(plates.getCategory());
             platePresent.setPhoto(plates.getPhoto());
+            platePresent.setObs(plates.getObs());
             platePresents.add(platePresent);
         });
 
@@ -223,7 +224,6 @@ public class RequestService {
         RequestPresentUser present = new RequestPresentUser();
         present.setId(dto.getId());
         present.setStatus(dto.getStatus());
-        present.setObs(dto.getObs());
         present.setDateRequest(dto.getDateRequest());
         List<PlatePresentUser> platePresents = new ArrayList<>();
         dto.getPlates().forEach(plate ->{
@@ -233,6 +233,7 @@ public class RequestService {
             platePresent.setCategory(plate.getCategory());
             platePresent.setName(plate.getName());
             platePresent.setPhoto(plate.getPhoto());
+            platePresent.setObs(plate.getObs());
             RestaurantPresentUser restaurant = new RestaurantPresentUser();
             restaurant.setName(plate.getRestaurant().getName());
             platePresent.setRestaurant(restaurant);

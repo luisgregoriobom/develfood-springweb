@@ -27,7 +27,6 @@ public class PlateService {
 
     private final PlateRepository plateRepository;
     private final RestaurantRepository restaurantRepository;
-    private final UserRepository userRepository;
 
     /**
      * Function that make a query with the name of the plate as parameter and check in the database if the name is present
