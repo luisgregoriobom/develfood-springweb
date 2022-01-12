@@ -3,6 +3,7 @@ package br.com.develfoodspringweb.develfoodspringweb.controller;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.PlateDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateFormUpdate;
+import br.com.develfoodspringweb.develfoodspringweb.models.Category;
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import br.com.develfoodspringweb.develfoodspringweb.repository.PlateRepository;
@@ -146,11 +147,21 @@ public class PlateController {
     }
 
     /**
+     * Method to return a list of categories a plate may have.
+     * @return
+     * @author: Thomas B.P.
+     */
+    @GetMapping("/list-of-categories")
+    public ResponseEntity<List<String>> listOfCategoryFromPlates(){
+        List<String> categories = plateService.listOfCategory();
+        return new ResponseEntity<>(categories, HttpStatus.OK);
+      
      * Method for a user to list all plates from a desired restaurant.
      * @param id
      * @return
      * @author: Thomas B.P.
      */
+       
     @GetMapping("/list-all-plates/{id}")
     public ResponseEntity<List<PlateDto>> listPlatesFromRestaurant(@PathVariable Long id){
         List<PlateDto> plates = plateService.listOfPlates(id);

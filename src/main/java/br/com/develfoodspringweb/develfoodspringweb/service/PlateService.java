@@ -4,11 +4,13 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.dto.PlateDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.RestaurantDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.PlateFormUpdate;
+import br.com.develfoodspringweb.develfoodspringweb.models.Category;
 import br.com.develfoodspringweb.develfoodspringweb.models.Plate;
 import br.com.develfoodspringweb.develfoodspringweb.models.Restaurant;
 import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import br.com.develfoodspringweb.develfoodspringweb.repository.PlateRepository;
 import br.com.develfoodspringweb.develfoodspringweb.repository.RestaurantRepository;
+import com.sun.java.accessibility.util.Translator;
 import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
 import br.com.develfoodspringweb.develfoodspringweb.security.TokenServ;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +19,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -113,6 +117,15 @@ public class PlateService {
     }
 
     /**
+     * Function to list all categories that a plate may have.
+     * @return
+     * @author: Thomas B.P.
+     */
+    public List<String> listOfCategory(){
+        List<String> categories = Arrays.stream(Category.values()).map(Category::getTranslation).collect(Collectors.toList());
+        return categories;
+    }
+
      * Function for a user to list all plates from a specific restaurant.
      * @param id
      * @return
