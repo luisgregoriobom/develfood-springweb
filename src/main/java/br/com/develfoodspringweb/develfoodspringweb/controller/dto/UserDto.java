@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Data
@@ -20,6 +22,7 @@ public class UserDto {
     private String phone;
     private List<Request> request;
     private String photo;
+    private LocalDateTime registrationDate;
 
     public UserDto(User user) {
         this.id = user.getId();
@@ -29,6 +32,7 @@ public class UserDto {
         this.address = user.getAddress();
         this.phone = user.getPhone();
         this.photo = user.getPhoto();
+        this.registrationDate = user.getRegistrationDate();
     }
 
     /**
@@ -46,6 +50,10 @@ public class UserDto {
         this.address = address;
         this.phone = phone;
         this.photo = photo;
+    }
+
+    public UserDto(LocalDateTime registrationDate){
+        this.registrationDate = registrationDate;
     }
 
     /**

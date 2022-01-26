@@ -12,6 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -32,6 +34,8 @@ public class User implements UserDetails {
     private String email;
     private String address;
     private String phone;
+    private LocalDateTime registrationDate = LocalDateTime.now();
+//    private String registrationDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
     @Column(columnDefinition = "text")
     private String photo;
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
@@ -40,7 +44,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Profile> userProfile = new ArrayList<>();
 
-    public User(String name, String cpf, String password, String email, String address, String phone, String photo) {
+    public User(String name, String cpf, String password, String email, String address, String phone, String photo, LocalDateTime registrationDate) {
         this.name = name;
         this.cpf = cpf;
         this.password = password;
@@ -48,6 +52,7 @@ public class User implements UserDetails {
         this.address = address;
         this.phone = phone;
         this.photo = photo;
+        this.registrationDate = registrationDate;
     }
 
     public User(UserForm userForm){

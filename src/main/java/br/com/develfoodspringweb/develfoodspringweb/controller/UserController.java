@@ -7,6 +7,7 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.models.EmailStatus;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserPasswordUpdateForm;
+import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
 import br.com.develfoodspringweb.develfoodspringweb.service.UserService;
 import lombok.Data;
@@ -21,6 +22,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -29,6 +37,7 @@ import java.net.URI;
 public class UserController {
 
     private final UserService userService;
+    private final UserRepository userRepository;
 
     /**
      * Function with GET method to do make a query with the name of the user as parameter.
@@ -94,6 +103,26 @@ public class UserController {
             return ResponseEntity.ok(userDetail);
     }
 
+
+    @GetMapping("/testeLista")
+    public ResponseEntity<List<User>> lista(){
+
+        List<User> usuarios = userRepository.findByRegistrationDate(LocalDateTime.now());
+
+        return ResponseEntity.ok(usuarios);
+
+        //        List<User> usersList = userRepository.findAll();
+//        List<String> dataUser = new ArrayList<>();
+//        usersList.stream().forEach(user -> dataUser.add(user.getRegistrationDate()));
+//        LocalDate data = LocalDate.now();
+//        String luis = dataUser.get(0);
+
+//        Optional<User> listaData = userRepository.findByRegistrationDate();
+//        List<UserDto> userDtoList = new ArrayList<>();
+//        listaData.stream().map(user -> userDtoList.add(new UserDto(user.getRegistrationDate()))).collect(Collectors.toList());
+//        return ResponseEntity.ok(userDtoList);
+    }
+
     /**
      * Method to update some information of a user exists in the database.
      * @param form
@@ -144,4 +173,5 @@ public class UserController {
             }
             return ResponseEntity.ok().build();
     }
+
 }
