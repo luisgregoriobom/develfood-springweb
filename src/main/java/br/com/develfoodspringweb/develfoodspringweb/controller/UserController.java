@@ -2,7 +2,6 @@ package br.com.develfoodspringweb.develfoodspringweb.controller;
 
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.EmailDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.UserDto;
-import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.models.EmailStatus;
@@ -10,21 +9,25 @@ import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserPassword
 import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
 import br.com.develfoodspringweb.develfoodspringweb.service.UserService;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -101,26 +104,6 @@ public class UserController {
                         "User Not Found");
             }
             return ResponseEntity.ok(userDetail);
-    }
-
-
-    @GetMapping("/testeLista")
-    public ResponseEntity<List<User>> lista(){
-
-        List<User> usuarios = userRepository.findByRegistrationDate(LocalDateTime.now());
-
-        return ResponseEntity.ok(usuarios);
-
-        //        List<User> usersList = userRepository.findAll();
-//        List<String> dataUser = new ArrayList<>();
-//        usersList.stream().forEach(user -> dataUser.add(user.getRegistrationDate()));
-//        LocalDate data = LocalDate.now();
-//        String luis = dataUser.get(0);
-
-//        Optional<User> listaData = userRepository.findByRegistrationDate();
-//        List<UserDto> userDtoList = new ArrayList<>();
-//        listaData.stream().map(user -> userDtoList.add(new UserDto(user.getRegistrationDate()))).collect(Collectors.toList());
-//        return ResponseEntity.ok(userDtoList);
     }
 
     /**

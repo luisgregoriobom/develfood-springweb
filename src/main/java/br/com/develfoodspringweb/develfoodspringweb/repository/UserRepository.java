@@ -35,13 +35,24 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
      */
     Optional<User> findByEmail(String email);
 
-    public static Specification<User> userMonthlyBirthday (){
-            return (root, query, criteriaBuilder) -> {
-                criteriaBuilder.equal(root.get("")),
-            }
 
-        }
+    /**
+     * HQL query to find the monthly birthday users of registration
+     * @param today
+     * @return
+     * @author: Thomas Benetti
+     */
+    @Query("FROM User u WHERE day(u.registrationDate) = day(CURRENT_DATE) AND " +
+            "month(u.registrationDate) != month(CURRENT_DATE)")
+    List<User> findMonthlyBirthdayUsers(LocalDateTime today);
 
-    @Query("from User u where month(u.registrationDate) = month(CURRENT_DATE)")
-    List<User> findByRegistrationDate(LocalDateTime today);
+    /**
+     * HQL query to find users who have been registered for one month
+     * @param today
+     * @return
+     * @author: Thomas Benetti
+     */
+    @Query("FROM User u WHERE day(CURRENT_DATE - 30) = day(u.registrationDate)")
+    List<User> findOneMonthBirthdayUsers(LocalDateTime today);
+
 }

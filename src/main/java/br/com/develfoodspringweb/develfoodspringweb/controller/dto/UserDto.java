@@ -9,6 +9,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -52,8 +53,13 @@ public class UserDto {
         this.photo = photo;
     }
 
-    public UserDto(LocalDateTime registrationDate){
-        this.registrationDate = registrationDate;
+    /**
+     * Constructor to return only users email
+     * @param email
+     * @author: Thomas Benetti
+     */
+    public UserDto(String email){
+        this.email = email;
     }
 
     /**
@@ -64,5 +70,15 @@ public class UserDto {
      */
     public static UserDto convertToUserDto(User user) {
     return new UserDto(user);
+    }
+
+    /**
+     * Function to convert list of model object to a list of DTO objects
+     * @param users
+     * @return
+     * @author: Thomas Benetti
+     */
+    public static List<UserDto> convertToListDto(List<User> users){
+        return users.stream().map(UserDto::new).collect(Collectors.toList());
     }
 }
