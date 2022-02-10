@@ -6,7 +6,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -48,6 +50,10 @@ public class UserDto {
         this.photo = photo;
     }
 
+    public UserDto(String email) {
+    this.email = email;
+    }
+
     /**
      * Function to convert the object Model class received into a DTO Object class
      * @param user
@@ -56,5 +62,9 @@ public class UserDto {
      */
     public static UserDto convertToUserDto(User user) {
     return new UserDto(user);
+    }
+
+    public static List<UserDto> convertToListDto(List<User> users){
+        return users.stream().map(UserDto::new).collect(Collectors.toList());
     }
 }

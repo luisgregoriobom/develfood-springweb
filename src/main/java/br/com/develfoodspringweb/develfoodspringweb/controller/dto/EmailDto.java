@@ -1,6 +1,7 @@
 package br.com.develfoodspringweb.develfoodspringweb.controller.dto;
 
 import br.com.develfoodspringweb.develfoodspringweb.models.EmailStatus;
+import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
@@ -12,9 +13,12 @@ import java.time.format.DateTimeFormatter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EmailDto {
 
+    User user = new User();
+
 
     private String emailSubject = "ALTERAÇÃO DE STATUS - PEDIDO N°: ";
     private String emailSubjectUser = "BEM VINDO A PLATAFORMA DEVELFOOD, Sr(a): ";
+    private String emailWeeklyJob = "OLÁ " + user.getName() + " PROMOÇÕES DA SEMANA DISPONÍVEIS DA SUA BOX!";
     private String emailDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
     private EmailStatus emailStatus;
 
