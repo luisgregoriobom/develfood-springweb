@@ -66,7 +66,7 @@ public class BirthdayJob {
             emailSender.send(mimeMessage);
 
         } catch (MailException | MessagingException e) {
-
+            e.printStackTrace();
         }
     }
 
