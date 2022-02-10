@@ -6,7 +6,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 
+
 import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +25,7 @@ public class UserDto {
     private String phone;
     private List<Request> request;
     private String photo;
+    private LocalDateTime registrationDate;
 
     public UserDto(User user) {
         this.id = user.getId();
@@ -31,6 +35,7 @@ public class UserDto {
         this.address = user.getAddress();
         this.phone = user.getPhone();
         this.photo = user.getPhoto();
+        this.registrationDate = user.getRegistrationDate();
     }
 
     /**
@@ -55,6 +60,15 @@ public class UserDto {
     }
 
     /**
+     * Constructor to return only users email
+     * @param email
+     * @author: Thomas Benetti
+     */
+    public UserDto(String email){
+        this.email = email;
+    }
+
+    /**
      * Function to convert the object Model class received into a DTO Object class
      * @param user
      * @return
@@ -64,6 +78,12 @@ public class UserDto {
     return new UserDto(user);
     }
 
+    /**
+     * Function to convert list of model object to a list of DTO objects
+     * @param users
+     * @return
+     * @author: Thomas Benetti
+     */
     public static List<UserDto> convertToListDto(List<User> users){
         return users.stream().map(UserDto::new).collect(Collectors.toList());
     }

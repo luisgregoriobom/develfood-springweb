@@ -35,9 +35,13 @@ public class RestaurantDto {
      * @param foodType
      * @author: Thomas B.P.
      */
-    public RestaurantDto(String name, String foodType){
+    public RestaurantDto(String name, String foodType, Long id, String address, String phone, String photo){
+        this.id= id;
         this.name = name;
         this.foodType = foodType;
+        this.address = address;
+        this.phone = phone;
+        this.photo = photo;
     }
 
     /**
