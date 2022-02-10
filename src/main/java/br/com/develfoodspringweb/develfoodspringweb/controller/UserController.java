@@ -2,25 +2,36 @@ package br.com.develfoodspringweb.develfoodspringweb.controller;
 
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.EmailDto;
 import br.com.develfoodspringweb.develfoodspringweb.controller.dto.UserDto;
-import br.com.develfoodspringweb.develfoodspringweb.controller.form.RequestFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserForm;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserFormUpdate;
 import br.com.develfoodspringweb.develfoodspringweb.models.EmailStatus;
 import br.com.develfoodspringweb.develfoodspringweb.controller.form.UserPasswordUpdateForm;
+import br.com.develfoodspringweb.develfoodspringweb.models.User;
 import br.com.develfoodspringweb.develfoodspringweb.repository.UserRepository;
 import br.com.develfoodspringweb.develfoodspringweb.service.UserService;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -29,6 +40,7 @@ import java.net.URI;
 public class UserController {
 
     private final UserService userService;
+    private final UserRepository userRepository;
 
     /**
      * Function with GET method to do make a query with the name of the user as parameter.
@@ -144,4 +156,5 @@ public class UserController {
             }
             return ResponseEntity.ok().build();
     }
+
 }
