@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 
+
+import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -51,6 +53,10 @@ public class UserDto {
         this.address = address;
         this.phone = phone;
         this.photo = photo;
+    }
+
+    public UserDto(String email) {
+    this.email = email;
     }
 
     /**
