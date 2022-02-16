@@ -55,10 +55,6 @@ public class UserDto {
         this.photo = photo;
     }
 
-    public UserDto(String email) {
-    this.email = email;
-    }
-
     /**
      * Constructor to return only users email
      * @param email
